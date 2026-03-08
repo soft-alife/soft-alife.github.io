@@ -2,14 +2,14 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='#'>Affiliations</a>. Address. Contacts. Motto. Etc.
+subtitle: <a href='#'>Affiliations</a>. Department of Computer Engineering, Jeju National University
 
 profile:
   align: right
   image: sean_profile.png
   image_circular: false # crops the image to make it circular
   more_info: >
-    <p>+82-64-754-3652</p>
+    <p>T+82-64-754-3652 F+82-50-7075-7875</p>
     <p>Room D406, Engineering Building 4 </p>
     <p>102 Jejudaehak-ro, Jeju 63243, South Korea</p>
 
