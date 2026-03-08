@@ -30,7 +30,7 @@ latest_posts:
 ---
 ### About Our Lab
 
-Welcome to the Soft Artificial Life Lab (SAL LAb.), led by **Prof.Seungmin Park** at Jeju National University
+Welcome to the Soft Artificial Life Lab (SAL LAb.), led by **Prof. Seungmin Park** at Jeju National University
 
 Our research focuses on the intersection of Artificial Intelligence, Soft Computing, and Artificial Life. We aim to develop intelligent systems that mimic the adaptive and evolutionary characteristics of biological life. By leveraging advanced machine learning techniques and evolutionary algorithms, we explore new frontiers in autonomous systems, bio-inspired robotics, and intelligent data analysis.
 
