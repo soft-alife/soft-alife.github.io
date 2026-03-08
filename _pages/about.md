@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='#'>Affiliations</a>. Department of Computer Engineering, Jeju National University
+subtitle: <a href='http://ce.jejunu.ac.kr'>Affiliations</a>. Department of Computer Engineering, Jeju National University
 
 profile:
   align: right
