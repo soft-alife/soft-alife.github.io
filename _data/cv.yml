@@ -37,6 +37,7 @@ cv:
 
       - institution: Chung-Ang University
         location:  Seoul, South Korea
+        url: https://www.cau.ac.kr
         area: Electrical Electronics Engineering
         studyType: B.Eng.
         start_date: 2004
