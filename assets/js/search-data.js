@@ -448,8 +448,8 @@ ninja.data = [{
           description: "",
           section: "News",handler: () => {
               window.location.href = "/news/announcement_2/";
-            },},{id: "news-a-simple-inline-announcement-with-markdown-emoji-sparkles-smile",
-          title: 'A simple inline announcement with Markdown emoji! :sparkles: :smile:',
+            },},{id: "news-new-start-at-jnu-i-m-very-excited-to-join-jeju-national-university-as-an-associate-professor-in-computer-engineering-let-s-make-some-great-soft-artificial-life-research-together-sparkles-smile",
+          title: '🍊 New Start at JNU! 🎉 I’m very excited to join Jeju National...',
           description: "",
           section: "News",},{id: "projects-project-1",
           title: 'project 1',
