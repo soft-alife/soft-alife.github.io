@@ -85,6 +85,21 @@ const projects = [
     description: "Example project description. Please replace with actual project information.",
   },
 ];
+
+const patents = [
+  {
+    year: "20XX",
+    title: "Example Patent Title",
+    number: "No. 10-XXXXXXX",
+    status: "Registered",
+  },
+  {
+    year: "20XX",
+    title: "Example Patent Title 2",
+    number: "No. 10-XXXXXXX",
+    status: "Filed",
+  },
+];
 ---
 
 <BaseLayout
@@ -252,6 +267,34 @@ const projects = [
               </div>
               <p class="text-base text-muted mb-1 mt-1">{project.funding}</p>
               <p class="text-sm text-muted-foreground">{project.description}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Patents -->
+    <section class="mb-[48px]">
+      <h2 class="text-[20px] font-bold text-foreground mb-4">Patents</h2>
+      <div class="space-y-4">
+        {
+          patents.map((patent) => (
+            <div class="border border-border rounded-lg p-5">
+              <div class="flex items-start gap-3 mb-2">
+                <span class={`inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill text-xs font-medium ${
+                  patent.status === "Registered"
+                    ? "bg-[#D1FAE5] text-[#065F46]"
+                    : "bg-[#FEF3C7] text-[#92400E]"
+                }`}>
+                  {patent.status}
+                </span>
+                <h3 class="text-lg font-semibold text-foreground leading-snug">
+                  {patent.title}
+                </h3>
+              </div>
+              <p class="text-sm text-muted-foreground">
+                {patent.number} · {patent.year}
+              </p>
             </div>
           ))
         }

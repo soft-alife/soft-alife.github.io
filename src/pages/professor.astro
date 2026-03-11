@@ -85,6 +85,21 @@ const projects = [
     description: "예시 과제 설명이 들어갑니다. 실제 과제 정보로 교체해 주세요.",
   },
 ];
+
+const patents = [
+  {
+    year: "20XX",
+    title: "예시 특허 제목",
+    number: "제 10-XXXXXXX호",
+    status: "등록",
+  },
+  {
+    year: "20XX",
+    title: "예시 특허 제목 2",
+    number: "제 10-XXXXXXX호",
+    status: "출원",
+  },
+];
 ---
 
 <BaseLayout
@@ -161,7 +176,7 @@ const projects = [
         </div>
 
         <!-- Contact -->
-        <div>
+        <div class="mb-6">
           <h3 class="text-lg font-semibold text-foreground mb-2">연락처</h3>
           <ul class="space-y-1.5 text-base text-muted">
             <li>
@@ -272,6 +287,34 @@ const projects = [
               </p>
               <p class="text-sm text-muted-foreground">
                 {project.description}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Patents -->
+    <section class="mb-[48px]">
+      <h2 class="text-[20px] font-bold text-foreground mb-4">특허</h2>
+      <div class="space-y-4">
+        {
+          patents.map((patent) => (
+            <div class="border border-border rounded-lg p-5">
+              <div class="flex items-start gap-3 mb-2">
+                <span class={`inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill text-xs font-medium ${
+                  patent.status === "등록"
+                    ? "bg-[#D1FAE5] text-[#065F46]"
+                    : "bg-[#FEF3C7] text-[#92400E]"
+                }`}>
+                  {patent.status}
+                </span>
+                <h3 class="text-lg font-semibold text-foreground leading-snug">
+                  {patent.title}
+                </h3>
+              </div>
+              <p class="text-sm text-muted-foreground">
+                {patent.number} · {patent.year}
               </p>
             </div>
           ))
