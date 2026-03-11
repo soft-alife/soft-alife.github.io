@@ -17,7 +17,7 @@ members:
     role: "M.S./Ph.D. Integrated"
     photo: "/images/members/moon-sungkyun.jpg"
     research:
-      - "Pin"
+      - "PINN (Physics-Informed Neural Network)"
     email: "sungkyun@jejunu.ac.kr"
     github: ""
     scholar: ""
@@ -29,7 +29,7 @@ members:
     role: "M.S./Ph.D. Integrated"
     photo: "/images/members/choi-junho.jpg"
     research:
-      - "Pin"
+      - "PINN (Physics-Informed Neural Network)"
     email: "junho@jejunu.ac.kr"
     github: ""
     scholar: ""
