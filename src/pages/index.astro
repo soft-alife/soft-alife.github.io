@@ -157,7 +157,7 @@ const researchAreas = [
                 seminars.map((seminar) => (
                   <a
                     href={`/seminar/${seminar.id.replace(/\.md$/, "")}`}
-                    class="flex items-start gap-4 px-6 py-4 hover:bg-secondary/50 transition-colors"
+                    class="flex items-start gap-4 px-6 py-4 hover:bg-secondary/50 transition-colors overflow-hidden"
                   >
                     <span class="text-sm text-muted-foreground whitespace-nowrap mt-0.5">
                       {formatDate(seminar.data.date)}
@@ -240,7 +240,7 @@ const researchAreas = [
                 notices.map((notice) => (
                   <a
                     href={`/notice/${notice.id.replace(/\.md$/, "")}`}
-                    class="flex items-start gap-4 px-6 py-4 hover:bg-secondary/50 transition-colors"
+                    class="flex items-start gap-4 px-6 py-4 hover:bg-secondary/50 transition-colors overflow-hidden"
                   >
                     <span class="text-sm text-muted-foreground whitespace-nowrap mt-0.5">
                       {formatDate(notice.data.date)}

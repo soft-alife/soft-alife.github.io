@@ -48,7 +48,7 @@ const categoryColors: Record<string, { bg: string; text: string }> = {
         return (
           <a
             href={`/notice/${notice.id.replace(/\.md$/, "")}`}
-            class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-5 py-5 border-b border-border hover:bg-[#FAFAFA] -mx-2 px-2 rounded transition-colors group overflow-hidden"
+            class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-5 py-5 border-b border-border hover:bg-[#FAFAFA] -mx-2 px-2 rounded transition-colors group overflow-hidden max-w-full"
           >
             {/* Top row on mobile: date + badge */}
             <div class="flex items-center gap-3 sm:contents">
@@ -72,8 +72,8 @@ const categoryColors: Record<string, { bg: string; text: string }> = {
             </div>
 
             {/* Title */}
-            <div class="flex-1 min-w-0">
-              <span class="text-[14px] sm:text-[15px] font-semibold text-foreground group-hover:text-sal-terracotta transition-colors truncate block">
+            <div class="flex-1 min-w-0 overflow-hidden">
+              <span class="text-[14px] sm:text-[15px] font-semibold text-foreground group-hover:text-sal-terracotta transition-colors truncate block max-w-full">
                 {notice.data.pinned && (
                   <span class="text-sal-terracotta font-bold mr-1">[고정]</span>
                 )}
