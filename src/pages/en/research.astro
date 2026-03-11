@@ -1,0 +1,25 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/layout/PageHeader.astro";
+import ProjectFilter from "@/components/sections/ProjectFilter";
+import fs from "node:fs";
+import * as yaml from "js-yaml";
+
+const projectsData = yaml.load(
+  fs.readFileSync("src/content/projects.yaml", "utf8")
+) as any;
+const projects = projectsData.projects;
+---
+
+<BaseLayout
+  title="Research Projects - SAL Laboratory"
+  description="SAL Laboratory Research Projects"
+  activeNav="Research"
+  lang="en"
+>
+  <PageHeader title="Research Projects" breadcrumb="SAL > Research" />
+
+  <div class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-[40px]">
+    <ProjectFilter projects={projects} client:load />
+  </div>
+</BaseLayout>

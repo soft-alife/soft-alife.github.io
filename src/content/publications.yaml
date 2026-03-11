@@ -1,0 +1,54 @@
+publications:
+  - title: "Schizophrenia Detection and Classification: A Systematic Review of the Last Decade"
+    authors: ["S. Park", "et al."]
+    venue: "Diagnostics (MDPI)"
+    year: 2024
+    type: "journal"
+    tags: ["기계학습", "뇌신호"]
+    doi: ""
+    pdf: ""
+
+  - title: "Enhancing Control Systems through Type-3 Fuzzy Logic Optimization"
+    authors: ["P. Ochoa", "C. Peraza", "P. Melin", "O. Castillo", "S. Park", "Z. W. Geem"]
+    venue: "Mathematics (MDPI)"
+    year: 2024
+    type: "journal"
+    tags: ["최적화", "퍼지로직"]
+    doi: ""
+    pdf: ""
+
+  - title: "KoGPT-2 Integrated SSVEP-Based BCI for Efficient Language Processing"
+    authors: ["S. Oh", "D. Cho", "S. Park", "M. Moon"]
+    venue: "Conference"
+    year: 2025
+    type: "conference"
+    tags: ["대규모 언어모델", "BCI"]
+    doi: ""
+    pdf: ""
+
+  - title: "EEG Electrode Selection Method based on BPSO with Channel Impact Factor"
+    authors: ["S. Park", "J. Kim", "K. Sim"]
+    venue: "Optik (Elsevier)"
+    year: 2018
+    type: "journal"
+    tags: ["진화연산", "BCI"]
+    doi: ""
+    pdf: ""
+
+  - title: "Harmony Search-based Hidden Markov Model Optimization for Online Classification of Single Trial EEGs"
+    authors: ["S. Park", "K. Ko", "K. Sim"]
+    venue: "International Journal of Control, Automation and Systems (Springer)"
+    year: 2013
+    type: "journal"
+    tags: ["최적화", "BCI"]
+    doi: ""
+    pdf: ""
+
+  - title: "Trial Pruning based on Genetic Algorithm for Single-Trial EEG Classification"
+    authors: ["S. Park", "et al."]
+    venue: "Computers & Electrical Engineering (Elsevier)"
+    year: 2012
+    type: "journal"
+    tags: ["진화연산", "BCI"]
+    doi: ""
+    pdf: ""

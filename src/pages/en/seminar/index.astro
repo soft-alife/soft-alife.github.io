@@ -1,0 +1,35 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/layout/PageHeader.astro";
+import SeminarFilter from "@/components/sections/SeminarFilter";
+import { getCollection } from "astro:content";
+
+const allSeminars = await getCollection("seminars");
+
+const sorted = allSeminars.sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+
+const seminarsData = sorted.map((s) => ({
+  slug: s.id.replace(/\.md$/, ""),
+  title: s.data.title,
+  date: s.data.date.toISOString(),
+  presenter: s.data.presenter,
+  affiliation: s.data.affiliation ?? "",
+  category: s.data.category,
+  tags: s.data.tags ?? [],
+  summary: s.data.summary ?? "",
+}));
+---
+
+<BaseLayout title="Seminar — SAL Lab" description="SAL Laboratory Seminar List" activeNav="Seminar" lang="en">
+  <PageHeader title="Seminar" breadcrumb="SAL > Seminar" />
+
+  <div class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-[40px]">
+    <p class="text-[14px] text-muted mb-8">
+      Paper presentations and in-depth discussions on the latest technologies.
+    </p>
+
+    <SeminarFilter client:load seminars={seminarsData} itemsPerPage={5} />
+  </div>
+</BaseLayout>

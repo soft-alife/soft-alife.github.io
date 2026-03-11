@@ -1,0 +1,25 @@
+{
+  "nav": {
+    "home": "홈",
+    "about": "소개",
+    "professor": "지도교수",
+    "members": "연구원",
+    "research": "연구",
+    "seminar": "세미나",
+    "notice": "공지사항",
+    "contact": "연락처"
+  },
+  "common": {
+    "readMore": "자세히 보기",
+    "viewAll": "전체 보기",
+    "search": "검색",
+    "filter": "필터",
+    "ongoing": "진행중",
+    "completed": "완료",
+    "all": "전체"
+  },
+  "footer": {
+    "copyright": "SAL (Soft A-Life) Laboratory, 제주대학교 컴퓨터공학과",
+    "address": "제주특별자치도 제주시 제주대학로 102"
+  }
+}

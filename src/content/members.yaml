@@ -1,0 +1,37 @@
+members:
+  - name: "박민건"
+    nameEn: "Mingeon Park"
+    role: "M.S. Student"
+    photo: "/images/members/park-mingeon.jpg"
+    research:
+      - "LLM Agent"
+      - "LLM Memory System"
+    email: "mingeon@jejunu.ac.kr"
+    github: "https://github.com/DevMinGeonPark"
+    scholar: ""
+    startYear: 2025
+    graduated: false
+
+  - name: "문성균"
+    nameEn: "Sungkyun Moon"
+    role: "M.S./Ph.D. Integrated"
+    photo: "/images/members/moon-sungkyun.jpg"
+    research:
+      - "Pin"
+    email: "sungkyun@jejunu.ac.kr"
+    github: ""
+    scholar: ""
+    startYear: 2025
+    graduated: false
+
+  - name: "최준호"
+    nameEn: "Junho Choi"
+    role: "M.S./Ph.D. Integrated"
+    photo: "/images/members/choi-junho.jpg"
+    research:
+      - "Pin"
+    email: "junho@jejunu.ac.kr"
+    github: ""
+    scholar: ""
+    startYear: 2025
+    graduated: false

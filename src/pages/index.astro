@@ -1,0 +1,390 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import fs from "node:fs";
+import path from "node:path";
+import yaml from "js-yaml";
+
+// Fetch content collections
+const seminars = (await getCollection("seminars"))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const notices = (await getCollection("notices"))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+// Load members from YAML
+const membersPath = path.join(process.cwd(), "src/content/members.yaml");
+const membersRaw = fs.readFileSync(membersPath, "utf-8");
+const membersData = yaml.load(membersRaw) as {
+  members: Array<{
+    name: string;
+    nameEn: string;
+    role: string;
+    photo: string;
+    research: string[];
+    email: string;
+    github: string;
+    scholar: string;
+    startYear: number;
+    graduated: boolean;
+  }>;
+};
+const members = membersData.members.filter((m) => !m.graduated).slice(0, 4);
+
+// Format date helper
+function formatDate(date: Date): string {
+  return date.toISOString().split("T")[0];
+}
+
+// Research areas
+const researchAreas = [
+  {
+    num: "01",
+    title: "지능시스템",
+    description:
+      "다중 에이전트 시스템, 지능형 제어, 뇌-컴퓨터 인터페이스 등 지능시스템의 설계와 응용을 연구합니다.",
+  },
+  {
+    num: "02",
+    title: "인공생명",
+    description:
+      "다중 에이전트 기반 인공생명 시스템의 창발적 행동을 연구하고, 생명 현상의 본질적 특성을 컴퓨터 시뮬레이션으로 재현합니다.",
+  },
+  {
+    num: "03",
+    title: "기계학습",
+    description:
+      "딥러닝, 강화학습 등 기계학습 알고리즘을 연구하고, 실제 데이터 기반의 문제 해결에 적용합니다.",
+  },
+  {
+    num: "04",
+    title: "최적화 이론",
+    description:
+      "진화연산, 메타휴리스틱 등 자연에서 영감을 받은 최적화 알고리즘을 연구하고 실제 문제에 적용합니다.",
+  },
+];
+---
+
+<BaseLayout
+  title="SAL Lab — Soft A-Life Laboratory"
+  description="제주대학교 컴퓨터공학과 SAL(Soft A-Life) 연구실 공식 웹사이트"
+  activeNav="Home"
+>
+  <!-- Hero Section -->
+  <section>
+    <div class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-10 md:py-[72px] flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+      <!-- Left -->
+      <div class="flex flex-col">
+        <p class="text-[12px] md:text-[14px] text-muted tracking-wide mb-2">
+          Jeju National University · Dept. of Computer Engineering
+        </p>
+        <h1
+          class="text-[28px] md:text-[42px] font-bold text-foreground leading-tight whitespace-pre-line"
+        >
+          Soft A-Life<br />Laboratory
+        </h1>
+        <div class="w-[40px] h-[1px] bg-border mt-4 mb-4 md:mt-5 md:mb-5"></div>
+        <p class="text-base md:text-lg text-muted leading-relaxed max-w-[480px]">
+          지능시스템, 인공생명, 기계학습, 최적화 이론을 연구하는
+          <br class="hidden md:block" />
+          제주대학교 SAL 연구실입니다.
+        </p>
+      </div>
+      <!-- Right: SAL Logo -->
+      <div class="flex-shrink-0 hidden md:block md:ml-12">
+        <img
+          src="/images/logos/sal-logo.png"
+          alt="SAL Laboratory Logo"
+          width="160"
+          height="160"
+          class="w-[160px] h-[160px] object-contain"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Recruit Banner -->
+  <section class="bg-[#FAFAFA] border-y border-[#E4E4E720]">
+    <div
+      class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-5 md:py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-8"
+    >
+      <div class="flex flex-col gap-1.5 md:gap-2">
+        <span
+          class="text-[10px] md:text-xs text-muted-foreground uppercase tracking-[1.5px] font-medium"
+        >
+          OPEN POSITION
+        </span>
+        <h2 class="text-base md:text-xl font-semibold text-foreground">
+          2026 후기 석사/박사 연구원을 모집합니다
+        </h2>
+        <p class="text-sm md:text-base text-muted">
+          지능시스템, 인공생명, 기계학습, 최적화 이론 분야에 관심 있는 열정적인 학생을 찾습니다.
+        </p>
+      </div>
+      <a
+        href="/notice/2026-03-01-recruitment"
+        class="flex-shrink-0 inline-flex items-center justify-center bg-primary text-primary-foreground text-sm md:text-base font-medium px-4 py-2 rounded-lg hover:opacity-90 transition-opacity"
+      >
+        자세히 보기
+      </a>
+    </div>
+  </section>
+
+  <!-- Content Grid -->
+  <section>
+    <div class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-section flex flex-col lg:flex-row gap-6">
+      <!-- Left: Recent Seminars -->
+      <div class="flex-1 min-w-0 flex flex-col">
+        <div class="border border-border rounded-lg bg-card flex flex-col flex-1">
+          <div
+            class="flex items-center justify-between px-6 py-4 border-b border-border"
+          >
+            <h2 class="text-lg font-semibold text-foreground">
+              Recent Seminars
+            </h2>
+            <a
+              href="/seminar"
+              class="text-base text-muted hover:text-foreground transition-colors"
+            >
+              All &rarr;
+            </a>
+          </div>
+          <div class="divide-y divide-border flex-1">
+            {
+              seminars.length > 0 ? (
+                seminars.map((seminar) => (
+                  <a
+                    href={`/seminar/${seminar.id.replace(/\.md$/, "")}`}
+                    class="flex items-start gap-4 px-6 py-4 hover:bg-secondary/50 transition-colors"
+                  >
+                    <span class="text-sm text-muted-foreground whitespace-nowrap mt-0.5">
+                      {formatDate(seminar.data.date)}
+                    </span>
+                    <div class="flex-1 min-w-0">
+                      <p class="text-md font-medium text-foreground truncate">
+                        {seminar.data.title}
+                      </p>
+                      <p class="text-base text-muted mt-0.5">
+                        {seminar.data.presenter}
+                        {seminar.data.affiliation &&
+                          ` · ${seminar.data.affiliation}`}
+                      </p>
+                    </div>
+                    <span class="flex-shrink-0 inline-flex items-center px-2 py-0.5 bg-secondary text-secondary-foreground text-xs rounded-pill">
+                      {seminar.data.category}
+                    </span>
+                  </a>
+                ))
+              ) : (
+                <div class="px-6 py-8 text-center text-base text-muted">
+                  등록된 세미나가 없습니다.
+                </div>
+              )
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="w-full lg:w-[428px] flex-shrink-0 flex flex-col gap-6">
+        <!-- Professor Mini Card -->
+        <div class="border border-border rounded-lg bg-card p-5">
+          <div class="flex items-center gap-4">
+            <img
+              src="/images/professor/park-seungmin.jpg"
+              alt="박승민 교수"
+              width="64"
+              height="64"
+              class="w-16 h-16 rounded-full object-cover bg-secondary"
+            />
+            <div>
+              <p class="text-lg font-semibold text-foreground">박승민</p>
+              <p class="text-base text-muted">부교수 · 컴퓨터공학과</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 mt-4">
+            <a
+              href="/professor"
+              class="text-base text-muted hover:text-foreground transition-colors underline underline-offset-2"
+            >
+              프로필 보기
+            </a>
+            <span class="text-border">|</span>
+            <a
+              href="mailto:spark@jejunu.ac.kr"
+              class="text-base text-muted hover:text-foreground transition-colors underline underline-offset-2"
+            >
+              이메일
+            </a>
+          </div>
+        </div>
+
+        <!-- Notice Card -->
+        <div class="border border-border rounded-lg bg-card flex-1">
+          <div
+            class="flex items-center justify-between px-6 py-4 border-b border-border"
+          >
+            <h2 class="text-lg font-semibold text-foreground">Notice</h2>
+            <a
+              href="/notice"
+              class="text-base text-muted hover:text-foreground transition-colors"
+            >
+              All &rarr;
+            </a>
+          </div>
+          <div class="divide-y divide-border">
+            {
+              notices.length > 0 ? (
+                notices.map((notice) => (
+                  <a
+                    href={`/notice/${notice.id.replace(/\.md$/, "")}`}
+                    class="flex items-start gap-4 px-6 py-4 hover:bg-secondary/50 transition-colors"
+                  >
+                    <span class="text-sm text-muted-foreground whitespace-nowrap mt-0.5">
+                      {formatDate(notice.data.date)}
+                    </span>
+                    <div class="flex-1 min-w-0">
+                      <p class="text-md font-medium text-foreground truncate">
+                        {notice.data.title}
+                      </p>
+                    </div>
+                    <span class="flex-shrink-0 inline-flex items-center px-2 py-0.5 bg-secondary text-secondary-foreground text-xs rounded-pill">
+                      {notice.data.category}
+                    </span>
+                  </a>
+                ))
+              ) : (
+                <div class="px-6 py-8 text-center text-base text-muted">
+                  등록된 공지가 없습니다.
+                </div>
+              )
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Research Areas -->
+  <section>
+    <div class="max-w-[1200px] mx-auto px-6 lg:px-[60px] pb-section">
+      <div class="flex items-center justify-between mb-5">
+        <h2 class="text-3xl font-bold text-foreground">Research Areas</h2>
+        <a
+          href="/about"
+          class="text-base text-muted hover:text-foreground transition-colors"
+        >
+          All &rarr;
+        </a>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {
+          researchAreas.map((area) => (
+            <div class="border border-border rounded-lg p-5">
+              <span class="text-lg text-muted-foreground font-medium">
+                {area.num}
+              </span>
+              <h3 class="text-lg font-semibold text-foreground mt-2">
+                {area.title}
+              </h3>
+              <p class="text-base text-muted mt-2 leading-relaxed">
+                {area.description}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Members Preview -->
+  <section>
+    <div class="max-w-[1200px] mx-auto px-6 lg:px-[60px] pb-section">
+      <div class="flex items-center justify-between mb-5">
+        <h2 class="text-3xl font-bold text-foreground">Members</h2>
+        <a
+          href="/members"
+          class="text-base text-muted hover:text-foreground transition-colors"
+        >
+          All &rarr;
+        </a>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {
+          members.map((member) => (
+            <div class="border border-border rounded-lg p-5 flex flex-col items-center text-center">
+              <img
+                src={member.photo}
+                alt={member.name}
+                width="72"
+                height="72"
+                class="w-[72px] h-[72px] rounded-full object-cover bg-secondary"
+              />
+              <p class="text-md font-semibold text-foreground mt-3">
+                {member.name}
+              </p>
+              <p class="text-base text-muted mt-0.5">{member.role}</p>
+              <div class="flex flex-wrap justify-center gap-1.5 mt-2">
+                {member.research.map((tag) => (
+                  <span class="inline-flex items-center px-2 py-0.5 bg-secondary text-secondary-foreground text-xs rounded-pill">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <div class="flex items-center gap-2 mt-3">
+                {member.email && (
+                  <a
+                    href={`mailto:${member.email}`}
+                    class="text-muted-foreground hover:text-foreground transition-colors"
+                    title="Email"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <rect width="20" height="16" x="2" y="4" rx="2" />
+                      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                    </svg>
+                  </a>
+                )}
+                {member.github && (
+                  <a
+                    href={member.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-muted-foreground hover:text-foreground transition-colors"
+                    title="GitHub"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+                      <path d="M9 18c-4.51 2-5-2-7-2" />
+                    </svg>
+                  </a>
+                )}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

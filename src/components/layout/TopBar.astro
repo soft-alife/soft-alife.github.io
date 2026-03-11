@@ -1,0 +1,76 @@
+---
+interface Props {
+  lang?: "ko" | "en";
+}
+
+const { lang = "ko" } = Astro.props;
+
+const currentPath = Astro.url.pathname;
+const koHref = currentPath.startsWith("/en")
+  ? currentPath.replace(/^\/en/, "") || "/"
+  : currentPath;
+const enHref = currentPath.startsWith("/en")
+  ? currentPath
+  : `/en${currentPath === "/" ? "" : currentPath}`;
+---
+
+<div class="bg-sal-navy border-b border-sal-navy-border hidden md:block">
+  <div
+    class="h-7 flex items-center justify-between w-full max-w-[1200px] mx-auto px-6 lg:px-[60px]"
+  >
+    <!-- Left: Jeju University info -->
+    <div class="flex items-center gap-2">
+      <img
+        src="/images/logos/jeju-logo.png"
+        alt="Jeju National University"
+        width="22"
+        height="22"
+        class="w-[22px] h-[22px] object-contain"
+      />
+      <span class="text-xs text-[#CBD5E1] font-sans leading-none">
+        {
+          lang === "ko" ? (
+            <>
+              제주대학교
+              <span class="mx-1 text-[#CBD5E1]/50">&middot;</span>
+              컴퓨터공학과
+            </>
+          ) : (
+            <>
+              Jeju National University
+              <span class="mx-1 text-[#CBD5E1]/50">&middot;</span>
+              Dept. of Computer Engineering
+            </>
+          )
+        }
+      </span>
+    </div>
+
+    <!-- Right: Language toggle -->
+    <div class="flex items-center gap-1 text-xs font-sans">
+      <a
+        href={koHref}
+        class:list={[
+          "px-1.5 py-0.5 rounded transition-colors",
+          lang === "ko"
+            ? "text-white font-semibold"
+            : "text-[#CBD5E1]/70 hover:text-[#CBD5E1]",
+        ]}
+      >
+        KR
+      </a>
+      <span class="text-[#CBD5E1]/40">/</span>
+      <a
+        href={enHref}
+        class:list={[
+          "px-1.5 py-0.5 rounded transition-colors",
+          lang === "en"
+            ? "text-white font-semibold"
+            : "text-[#CBD5E1]/70 hover:text-[#CBD5E1]",
+        ]}
+      >
+        EN
+      </a>
+    </div>
+  </div>
+</div>

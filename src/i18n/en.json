@@ -1,0 +1,25 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "professor": "Professor",
+    "members": "Members",
+    "research": "Research",
+    "seminar": "Seminar",
+    "notice": "Notice",
+    "contact": "Contact"
+  },
+  "common": {
+    "readMore": "Read More",
+    "viewAll": "View All",
+    "search": "Search",
+    "filter": "Filter",
+    "ongoing": "Ongoing",
+    "completed": "Completed",
+    "all": "All"
+  },
+  "footer": {
+    "copyright": "SAL (Soft A-Life) Laboratory, Dept. of Computer Engineering, Jeju National University",
+    "address": "102 Jejudaehak-ro, Jeju-si, Jeju, South Korea"
+  }
+}

@@ -1,0 +1,261 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/layout/PageHeader.astro";
+import Accordion from "@/components/ui/Accordion.tsx";
+
+const researchItems = [
+  {
+    title: "Intelligent Systems",
+    description:
+      "Research on the design and application of intelligent systems including multi-agent systems, intelligent control, and brain-computer interfaces (BCI)",
+  },
+  {
+    title: "Artificial Life",
+    description:
+      "Studying emergent behavior, self-organization, and adaptation mechanisms in multi-agent-based artificial life systems through computer simulation",
+  },
+  {
+    title: "Machine Learning",
+    description:
+      "Researching machine learning algorithms such as deep learning and reinforcement learning, and applying them to real-world data-driven problem solving",
+  },
+  {
+    title: "Optimization Theory",
+    description:
+      "Researching nature-inspired optimization algorithms such as evolutionary computation, metaheuristics, and physics-informed neural networks (PINN)",
+  },
+];
+
+const publications = [
+  {
+    type: "Journal",
+    title: "Schizophrenia Detection and Classification: A Systematic Review of the Last Decade",
+    authors: "S. Park et al.",
+    venue: "Diagnostics (MDPI)",
+    year: 2024,
+  },
+  {
+    type: "Journal",
+    title: "Enhancing Control Systems through Type-3 Fuzzy Logic Optimization",
+    authors: "P. Ochoa, C. Peraza, P. Melin, O. Castillo, S. Park, Z. W. Geem",
+    venue: "Mathematics (MDPI)",
+    year: 2024,
+  },
+  {
+    type: "Conference",
+    title: "KoGPT-2 Integrated SSVEP-Based BCI for Efficient Language Processing",
+    authors: "S. Oh, D. Cho, S. Park, M. Moon",
+    venue: "ResearchGate",
+    year: 2025,
+  },
+  {
+    type: "Journal",
+    title: "EEG Electrode Selection Method based on BPSO with Channel Impact Factor for Acquisition of Significant Brain Signal",
+    authors: "S. Park, J. Kim, K. Sim",
+    venue: "Optik (Elsevier)",
+    year: 2018,
+  },
+  {
+    type: "Journal",
+    title: "Harmony Search-based Hidden Markov Model Optimization for Online Classification of Single Trial EEGs",
+    authors: "S. Park, K. Ko, K. Sim",
+    venue: "International Journal of Control, Automation and Systems (Springer)",
+    year: 2013,
+  },
+  {
+    type: "Journal",
+    title: "Trial Pruning based on Genetic Algorithm for Single-Trial EEG Classification",
+    authors: "S. Park et al.",
+    venue: "Computers & Electrical Engineering (Elsevier)",
+    year: 2012,
+  },
+];
+
+const projects = [
+  {
+    period: "20XX–20XX",
+    title: "Example Ongoing Project Title",
+    funding: "Example Funding Agency",
+    description: "Example project description. Please replace with actual project information.",
+  },
+  {
+    period: "20XX–20XX",
+    title: "Example Completed Project Title",
+    funding: "Example Funding Agency",
+    description: "Example project description. Please replace with actual project information.",
+  },
+];
+---
+
+<BaseLayout
+  title="Professor | SAL Lab"
+  description="Prof. Seungmin Park - SAL Laboratory"
+  activeNav="Professor"
+  lang="en"
+>
+  <PageHeader title="Professor" breadcrumb="SAL > Professor" />
+
+  <div class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-[40px]">
+    <!-- Profile Section -->
+    <section class="flex flex-col lg:flex-row gap-10 mb-[48px]">
+      <div class="shrink-0">
+        <img
+          src="/images/professor/park-seungmin.jpg"
+          alt="Prof. Seungmin Park"
+          width="280"
+          height="350"
+          class="w-[280px] rounded-lg object-cover bg-secondary"
+        />
+      </div>
+
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center gap-3 mb-3">
+          <h2 class="text-[24px] font-bold text-foreground">Seungmin Park</h2>
+          <span class="inline-flex items-center px-2 py-0.5 rounded-pill bg-secondary text-secondary-foreground text-sm font-medium">
+            Associate Professor
+          </span>
+        </div>
+
+        <p class="text-lg text-foreground font-medium mb-1">
+          Associate Professor · Ph.D.
+        </p>
+        <p class="text-base text-muted mb-6">
+          Dept. of Computer Engineering, Jeju National University
+        </p>
+
+        <div class="mb-6">
+          <h3 class="text-lg font-semibold text-foreground mb-2">Biography</h3>
+          <div class="space-y-3 text-base text-muted leading-relaxed">
+            <p>
+              Prof. Seungmin Park researches Intelligent Systems, Artificial Life, Machine Learning, and Optimization Theory
+              at the Department of Computer Engineering, Jeju National University.
+              His specializations include evolutionary computation, physics-informed neural networks (PINN), and brain-computer interfaces (BCI).
+            </p>
+            <p>
+              He leads the SAL (Soft A-Life) Laboratory, conducting various research projects with graduate and undergraduate researchers
+              in artificial life simulation, intelligent systems, machine learning applications, and optimization.
+            </p>
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <h3 class="text-lg font-semibold text-foreground mb-2">Education</h3>
+          <ul class="space-y-1.5 text-base text-muted">
+            <li class="flex items-start gap-2">
+              <span class="text-muted-foreground mt-1.5 shrink-0">•</span>
+              <span>Ph.D. in Control & Systems Engineering, Intelligent Systems — Chung-Ang University (Feb. 2019)</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-muted-foreground mt-1.5 shrink-0">•</span>
+              <span>B.S. in Electrical & Electronic Engineering — Chung-Ang University (Feb. 2010)</span>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold text-foreground mb-2">Contact</h3>
+          <ul class="space-y-1.5 text-base text-muted">
+            <li>
+              <span class="text-foreground font-medium">Email:</span>{" "}
+              <a href="mailto:spark@jejunu.ac.kr" class="hover:text-foreground transition-colors underline underline-offset-2">
+                spark@jejunu.ac.kr
+              </a>
+            </li>
+            <li>
+              <span class="text-foreground font-medium">Specializations:</span>{" "}
+              Intelligent Systems / Optimization Theory / Evolutionary Computation / PINN
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold text-foreground mb-2">Career</h3>
+          <ul class="space-y-1.5 text-base text-muted">
+            <li class="flex items-start gap-2">
+              <span class="text-muted-foreground mt-1.5 shrink-0">•</span>
+              <span>Associate Professor, Dept. of Computer Engineering, Jeju National University (Mar. 2026 – Present)</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-muted-foreground mt-1.5 shrink-0">•</span>
+              <span>Assistant/Associate Professor, Dept. of Software, Dongseo University (Oct. 2019 – Feb. 2026)</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-muted-foreground mt-1.5 shrink-0">•</span>
+              <span>Executive Committee Member, Industrial AI Standardization Forum (Oct. 2021 – Present)</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-muted-foreground mt-1.5 shrink-0">•</span>
+              <span>General Affairs Director, Korean Institute of Intelligent Systems (Feb. 2021 – Present)</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-muted-foreground mt-1.5 shrink-0">•</span>
+              <span>Director, Korea Association of Computer Information (Mar. 2020 – Present)</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-muted-foreground mt-1.5 shrink-0">•</span>
+              <span>Postdoctoral Researcher, Chung-Ang University (Mar. 2019 – Sep. 2019)</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Research Interests -->
+    <section class="mb-[48px]">
+      <h2 class="text-[20px] font-bold text-foreground mb-4">Research Interests</h2>
+      <Accordion items={researchItems} client:load />
+    </section>
+
+    <!-- Publications -->
+    <section class="mb-[48px]">
+      <h2 class="text-[20px] font-bold text-foreground mb-4">Selected Publications</h2>
+      <div class="space-y-4">
+        {
+          publications.map((pub) => (
+            <div class="border border-border rounded-lg p-5">
+              <div class="flex items-start gap-3 mb-2">
+                <span
+                  class={`inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill text-xs font-medium ${
+                    pub.type === "Journal"
+                      ? "bg-secondary text-secondary-foreground"
+                      : "bg-[#EFF6FF] text-[#1D4ED8]"
+                  }`}
+                >
+                  {pub.type}
+                </span>
+                <h3 class="text-lg font-semibold text-foreground leading-snug">
+                  {pub.title}
+                </h3>
+              </div>
+              <p class="text-base text-muted mt-1">{pub.authors}</p>
+              <p class="text-sm text-muted-foreground">{pub.venue}, {pub.year}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Research Projects -->
+    <section class="mb-[48px]">
+      <h2 class="text-[20px] font-bold text-foreground mb-4">Research Projects</h2>
+      <div class="space-y-4">
+        {
+          projects.map((project) => (
+            <div class="border border-border rounded-lg p-5">
+              <div class="flex items-start gap-3 mb-2">
+                <span class="inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill bg-secondary text-secondary-foreground text-xs font-medium">
+                  {project.period}
+                </span>
+                <h3 class="text-lg font-semibold text-foreground leading-snug">
+                  {project.title}
+                </h3>
+              </div>
+              <p class="text-base text-muted mb-1 mt-1">{project.funding}</p>
+              <p class="text-sm text-muted-foreground">{project.description}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</BaseLayout>

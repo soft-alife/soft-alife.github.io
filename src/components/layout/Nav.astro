@@ -1,0 +1,84 @@
+---
+import MobileNav from "./MobileNav.tsx";
+
+interface Props {
+  activeNav?: string;
+  lang?: "ko" | "en";
+}
+
+const { activeNav = "", lang = "ko" } = Astro.props;
+
+import koTranslations from "../../i18n/ko.json";
+import enTranslations from "../../i18n/en.json";
+
+const t = lang === "en" ? enTranslations : koTranslations;
+const prefix = lang === "en" ? "/en" : "";
+
+const navItems = [
+  { key: "home", href: `${prefix}/`, label: t.nav.home },
+  { key: "about", href: `${prefix}/about`, label: t.nav.about },
+  { key: "professor", href: `${prefix}/professor`, label: t.nav.professor },
+  { key: "members", href: `${prefix}/members`, label: t.nav.members },
+  { key: "research", href: `${prefix}/research`, label: t.nav.research },
+  { key: "seminar", href: `${prefix}/seminar`, label: t.nav.seminar },
+  { key: "notice", href: `${prefix}/notice`, label: t.nav.notice },
+  { key: "contact", href: `${prefix}/contact`, label: t.nav.contact },
+];
+---
+
+<nav class="bg-white border-b border-border sticky top-0 z-40">
+  <div
+    class="h-[58px] flex items-center justify-between w-full max-w-[1200px] mx-auto px-6 lg:px-[60px]"
+  >
+    <!-- Left: Logo -->
+    <a href={`${prefix}/`} class="flex items-center gap-2.5 shrink-0">
+      <!-- Mobile: icon only -->
+      <img
+        src="/images/logos/sal-logo.png"
+        alt="SAL Logo"
+        width="36"
+        height="36"
+        class="md:hidden w-9 h-9 object-contain"
+      />
+      <!-- Desktop: full logo -->
+      <img
+        src="/images/logos/sal-logo2.png"
+        alt="SAL Logo"
+        width="140"
+        height="44"
+        class="hidden md:block h-[44px] w-auto object-contain"
+      />
+    </a>
+
+    <!-- Right: Desktop nav links -->
+    <div class="hidden md:flex items-center gap-lg">
+      {
+        navItems.map((item) => {
+          const isActive = activeNav.toLowerCase() === item.key.toLowerCase();
+          return (
+            <a
+              href={item.href}
+              class:list={[
+                "text-[13px] font-sans py-[18px] border-b-2 transition-colors",
+                isActive
+                  ? "text-sal-terracotta font-semibold border-sal-terracotta"
+                  : "text-muted font-semibold border-transparent hover:text-foreground",
+              ]}
+            >
+              {item.label}
+            </a>
+          );
+        })
+      }
+    </div>
+
+    <!-- Mobile: Hamburger -->
+    <div class="md:hidden">
+      <MobileNav
+        client:media="(max-width: 767px)"
+        navItems={navItems}
+        activeNav={activeNav}
+      />
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,40 @@
+projects:
+  - title: "예시 진행 과제 제목 1"
+    titleEn: "Example Ongoing Project Title 1"
+    status: "ongoing"
+    period: "20XX-20XX"
+    funding: "예시 지원 기관"
+    role: "연구책임자"
+    pi: "박승민"
+    keywords: ["예시", "키워드"]
+    description: "예시 과제 설명이 들어갑니다. 실제 과제 정보로 교체해 주세요."
+
+  - title: "예시 진행 과제 제목 2"
+    titleEn: "Example Ongoing Project Title 2"
+    status: "ongoing"
+    period: "20XX-20XX"
+    funding: "예시 지원 기관"
+    role: "공동연구원"
+    pi: "박승민"
+    keywords: ["예시", "키워드"]
+    description: "예시 과제 설명이 들어갑니다. 실제 과제 정보로 교체해 주세요."
+
+  - title: "예시 완료 과제 제목 1"
+    titleEn: "Example Completed Project Title 1"
+    status: "completed"
+    period: "20XX-20XX"
+    funding: "예시 지원 기관"
+    role: "연구책임자"
+    pi: "박승민"
+    keywords: ["예시", "키워드"]
+    description: "예시 과제 설명이 들어갑니다. 실제 과제 정보로 교체해 주세요."
+
+  - title: "예시 완료 과제 제목 2"
+    titleEn: "Example Completed Project Title 2"
+    status: "completed"
+    period: "20XX-20XX"
+    funding: "예시 지원 기관"
+    role: "연구책임자"
+    pi: "박승민"
+    keywords: ["예시", "키워드"]
+    description: "예시 과제 설명이 들어갑니다. 실제 과제 정보로 교체해 주세요."
