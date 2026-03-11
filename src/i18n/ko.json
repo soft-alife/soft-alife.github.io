@@ -4,8 +4,9 @@
     "about": "소개",
     "professor": "지도교수",
     "members": "연구원",
-    "research": "연구",
-    "seminar": "세미나",
+    "research": "Research",
+    "publications": "Publications",
+    "seminar": "Seminar",
     "notice": "공지사항",
     "contact": "연락처"
   },

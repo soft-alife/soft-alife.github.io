@@ -1,0 +1,122 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/layout/PageHeader.astro";
+import fs from "node:fs";
+import * as yaml from "js-yaml";
+
+const pubData = yaml.load(
+  fs.readFileSync("src/content/publications.yaml", "utf8")
+) as any;
+const publications = pubData.publications;
+
+const journals = publications.filter((p: any) => p.type === "journal");
+const conferences = publications.filter((p: any) => p.type === "conference");
+---
+
+<BaseLayout
+  title="Publications - SAL Laboratory"
+  description="SAL 연구실 논문 및 출판물 목록"
+  activeNav="Publications"
+>
+  <PageHeader title="Publications" breadcrumb="SAL > 출판물" />
+
+  <div class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-[40px]">
+    <!-- Journals -->
+    {journals.length > 0 && (
+      <section class="mb-[48px]">
+        <h2 class="text-2xl font-bold text-foreground mb-4">Journal Papers</h2>
+        <div class="border-t border-border mb-6"></div>
+        <div class="space-y-4">
+          {journals.map((pub: any) => (
+            <div class="border border-border rounded-lg p-5">
+              <div class="flex items-start gap-3 mb-2">
+                <span class="inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill bg-secondary text-secondary-foreground text-xs font-medium">
+                  {pub.year}
+                </span>
+                <h3 class="text-[15px] font-semibold text-foreground leading-snug">
+                  {pub.title}
+                </h3>
+              </div>
+              <p class="text-base text-muted mt-1">
+                {pub.authors.join(", ")}
+              </p>
+              <p class="text-sm text-muted-foreground">
+                {pub.venue}
+              </p>
+              <div class="flex flex-wrap gap-1.5 mt-2">
+                {pub.tags.map((tag: string) => (
+                  <span class="inline-block px-2 py-[2px] text-[10px] bg-[#F5F5F5] text-[#52525B] rounded-full">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              {(pub.doi || pub.pdf) && (
+                <div class="flex items-center gap-3 mt-3">
+                  {pub.doi && (
+                    <a href={pub.doi} target="_blank" rel="noopener noreferrer" class="text-[13px] text-sal-terracotta hover:underline">
+                      DOI
+                    </a>
+                  )}
+                  {pub.pdf && (
+                    <a href={pub.pdf} target="_blank" rel="noopener noreferrer" class="text-[13px] text-sal-terracotta hover:underline">
+                      PDF
+                    </a>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Conferences -->
+    {conferences.length > 0 && (
+      <section class="mb-[48px]">
+        <h2 class="text-2xl font-bold text-foreground mb-4">Conference Papers</h2>
+        <div class="border-t border-border mb-6"></div>
+        <div class="space-y-4">
+          {conferences.map((pub: any) => (
+            <div class="border border-border rounded-lg p-5">
+              <div class="flex items-start gap-3 mb-2">
+                <span class="inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill bg-[#EFF6FF] text-[#1D4ED8] text-xs font-medium">
+                  {pub.year}
+                </span>
+                <h3 class="text-[15px] font-semibold text-foreground leading-snug">
+                  {pub.title}
+                </h3>
+              </div>
+              <p class="text-base text-muted mt-1">
+                {pub.authors.join(", ")}
+              </p>
+              <p class="text-sm text-muted-foreground">
+                {pub.venue}
+              </p>
+              <div class="flex flex-wrap gap-1.5 mt-2">
+                {pub.tags.map((tag: string) => (
+                  <span class="inline-block px-2 py-[2px] text-[10px] bg-[#F5F5F5] text-[#52525B] rounded-full">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              {(pub.doi || pub.pdf) && (
+                <div class="flex items-center gap-3 mt-3">
+                  {pub.doi && (
+                    <a href={pub.doi} target="_blank" rel="noopener noreferrer" class="text-[13px] text-sal-terracotta hover:underline">
+                      DOI
+                    </a>
+                  )}
+                  {pub.pdf && (
+                    <a href={pub.pdf} target="_blank" rel="noopener noreferrer" class="text-[13px] text-sal-terracotta hover:underline">
+                      PDF
+                    </a>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+  </div>
+</BaseLayout>
