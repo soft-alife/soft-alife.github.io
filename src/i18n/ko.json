@@ -1,14 +1,14 @@
 {
   "nav": {
-    "home": "홈",
-    "about": "소개",
-    "professor": "지도교수",
-    "members": "연구원",
+    "home": "Home",
+    "about": "About",
+    "professor": "Professor",
+    "members": "Members",
     "research": "Research",
     "publications": "Publications",
     "seminar": "Seminar",
-    "notice": "공지사항",
-    "contact": "연락처"
+    "notice": "Notice",
+    "contact": "Contact"
   },
   "common": {
     "readMore": "자세히 보기",
