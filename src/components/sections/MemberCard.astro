@@ -19,7 +19,7 @@ const { name, role, photo, research = [], email, github, scholar } = Astro.props
       <img
         src={photo}
         alt={name}
-        class="w-full h-full object-cover"
+        class="w-full h-full object-cover object-top"
         loading="lazy"
         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
       />
