@@ -32,6 +32,7 @@
 | 공지 추가 | `src/content/notices/YYYY-MM-DD-slug.md` 새 파일 생성 |
 | 세미나 추가 | `src/content/seminars/YYYY-MM-DD-slug.md` 새 파일 생성 |
 | 멤버/교수 사진 | `public/images/members/`, `public/images/professor/` |
+| 홈 채용 배너 문구/링크 (이중 언어) | `src/content/site.yaml` |
 
 이 표에 없는 파일은 4절을 다시 확인하세요.
 
@@ -117,6 +118,32 @@ pinned: false             # 상단 고정 여부
 본문은 마크다운으로 자유롭게 작성.
 ```
 
+### 5.6 사이트 텍스트 (`src/content/site.yaml`)
+
+홈 채용 배너처럼 시기마다 바뀌는 이중 언어 텍스트를 모아둔 곳입니다. 모든 텍스트 필드는 `{ ko: "...", en: "..." }` 형태입니다.
+
+```yaml
+recruit:
+  enabled: true                            # false면 배너 자체 숨김
+  link:
+    ko: "/notice/2026-03-01-recruitment"   # 한국어 페이지에서 클릭 시 이동
+    en: "/en/notice/2026-03-01-recruitment"
+  label:                                   # 작은 라벨 (예: "OPEN POSITION")
+    ko: "OPEN POSITION"
+    en: "OPEN POSITION"
+  title:
+    ko: "..."
+    en: "..."
+  body:
+    ko: "..."
+    en: "..."
+  button:
+    ko: "자세히 보기"
+    en: "Learn More"
+```
+
+새 키를 추가하려면 `src/lib/content.ts`의 `SiteSchema`도 같이 업데이트해야 합니다. 한쪽만 바꾸면 빌드가 거부합니다.
+
 ### 5.5 세미나 (`src/content/seminars/YYYY-MM-DD-slug.md`)
 
 ```markdown
@@ -177,7 +204,13 @@ summary: "한 줄 요약"
 2. 완료 처리: 해당 과제의 `status: "ongoing"`을 `"completed"`로 변경.
 3. `npm run build`로 검증.
 
-### 6.7 "한/영 텍스트 표시 문구를 바꿔줘"
+### 6.7 "채용 배너 문구/링크를 바꿔줘"
+
+1. `src/content/site.yaml`의 `recruit` 섹션을 수정. 한국어 + 영어 둘 다 채울 것.
+2. 채용 시즌이 끝나 배너를 숨기려면 `enabled: false`로만 변경.
+3. `npm run build`로 검증.
+
+### 6.8 "한/영 텍스트 표시 문구를 바꿔줘"
 
 > **주의**: 페이지에 하드코딩된 일부 텍스트는 현재 단계에서는 페이지 파일 안에 있습니다. 향후 `site.yaml`로 분리될 예정입니다. 그 전까지는 다음 규칙을 따릅니다.
 

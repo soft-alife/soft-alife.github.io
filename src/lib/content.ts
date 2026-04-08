@@ -56,6 +56,25 @@ export const PublicationSchema = z.object({
 });
 export type Publication = z.infer<typeof PublicationSchema>;
 
+// Bilingual text helper: every editable string is `{ko: "...", en: "..."}`.
+const Bilingual = z.object({
+  ko: z.string(),
+  en: z.string(),
+});
+export type BilingualText = z.infer<typeof Bilingual>;
+
+export const SiteSchema = z.object({
+  recruit: z.object({
+    enabled: z.boolean().default(true),
+    link: Bilingual,
+    label: Bilingual,
+    title: Bilingual,
+    body: Bilingual,
+    button: Bilingual,
+  }),
+});
+export type Site = z.infer<typeof SiteSchema>;
+
 export const ProjectSchema = z.object({
   title: z.string().min(1),
   titleEn: z.string().default(""),
@@ -121,6 +140,24 @@ export function loadPublications(): Publication[] {
 export function loadProjects(): Project[] {
   const file = "src/content/projects.yaml";
   return parseList(ProjectSchema, readYaml(file), "projects", file);
+}
+
+export function loadSite(): Site {
+  const file = "src/content/site.yaml";
+  const data = readYaml(file);
+  const result = SiteSchema.safeParse(data);
+  if (!result.success) {
+    const issues = result.error.issues
+      .map((issue) => `    - ${issue.path.join(".") || "(root)"}: ${issue.message}`)
+      .join("\n");
+    throw new Error(`[content] ${file}: failed schema validation:\n${issues}`);
+  }
+  return result.data;
+}
+
+/** Pick the right language string from a bilingual field. */
+export function t(field: BilingualText, lang: "ko" | "en" = "ko"): string {
+  return field[lang];
 }
 
 // ---------------------------------------------------------------------------

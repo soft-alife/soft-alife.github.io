@@ -1,7 +1,10 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
-import { loadMembers } from "@/lib/content";
+import { loadMembers, loadSite, t } from "@/lib/content";
+
+const site = loadSite();
+const lang = "en" as const;
 
 const seminars = (await getCollection("seminars"))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
@@ -83,31 +86,33 @@ const researchAreas = [
   </section>
 
   <!-- Recruit Banner -->
-  <section class="bg-[#FAFAFA] border-y border-[#E4E4E720]">
-    <div
-      class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-5 md:py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-8"
-    >
-      <div class="flex flex-col gap-1.5 md:gap-2">
-        <span
-          class="text-[10px] md:text-xs text-muted-foreground uppercase tracking-[1.5px] font-medium"
-        >
-          OPEN POSITION
-        </span>
-        <h2 class="text-base md:text-xl font-semibold text-foreground">
-          Recruiting M.S./Ph.D. Researchers for Fall 2026
-        </h2>
-        <p class="text-sm md:text-base text-muted">
-          We are looking for passionate students interested in Intelligent Systems, Artificial Life, Machine Learning, and Optimization Theory.
-        </p>
-      </div>
-      <a
-        href="/en/notice/2026-03-01-recruitment"
-        class="flex-shrink-0 inline-flex items-center justify-center bg-primary text-primary-foreground text-sm md:text-base font-medium px-4 py-2 rounded-lg hover:opacity-90 transition-opacity"
+  {site.recruit.enabled && (
+    <section class="bg-[#FAFAFA] border-y border-[#E4E4E720]">
+      <div
+        class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-5 md:py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-8"
       >
-        Learn More
-      </a>
-    </div>
-  </section>
+        <div class="flex flex-col gap-1.5 md:gap-2">
+          <span
+            class="text-[10px] md:text-xs text-muted-foreground uppercase tracking-[1.5px] font-medium"
+          >
+            {t(site.recruit.label, lang)}
+          </span>
+          <h2 class="text-base md:text-xl font-semibold text-foreground">
+            {t(site.recruit.title, lang)}
+          </h2>
+          <p class="text-sm md:text-base text-muted">
+            {t(site.recruit.body, lang)}
+          </p>
+        </div>
+        <a
+          href={t(site.recruit.link, lang)}
+          class="flex-shrink-0 inline-flex items-center justify-center bg-primary text-primary-foreground text-sm md:text-base font-medium px-4 py-2 rounded-lg hover:opacity-90 transition-opacity"
+        >
+          {t(site.recruit.button, lang)}
+        </a>
+      </div>
+    </section>
+  )}
 
   <!-- Content Grid -->
   <section>

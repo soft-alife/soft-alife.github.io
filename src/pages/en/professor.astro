@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PageHeader from "@/components/layout/PageHeader.astro";
 import Accordion from "@/components/ui/Accordion.tsx";
+import { loadPublications, loadProjects } from "@/lib/content";
 
 const researchItems = [
   {
@@ -26,65 +27,30 @@ const researchItems = [
   },
 ];
 
-const publications = [
-  {
-    type: "Journal",
-    title: "Schizophrenia Detection and Classification: A Systematic Review of the Last Decade",
-    authors: "S. Park et al.",
-    venue: "Diagnostics (MDPI)",
-    year: 2024,
-  },
-  {
-    type: "Journal",
-    title: "Enhancing Control Systems through Type-3 Fuzzy Logic Optimization",
-    authors: "P. Ochoa, C. Peraza, P. Melin, O. Castillo, S. Park, Z. W. Geem",
-    venue: "Mathematics (MDPI)",
-    year: 2024,
-  },
-  {
-    type: "Conference",
-    title: "KoGPT-2 Integrated SSVEP-Based BCI for Efficient Language Processing",
-    authors: "S. Oh, D. Cho, S. Park, M. Moon",
-    venue: "ResearchGate",
-    year: 2025,
-  },
-  {
-    type: "Journal",
-    title: "EEG Electrode Selection Method based on BPSO with Channel Impact Factor for Acquisition of Significant Brain Signal",
-    authors: "S. Park, J. Kim, K. Sim",
-    venue: "Optik (Elsevier)",
-    year: 2018,
-  },
-  {
-    type: "Journal",
-    title: "Harmony Search-based Hidden Markov Model Optimization for Online Classification of Single Trial EEGs",
-    authors: "S. Park, K. Ko, K. Sim",
-    venue: "International Journal of Control, Automation and Systems (Springer)",
-    year: 2013,
-  },
-  {
-    type: "Journal",
-    title: "Trial Pruning based on Genetic Algorithm for Single-Trial EEG Classification",
-    authors: "S. Park et al.",
-    venue: "Computers & Electrical Engineering (Elsevier)",
-    year: 2012,
-  },
-];
+// Show first 6 publications from publications.yaml (yaml order).
+const publications = loadPublications()
+  .slice(0, 6)
+  .map((p) => ({
+    type: p.type === "journal" ? "Journal" : "Conference",
+    title: p.title,
+    authors: p.authors.join(", "),
+    venue: p.venue,
+    year: p.year,
+  }));
 
+// Show one ongoing + one completed sample from projects.yaml.
+// Uses Korean titles for consistency with the source of truth; switch to
+// `p.titleEn || p.title` if/when project translations are filled in.
+const allProjects = loadProjects();
 const projects = [
-  {
-    period: "20XX–20XX",
-    title: "Example Ongoing Project Title",
-    funding: "Example Funding Agency",
-    description: "Example project description. Please replace with actual project information.",
-  },
-  {
-    period: "20XX–20XX",
-    title: "Example Completed Project Title",
-    funding: "Example Funding Agency",
-    description: "Example project description. Please replace with actual project information.",
-  },
-];
+  ...allProjects.filter((p) => p.status === "ongoing").slice(0, 1),
+  ...allProjects.filter((p) => p.status === "completed").slice(0, 1),
+].map((p) => ({
+  period: p.period,
+  title: p.titleEn || p.title,
+  funding: p.funding,
+  description: p.description,
+}));
 
 const patents = [
   {

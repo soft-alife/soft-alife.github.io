@@ -1,0 +1,27 @@
+# Site-wide editable text.
+#
+# This file holds bilingual snippets that change often (e.g. each recruiting
+# cycle) so non-developers can update them without touching .astro files.
+#
+# Schema is enforced in src/lib/content.ts (`SiteSchema`). Adding a new key
+# here without also updating the schema will fail the build.
+#
+# Add new keys per language as `{ ko: "...", en: "..." }`.
+
+recruit:
+  enabled: true
+  link:
+    ko: "/notice/2026-03-01-recruitment"
+    en: "/en/notice/2026-03-01-recruitment"
+  label:
+    ko: "OPEN POSITION"
+    en: "OPEN POSITION"
+  title:
+    ko: "2026 후기 석사/박사 연구원을 모집합니다"
+    en: "Recruiting M.S./Ph.D. Researchers for Fall 2026"
+  body:
+    ko: "지능시스템, 인공생명, 기계학습, 최적화 이론 분야에 관심 있는 열정적인 학생을 찾습니다."
+    en: "We are looking for passionate students interested in Intelligent Systems, Artificial Life, Machine Learning, and Optimization Theory."
+  button:
+    ko: "자세히 보기"
+    en: "Learn More"

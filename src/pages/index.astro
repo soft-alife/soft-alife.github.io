@@ -1,7 +1,10 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
-import { loadMembers } from "@/lib/content";
+import { loadMembers, loadSite, t } from "@/lib/content";
+
+const site = loadSite();
+const lang = "ko" as const;
 
 // Fetch content collections
 const seminars = (await getCollection("seminars"))
@@ -87,31 +90,33 @@ const researchAreas = [
   </section>
 
   <!-- Recruit Banner -->
-  <section class="bg-[#FAFAFA] border-y border-[#E4E4E720]">
-    <div
-      class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-5 md:py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-8"
-    >
-      <div class="flex flex-col gap-1.5 md:gap-2">
-        <span
-          class="text-[10px] md:text-xs text-muted-foreground uppercase tracking-[1.5px] font-medium"
-        >
-          OPEN POSITION
-        </span>
-        <h2 class="text-base md:text-xl font-semibold text-foreground">
-          2026 후기 석사/박사 연구원을 모집합니다
-        </h2>
-        <p class="text-sm md:text-base text-muted">
-          지능시스템, 인공생명, 기계학습, 최적화 이론 분야에 관심 있는 열정적인 학생을 찾습니다.
-        </p>
-      </div>
-      <a
-        href="/notice/2026-03-01-recruitment"
-        class="flex-shrink-0 inline-flex items-center justify-center bg-primary text-primary-foreground text-sm md:text-base font-medium px-4 py-2 rounded-lg hover:opacity-90 transition-opacity"
+  {site.recruit.enabled && (
+    <section class="bg-[#FAFAFA] border-y border-[#E4E4E720]">
+      <div
+        class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-5 md:py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-8"
       >
-        자세히 보기
-      </a>
-    </div>
-  </section>
+        <div class="flex flex-col gap-1.5 md:gap-2">
+          <span
+            class="text-[10px] md:text-xs text-muted-foreground uppercase tracking-[1.5px] font-medium"
+          >
+            {t(site.recruit.label, lang)}
+          </span>
+          <h2 class="text-base md:text-xl font-semibold text-foreground">
+            {t(site.recruit.title, lang)}
+          </h2>
+          <p class="text-sm md:text-base text-muted">
+            {t(site.recruit.body, lang)}
+          </p>
+        </div>
+        <a
+          href={t(site.recruit.link, lang)}
+          class="flex-shrink-0 inline-flex items-center justify-center bg-primary text-primary-foreground text-sm md:text-base font-medium px-4 py-2 rounded-lg hover:opacity-90 transition-opacity"
+        >
+          {t(site.recruit.button, lang)}
+        </a>
+      </div>
+    </section>
+  )}
 
   <!-- Content Grid -->
   <section>
