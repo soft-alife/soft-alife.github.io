@@ -1,9 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
-import fs from "node:fs";
-import path from "node:path";
-import yaml from "js-yaml";
+import { loadMembers } from "@/lib/content";
 
 // Fetch content collections
 const seminars = (await getCollection("seminars"))
@@ -14,24 +12,7 @@ const notices = (await getCollection("notices"))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 3);
 
-// Load members from YAML
-const membersPath = path.join(process.cwd(), "src/content/members.yaml");
-const membersRaw = fs.readFileSync(membersPath, "utf-8");
-const membersData = yaml.load(membersRaw) as {
-  members: Array<{
-    name: string;
-    nameEn: string;
-    role: string;
-    photo: string;
-    research: string[];
-    email: string;
-    github: string;
-    scholar: string;
-    startYear: number;
-    graduated: boolean;
-  }>;
-};
-const members = membersData.members.filter((m) => !m.graduated).slice(0, 4);
+const members = loadMembers().filter((m) => !m.graduated).slice(0, 4);
 
 // Format date helper
 function formatDate(date: Date): string {

@@ -1,16 +1,11 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PageHeader from "@/components/layout/PageHeader.astro";
-import fs from "node:fs";
-import * as yaml from "js-yaml";
+import { loadPublications } from "@/lib/content";
 
-const pubData = yaml.load(
-  fs.readFileSync("src/content/publications.yaml", "utf8")
-) as any;
-const publications = pubData.publications;
-
-const journals = publications.filter((p: any) => p.type === "journal");
-const conferences = publications.filter((p: any) => p.type === "conference");
+const publications = loadPublications();
+const journals = publications.filter((p) => p.type === "journal");
+const conferences = publications.filter((p) => p.type === "conference");
 ---
 
 <BaseLayout

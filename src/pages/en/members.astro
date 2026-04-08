@@ -2,22 +2,9 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PageHeader from "@/components/layout/PageHeader.astro";
 import MemberCard from "@/components/sections/MemberCard.astro";
-import fs from "node:fs";
-import * as yaml from "js-yaml";
+import { loadMembers, partitionMembers } from "@/lib/content";
 
-const membersData = yaml.load(
-  fs.readFileSync("src/content/members.yaml", "utf8")
-) as any;
-const members = membersData.members;
-
-const graduates = members.filter(
-  (m: any) =>
-    !m.graduated && (m.role === "M.S. Student" || m.role === "Ph.D. Student" || m.role === "M.S./Ph.D. Integrated")
-);
-const undergrads = members.filter(
-  (m: any) => !m.graduated && m.role === "학부연구생"
-);
-const alumni = members.filter((m: any) => m.graduated);
+const { graduates, undergrads, alumni } = partitionMembers(loadMembers());
 ---
 
 <BaseLayout

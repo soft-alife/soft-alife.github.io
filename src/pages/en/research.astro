@@ -2,13 +2,9 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PageHeader from "@/components/layout/PageHeader.astro";
 import ProjectFilter from "@/components/sections/ProjectFilter";
-import fs from "node:fs";
-import * as yaml from "js-yaml";
+import { loadProjects } from "@/lib/content";
 
-const projectsData = yaml.load(
-  fs.readFileSync("src/content/projects.yaml", "utf8")
-) as any;
-const projects = projectsData.projects;
+const projects = loadProjects();
 ---
 
 <BaseLayout
