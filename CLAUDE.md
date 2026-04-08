@@ -46,7 +46,8 @@
 - `src/lib/content.ts` — 콘텐츠 스키마 (예외: 사용자가 "새로운 필드 추가해줘"라고 명시하면 가능)
 - `src/content/config.ts` — 콘텐츠 컬렉션 정의
 - `astro.config.mjs`, `tailwind.config.mjs`, `tsconfig.json`, `package.json`, `package-lock.json`
-- `src/pages/` 안의 `.astro` 파일 (콘텐츠 변경은 위 YAML/MD에서 한다 — 페이지를 직접 고치는 게 아니다)
+- `src/pages/` 안의 `.astro` 파일 (얇은 delegator이며, 한국어 페이지가 `lang="ko"`, 영어 페이지가 `lang="en"`로 공유 컴포넌트를 호출만 한다 — 절대 수정 금지)
+- `src/components/pages/` 안의 공유 페이지 컴포넌트 (구조/마크업 수정 금지. 단, 텍스트 변경은 5.7 참고)
 - 빌드 산출물: `dist/`, `node_modules/`
 
 새로운 페이지나 컴포넌트를 만들지 마세요. 의존성을 추가하지 마세요. 디자인을 "개선"하지 마세요.
@@ -117,6 +118,40 @@ pinned: false             # 상단 고정 여부
 
 본문은 마크다운으로 자유롭게 작성.
 ```
+
+### 5.7 페이지 표시 텍스트 (`src/components/pages/*Page.astro`)
+
+각 페이지의 한/영 표시 텍스트(섹션 제목, 본문 문구, 메타 정보 등)는 해당 공유 컴포넌트 상단의 `dict` 객체에 모여 있습니다. 예: `src/components/pages/AboutPage.astro` 첫 부분에:
+
+```ts
+const dict = {
+  ko: {
+    introHeading: "연구실 소개",
+    introParagraphs: ["...", "..."],
+    visionBody: "...",
+  },
+  en: {
+    introHeading: "About the Lab",
+    introParagraphs: ["...", "..."],
+    visionBody: "...",
+  },
+} as const;
+```
+
+**텍스트 변경 시 규칙**:
+1. `dict.ko`와 `dict.en`을 **반드시 함께** 수정한다. 한쪽만 수정하지 않는다.
+2. 키를 추가/삭제하지 마라. 사용자가 명시 요청한 경우에만 가능. 추가했다면 양 언어 모두에 추가하고, 템플릿에서 그 키를 사용하는 곳도 같이 수정.
+3. 마크업/HTML/Tailwind 클래스는 절대 건드리지 마라.
+4. 컴포넌트 파일과 매핑:
+   - `HomePage.astro` → 홈 (`/`, `/en/`)
+   - `AboutPage.astro` → About 페이지
+   - `MembersPage.astro` → 멤버 페이지
+   - `ProfessorPage.astro` → 교수 페이지 (학력/경력 배열도 여기)
+   - `PublicationsPage.astro` → 논문 페이지
+   - `ResearchPage.astro` → 연구 과제 페이지
+   - `ContactPage.astro` → 연락처 페이지
+   - `NoticeIndexPage.astro` / `NoticeDetailPage.astro` → 공지 목록 / 상세
+   - `SeminarIndexPage.astro` / `SeminarDetailPage.astro` → 세미나 목록 / 상세
 
 ### 5.6 사이트 텍스트 (`src/content/site.yaml`)
 
@@ -212,12 +247,12 @@ summary: "한 줄 요약"
 
 ### 6.8 "한/영 텍스트 표시 문구를 바꿔줘"
 
-> **주의**: 페이지에 하드코딩된 일부 텍스트는 현재 단계에서는 페이지 파일 안에 있습니다. 향후 `site.yaml`로 분리될 예정입니다. 그 전까지는 다음 규칙을 따릅니다.
-
 1. 사용자가 어느 페이지의 어떤 문구인지 정확히 지목해야 한다. 모호하면 질문하라.
-2. 한국어 페이지 (`src/pages/*.astro`)와 영어 페이지 (`src/pages/en/*.astro`) **양쪽을 동시에** 수정해야 한다. 한쪽만 고치면 안 된다.
-3. 디자인/마크업/클래스명은 절대 바꾸지 말고, 텍스트 노드만 교체.
-4. `npm run build`로 검증.
+2. 5.7의 매핑에 따라 해당 `src/components/pages/{Name}Page.astro`를 연다.
+3. 파일 상단 `dict` 객체에서 해당 키를 찾아 `ko`와 `en` **양쪽 모두** 수정한다.
+4. 마크업/HTML/Tailwind 클래스는 절대 건드리지 말고, dict 값만 교체.
+5. `src/pages/*.astro`나 `src/pages/en/*.astro`는 절대 열지 마라 — 얇은 delegator일 뿐 텍스트가 없다.
+6. `npm run build`로 검증.
 
 ## 7. 새로운 종류의 항목을 추가해 달라는 요청 (예: "수상 내역 섹션을 만들어줘")
 
@@ -247,7 +282,7 @@ npm run build
 - ❌ "리팩토링", "정리", "개선" 같은 명목으로 요청 범위를 벗어난 변경
 - ❌ 빌드 실패를 무시하고 "끝났다"고 보고하기
 - ❌ 졸업생 정보를 `members.yaml`에서 삭제하기 (졸업생 섹션에 표시되어야 함)
-- ❌ 한국어 페이지만 고치고 영어 페이지를 안 고치기 (또는 그 반대)
+- ❌ `dict.ko`만 고치고 `dict.en`을 안 고치기 (또는 그 반대) — 항상 양쪽을 동시에 수정한다
 - ❌ `git push --force` 또는 destructive git 명령
 - ❌ `.env`, 비밀 정보, 자격 증명 파일에 접근하기
 

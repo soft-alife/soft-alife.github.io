@@ -1,6 +1,6 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import { getCollection, render } from "astro:content";
+import NoticeDetailPage from "@/components/pages/NoticeDetailPage.astro";
+import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
   const notices = await getCollection("notices");
@@ -11,82 +11,6 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { Content } = await render(entry);
-
-const formatDate = (date: Date) => {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, "0");
-  const d = String(date.getDate()).padStart(2, "0");
-  return `${y}.${m}.${d}`;
-};
-
-const categoryColors: Record<string, { bg: string; text: string }> = {
-  "모집": { bg: "bg-[#DBEAFE]", text: "text-[#1E40AF]" },
-  "일반": { bg: "bg-[#F5F5F5]", text: "text-[#52525B]" },
-  "학술": { bg: "bg-[#FEF3C7]", text: "text-[#92400E]" },
-  "행사": { bg: "bg-[#D1FAE5]", text: "text-[#065F46]" },
-};
-
-const colors = categoryColors[entry.data.category] ?? categoryColors["일반"];
 ---
 
-<BaseLayout
-  title={`${entry.data.title} — SAL Notice`}
-  description={entry.data.title}
-  activeNav="Notice"
-  lang="en"
->
-  <div class="bg-[#FAFAFA] border-b border-border px-6 lg:px-[60px] pt-7 pb-5">
-    <div class="max-w-[1200px] mx-auto">
-      <p class="text-sm text-muted-foreground mb-2">
-        <a href="/en/notice" class="hover:text-foreground transition-colors">SAL &gt; Notice</a>
-      </p>
-      <div class="flex items-center gap-3">
-        <h1 class="text-[24px] font-bold text-foreground">{entry.data.title}</h1>
-        <span class={`inline-block px-2.5 py-[3px] text-[11px] rounded-full ${colors.bg} ${colors.text}`}>
-          {entry.data.category}
-        </span>
-      </div>
-    </div>
-  </div>
-
-  <div class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-[40px]">
-    <div class="max-w-[800px]">
-      <div class="mb-6 pb-6 border-b border-border">
-        <div class="flex items-center gap-3 text-[13px] text-muted">
-          <span>{formatDate(entry.data.date)}</span>
-          {entry.data.pinned && (
-            <span class="text-sal-terracotta font-medium">Pinned</span>
-          )}
-        </div>
-      </div>
-
-      <article class="prose prose-sm max-w-none
-        prose-headings:text-foreground prose-headings:font-bold
-        prose-h2:text-[18px] prose-h2:mt-8 prose-h2:mb-4
-        prose-h3:text-[15px] prose-h3:mt-6 prose-h3:mb-3
-        prose-p:text-[14px] prose-p:text-[#3F3F46] prose-p:leading-relaxed
-        prose-li:text-[14px] prose-li:text-[#3F3F46]
-        prose-strong:text-foreground
-        prose-a:text-sal-terracotta prose-a:no-underline hover:prose-a:underline
-        prose-table:text-[13px]
-        prose-th:bg-[#F5F5F5] prose-th:px-3 prose-th:py-2
-        prose-td:px-3 prose-td:py-2 prose-td:border-border
-      ">
-        <Content />
-      </article>
-
-      <div class="mt-10 pt-6 border-t border-border">
-        <a
-          href="/en/notice"
-          class="inline-flex items-center gap-1 text-[13px] text-muted hover:text-foreground transition-colors"
-        >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-          Back to Notice List
-        </a>
-      </div>
-    </div>
-  </div>
-</BaseLayout>
+<NoticeDetailPage lang="en" entry={entry} />

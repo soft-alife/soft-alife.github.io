@@ -1,0 +1,151 @@
+---
+/**
+ * About page (shared between /about and /en/about).
+ * Edit text via the `dict` object below.
+ */
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/layout/PageHeader.astro";
+
+interface Props {
+  lang: "ko" | "en";
+}
+
+const { lang } = Astro.props;
+
+const dict = {
+  ko: {
+    pageTitle: "About — SAL Laboratory",
+    metaDescription:
+      "SAL(Soft Artificial Life) 연구실 소개 - 지능시스템, 인공생명, 기계학습, 최적화 이론 연구",
+    headerTitle: "About",
+    breadcrumb: "SAL > 연구실 소개",
+    introHeading: "연구실 소개",
+    introParagraphs: [
+      "SAL(Soft Artificial Life) 연구실은 제주대학교 컴퓨터공학과 소속으로, 지능시스템(Intelligent Systems), 인공생명(Artificial Life), 기계학습(Machine Learning), 최적화 이론(Optimization Theory) 분야를 중점적으로 연구하고 있습니다. 생명 현상의 본질적 원리를 컴퓨터 시뮬레이션을 통해 이해하고, 이를 실제 공학 문제 해결에 적용하는 것을 목표로 합니다.",
+      "본 연구실은 박승민 교수의 지도 아래 석·박사 과정 연구원들이 함께 연구를 수행하고 있으며, 한국연구재단(NRF) 등의 지원을 받아 다양한 국가 연구 과제를 수행하고 있습니다. 국내외 학술대회 및 저널에 연구 성과를 발표하며, 산업계와의 협력을 통해 실질적인 문제 해결에 기여하고 있습니다.",
+    ],
+    areasHeading: "연구 분야",
+    visionHeading: "비전",
+    visionBody:
+      "SAL 연구실은 자연의 원리에서 영감을 받은 컴퓨팅 기술을 통해 인류가 직면한 복잡한 문제들을 해결하는 데 기여하고자 합니다. 인공생명 시뮬레이션을 통해 생명의 본질을 탐구하고, 기계학습과 최적화 기술로 실제 산업 및 사회 문제에 대한 혁신적인 해결책을 제시하는 세계적 수준의 연구 그룹으로 성장하는 것이 우리의 비전입니다. 나아가, 창의적이고 자율적인 연구 환경 속에서 차세대 연구 인력을 양성하여 학계와 산업계에 기여하겠습니다.",
+    researchAreas: [
+      {
+        num: "01",
+        title: "지능시스템",
+        description:
+          "다중 에이전트 시스템, 지능형 제어, 뇌-컴퓨터 인터페이스(BCI) 등 지능시스템의 설계와 응용을 연구합니다. 자율적 의사결정과 적응형 시스템 구현을 목표로 합니다.",
+      },
+      {
+        num: "02",
+        title: "인공생명",
+        description:
+          "다중 에이전트 기반 인공생명 시스템의 창발적 행동을 연구하고, 생명 현상의 본질적 특성을 컴퓨터 시뮬레이션으로 재현합니다. 자기 조직화, 적응, 자기 복제 등 생명의 핵심 원리를 탐구합니다.",
+      },
+      {
+        num: "03",
+        title: "기계학습",
+        description:
+          "딥러닝, 강화학습 등 기계학습 알고리즘을 연구하고, 실제 데이터 기반의 문제 해결에 적용합니다. 모델 최적화, 효율적 학습 기법, 실세계 응용 등을 중점적으로 다룹니다.",
+      },
+      {
+        num: "04",
+        title: "최적화 이론",
+        description:
+          "진화연산, 메타휴리스틱, 물리정보신경망(PINN) 등 자연에서 영감을 받은 최적화 알고리즘을 연구하고, 대규모 조합 최적화 문제에 적용합니다.",
+      },
+    ],
+  },
+  en: {
+    pageTitle: "About — SAL Laboratory",
+    metaDescription:
+      "About SAL (Soft Artificial Life) Laboratory - Intelligent Systems, Artificial Life, Machine Learning, Optimization Theory",
+    headerTitle: "About",
+    breadcrumb: "SAL > About",
+    introHeading: "About the Lab",
+    introParagraphs: [
+      "SAL (Soft Artificial Life) Laboratory is part of the Department of Computer Engineering at Jeju National University. We focus on Intelligent Systems, Artificial Life, Machine Learning, and Optimization Theory. Our goal is to understand the fundamental principles of life through computer simulation and apply them to real-world engineering problems.",
+      "Under the guidance of Prof. Seungmin Park, our graduate and undergraduate researchers collaborate on various research projects. We conduct national research projects supported by the National Research Foundation of Korea (NRF) and others, publish our results at domestic and international conferences and journals, and contribute to practical problem-solving through industry collaboration.",
+    ],
+    areasHeading: "Research Areas",
+    visionHeading: "Vision",
+    visionBody:
+      "SAL Laboratory aims to contribute to solving complex problems facing humanity through computing technologies inspired by the principles of nature. Our vision is to grow into a world-class research group that explores the essence of life through artificial life simulation and provides innovative solutions to industrial and social problems using machine learning and optimization technologies. Furthermore, we are committed to nurturing the next generation of researchers in a creative and autonomous research environment, contributing to both academia and industry.",
+    researchAreas: [
+      {
+        num: "01",
+        title: "Intelligent Systems",
+        description:
+          "Research on the design and application of intelligent systems including multi-agent systems, intelligent control, and brain-computer interfaces (BCI). We aim to implement autonomous decision-making and adaptive systems.",
+      },
+      {
+        num: "02",
+        title: "Artificial Life",
+        description:
+          "Studying emergent behavior in multi-agent-based artificial life systems and reproducing essential characteristics of life through computer simulation. We explore core principles of life such as self-organization, adaptation, and self-replication.",
+      },
+      {
+        num: "03",
+        title: "Machine Learning",
+        description:
+          "Researching machine learning algorithms such as deep learning and reinforcement learning, and applying them to real-world data-driven problem solving. We focus on model optimization, efficient learning techniques, and real-world applications.",
+      },
+      {
+        num: "04",
+        title: "Optimization Theory",
+        description:
+          "Researching nature-inspired optimization algorithms such as evolutionary computation, metaheuristics, and physics-informed neural networks (PINN), and applying them to large-scale combinatorial optimization problems.",
+      },
+    ],
+  },
+} as const;
+
+const T = dict[lang];
+---
+
+<BaseLayout
+  title={T.pageTitle}
+  description={T.metaDescription}
+  activeNav="About"
+  lang={lang}
+>
+  <PageHeader title={T.headerTitle} breadcrumb={T.breadcrumb} />
+
+  <div class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-section">
+    <div class="flex flex-col gap-section">
+      <!-- Lab Introduction -->
+      <section>
+        <h2 class="text-3xl font-bold text-foreground">{T.introHeading}</h2>
+        <div class="w-full h-[1px] bg-border mt-4 mb-5"></div>
+        <div class="flex flex-col gap-4 max-w-[800px]">
+          {T.introParagraphs.map((p) => (
+            <p class="text-lg text-muted leading-relaxed">{p}</p>
+          ))}
+        </div>
+      </section>
+
+      <!-- Research Areas -->
+      <section>
+        <h2 class="text-3xl font-bold text-foreground">{T.areasHeading}</h2>
+        <div class="w-full h-[1px] bg-border mt-4 mb-5"></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {T.researchAreas.map((area) => (
+            <div class="border border-border rounded-lg p-5">
+              <span class="text-lg text-muted-foreground font-medium">{area.num}</span>
+              <h3 class="text-lg font-semibold text-foreground mt-2">{area.title}</h3>
+              <p class="text-base text-muted mt-2 leading-relaxed">{area.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- Vision -->
+      <section>
+        <h2 class="text-3xl font-bold text-foreground">{T.visionHeading}</h2>
+        <div class="w-full h-[1px] bg-border mt-4 mb-5"></div>
+        <div class="max-w-[800px]">
+          <p class="text-lg text-muted leading-relaxed">{T.visionBody}</p>
+        </div>
+      </section>
+    </div>
+  </div>
+</BaseLayout>

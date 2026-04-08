@@ -1,0 +1,46 @@
+---
+/**
+ * Research projects page (shared between /research and /en/research).
+ */
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/layout/PageHeader.astro";
+import ProjectFilter from "@/components/sections/ProjectFilter";
+import { loadProjects } from "@/lib/content";
+
+interface Props {
+  lang: "ko" | "en";
+}
+
+const { lang } = Astro.props;
+
+const dict = {
+  ko: {
+    pageTitle: "Research Projects - SAL Laboratory",
+    metaDescription: "SAL 연구실 연구 과제 소개",
+    headerTitle: "Research Projects",
+    breadcrumb: "SAL > 연구 과제",
+  },
+  en: {
+    pageTitle: "Research Projects - SAL Laboratory",
+    metaDescription: "SAL Laboratory Research Projects",
+    headerTitle: "Research Projects",
+    breadcrumb: "SAL > Research",
+  },
+} as const;
+
+const T = dict[lang];
+const projects = loadProjects();
+---
+
+<BaseLayout
+  title={T.pageTitle}
+  description={T.metaDescription}
+  activeNav="Research"
+  lang={lang}
+>
+  <PageHeader title={T.headerTitle} breadcrumb={T.breadcrumb} />
+
+  <div class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-[40px]">
+    <ProjectFilter projects={projects} client:load />
+  </div>
+</BaseLayout>

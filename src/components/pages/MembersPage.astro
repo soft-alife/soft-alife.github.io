@@ -1,0 +1,120 @@
+---
+/**
+ * Members page (shared between /members and /en/members).
+ *
+ * Both src/pages/members.astro and src/pages/en/members.astro are thin
+ * delegators that render this component with the appropriate `lang`.
+ *
+ * To edit text shown on this page, change the `dict` object below.
+ * Do NOT add new languages — only "ko" and "en" are supported.
+ */
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/layout/PageHeader.astro";
+import MemberCard from "@/components/sections/MemberCard.astro";
+import { loadMembers, partitionMembers, type Member } from "@/lib/content";
+
+interface Props {
+  lang: "ko" | "en";
+}
+
+const { lang } = Astro.props;
+
+const dict = {
+  ko: {
+    pageTitle: "Member - SAL Laboratory",
+    metaDescription: "SAL 연구실 구성원 소개",
+    headerTitle: "Member",
+    breadcrumb: "SAL > 연구실 소개 > 멤버",
+    graduates: "대학원생",
+    undergrads: "학부 연구생",
+    alumni: "졸업생",
+  },
+  en: {
+    pageTitle: "Members - SAL Laboratory",
+    metaDescription: "SAL Laboratory Members",
+    headerTitle: "Members",
+    breadcrumb: "SAL > Members",
+    graduates: "Graduate Students",
+    undergrads: "Undergraduate Researchers",
+    alumni: "Alumni",
+  },
+} as const;
+
+const T = dict[lang];
+
+const { graduates, undergrads, alumni } = partitionMembers(loadMembers());
+
+// English page uses nameEn when available; Korean uses name.
+const displayName = (m: Member) => (lang === "en" ? (m.nameEn || m.name) : m.name);
+---
+
+<BaseLayout
+  title={T.pageTitle}
+  description={T.metaDescription}
+  activeNav="Members"
+  lang={lang}
+>
+  <PageHeader title={T.headerTitle} breadcrumb={T.breadcrumb} />
+
+  <div class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-[40px]">
+    {graduates.length > 0 && (
+      <section>
+        <h2 class="text-2xl font-bold text-foreground mb-4">{T.graduates}</h2>
+        <div class="border-t border-border mb-6"></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {graduates.map((member) => (
+            <MemberCard
+              name={displayName(member)}
+              role={member.role}
+              photo={member.photo}
+              research={member.research}
+              email={member.email}
+              github={member.github}
+              scholar={member.scholar}
+            />
+          ))}
+        </div>
+      </section>
+    )}
+
+    {undergrads.length > 0 && (
+      <section class="mt-[48px]">
+        <h2 class="text-2xl font-bold text-foreground mb-4">{T.undergrads}</h2>
+        <div class="border-t border-border mb-6"></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {undergrads.map((member) => (
+            <MemberCard
+              name={displayName(member)}
+              role={member.role}
+              photo={member.photo}
+              research={member.research}
+              email={member.email}
+              github={member.github}
+              scholar={member.scholar}
+            />
+          ))}
+        </div>
+      </section>
+    )}
+
+    {alumni.length > 0 && (
+      <section class="mt-[48px]">
+        <h2 class="text-2xl font-bold text-foreground mb-4">{T.alumni}</h2>
+        <div class="border-t border-border mb-6"></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {alumni.map((member) => (
+            <MemberCard
+              name={displayName(member)}
+              role={member.role}
+              photo={member.photo}
+              research={member.research}
+              email={member.email}
+              github={member.github}
+              scholar={member.scholar}
+            />
+          ))}
+        </div>
+      </section>
+    )}
+  </div>
+</BaseLayout>
