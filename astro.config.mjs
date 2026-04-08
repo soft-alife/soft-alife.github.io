@@ -4,7 +4,7 @@ import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
-  site: "https://sal-lab.dev",
+  site: "https://soft-alife.github.io",
 
   integrations: [
     react(),
