@@ -1,6 +1,6 @@
 publications:
   - title: "Schizophrenia Detection and Classification: A Systematic Review of the Last Decade"
-    authors: ["S. Park", "et al."]
+    authors: ["A. Saha", "S. Park", "Z. W. Geem", "P. K. Singh"]
     venue: "Diagnostics (MDPI)"
     year: 2024
     type: "journal"
@@ -17,17 +17,44 @@ publications:
     doi: ""
     pdf: ""
 
-  - title: "KoGPT-2 Integrated SSVEP-Based BCI for Efficient Language Processing"
-    authors: ["S. Oh", "D. Cho", "S. Park", "M. Moon"]
-    venue: "Conference"
-    year: 2025
-    type: "conference"
-    tags: ["대규모 언어모델", "BCI"]
+  - title: "Generation of CNN Architectures Using the Harmonic Search Algorithm and Its Application to Classification of Damaged Sewer"
+    authors: ["Y. W. Jeong", "K. B. Sim", "S. Park", "J. Oh", "W. J. Choi"]
+    venue: "IEEE Access"
+    year: 2022
+    type: "journal"
+    tags: ["진화연산", "기계학습"]
     doi: ""
     pdf: ""
 
-  - title: "EEG Electrode Selection Method based on BPSO with Channel Impact Factor"
-    authors: ["S. Park", "J. Kim", "K. Sim"]
+  - title: "User State Classification Based on Functional Brain Connectivity Using a Convolutional Neural Network"
+    authors: ["S. M. Park", "H. G. Yeom", "K. B. Sim"]
+    venue: "Electronics (MDPI)"
+    year: 2021
+    type: "journal"
+    tags: ["기계학습", "BCI"]
+    doi: ""
+    pdf: ""
+
+  - title: "Advanced Parameter-Setting-Free Harmony Search Algorithm"
+    authors: ["Y. W. Jeong", "S. M. Park", "Z. W. Geem", "K. B. Sim"]
+    venue: "Applied Sciences (MDPI)"
+    year: 2020
+    type: "journal"
+    tags: ["진화연산", "최적화"]
+    doi: ""
+    pdf: ""
+
+  - title: "Optimal Hyperparameter Tuning of Convolutional Neural Networks Based on the Parameter-Setting-Free Harmony Search Algorithm"
+    authors: ["W. Y. Lee", "S. M. Park", "K. B. Sim"]
+    venue: "Optik (Elsevier)"
+    year: 2018
+    type: "journal"
+    tags: ["진화연산", "기계학습"]
+    doi: ""
+    pdf: ""
+
+  - title: "EEG Electrode Selection Method Based on BPSO with Channel Impact Factor for Acquisition of Significant Brain Signal"
+    authors: ["S. M. Park", "J. Y. Kim", "K. B. Sim"]
     venue: "Optik (Elsevier)"
     year: 2018
     type: "journal"
@@ -35,8 +62,26 @@ publications:
     doi: ""
     pdf: ""
 
-  - title: "Harmony Search-based Hidden Markov Model Optimization for Online Classification of Single Trial EEGs"
-    authors: ["S. Park", "K. Ko", "K. Sim"]
+  - title: "Symmetrical Feature for Interpreting Motor Imagery EEG Signals in the Brain–Computer Interface"
+    authors: ["S. M. Park", "X. Yu", "P. Chum", "W. Y. Lee", "K. B. Sim"]
+    venue: "Optik (Elsevier)"
+    year: 2017
+    type: "journal"
+    tags: ["BCI", "뇌신호"]
+    doi: ""
+    pdf: ""
+
+  - title: "Heuristic Feature Extraction Method for BCI with Harmony Search and Discrete Wavelet Transform"
+    authors: ["S. M. Park", "T. J. Lee", "K. B. Sim"]
+    venue: "International Journal of Control, Automation and Systems (Springer)"
+    year: 2016
+    type: "journal"
+    tags: ["진화연산", "BCI"]
+    doi: ""
+    pdf: ""
+
+  - title: "Harmony Search-Based Hidden Markov Model Optimization for Online Classification of Single Trial EEGs"
+    authors: ["S. M. Park", "K. E. Ko", "K. B. Sim"]
     venue: "International Journal of Control, Automation and Systems (Springer)"
     year: 2013
     type: "journal"
@@ -44,11 +89,38 @@ publications:
     doi: ""
     pdf: ""
 
-  - title: "Trial Pruning based on Genetic Algorithm for Single-Trial EEG Classification"
-    authors: ["S. Park", "et al."]
+  - title: "Real-Time Heart Rate Monitoring System Based on Ring-Type Pulse Oximeter Sensor"
+    authors: ["S. M. Park", "J. Y. Kim", "K. E. Ko", "I. H. Jang", "K. B. Sim"]
+    venue: "Journal of Electrical Engineering & Technology"
+    year: 2013
+    type: "journal"
+    tags: ["센서", "신호처리"]
+    doi: ""
+    pdf: ""
+
+  - title: "Electroencephalography Signal Grouping and Feature Classification Using Harmony Search for BCI"
+    authors: ["T. J. Lee", "S. M. Park", "K. B. Sim"]
+    venue: "Journal of Applied Mathematics (Hindawi)"
+    year: 2013
+    type: "journal"
+    tags: ["진화연산", "BCI"]
+    doi: ""
+    pdf: ""
+
+  - title: "Trial Pruning Based on Genetic Algorithm for Single-Trial EEG Classification"
+    authors: ["S. M. Park", "et al."]
     venue: "Computers & Electrical Engineering (Elsevier)"
     year: 2012
     type: "journal"
     tags: ["진화연산", "BCI"]
+    doi: ""
+    pdf: ""
+
+  - title: "Training HMM Structure and Parameters with Genetic Algorithm and Harmony Search Algorithm"
+    authors: ["K. E. Ko", "S. M. Park", "J. Park", "K. B. Sim"]
+    venue: "Journal of Electrical Engineering & Technology"
+    year: 2012
+    type: "journal"
+    tags: ["진화연산", "최적화"]
     doi: ""
     pdf: ""

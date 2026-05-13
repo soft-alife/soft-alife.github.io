@@ -154,9 +154,8 @@ const dict = {
 
 const T = dict[lang];
 
-// Show first 6 publications from publications.yaml (yaml order).
+// Show all publications from publications.yaml (yaml order).
 const publications = loadPublications()
-  .slice(0, 6)
   .map((p) => ({
     type: p.type === "journal" ? "Journal" : "Conference",
     title: p.title,
