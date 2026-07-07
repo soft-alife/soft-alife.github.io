@@ -25,24 +25,28 @@ const dict = {
     metaDescription: "SAL 연구실 논문 및 출판물 목록",
     headerTitle: "Publications",
     breadcrumb: "SAL > 출판물",
+    tabAll: "전체",
     tabJournal: "Journal Paper",
     tabNews: "News",
     tabBlog: "Blog",
     empty: "등록된 항목이 없습니다.",
     visit: "원문 보기",
     topTier: "탑티어",
+    searchPlaceholder: "검색",
   },
   en: {
     pageTitle: "Publications - SAL Laboratory",
     metaDescription: "SAL Laboratory Publications",
     headerTitle: "Publications",
     breadcrumb: "SAL > Publications",
+    tabAll: "All",
     tabJournal: "Journal Paper",
     tabNews: "News",
     tabBlog: "Blog",
     empty: "No items yet.",
     visit: "View Original",
     topTier: "Top-tier",
+    searchPlaceholder: "Search",
   },
 } as const;
 
@@ -116,11 +120,13 @@ const blog = loadBlog()
       news={news}
       blog={blog}
       labels={{
+        all: T.tabAll,
         journal: T.tabJournal,
         news: T.tabNews,
         blog: T.tabBlog,
         empty: T.empty,
         visit: T.visit,
+        searchPlaceholder: T.searchPlaceholder,
       }}
       client:load
     />

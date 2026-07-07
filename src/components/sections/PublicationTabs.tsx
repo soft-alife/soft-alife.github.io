@@ -1,12 +1,13 @@
 import { useState } from "react";
 
 /**
- * Publications page tabs: Journal Paper / News / Blog.
+ * Publications page tabs: 전체 / Journal Paper / News / Blog.
  *
  * Tab buttons reuse ProjectFilter's tab styling; cards reuse the site's
- * publication card markup. Journal Paper items come pre-built from
- * professor.yaml (SCI/SCIE + SCOPUS journals and top-tier conferences).
- * News/Blog items are external links (date badge + source line).
+ * publication card markup (배지 → 제목 → 기타 순). Journal Paper items come
+ * pre-built from professor.yaml (SCI/SCIE + SCOPUS journals and top-tier
+ * conferences). News/Blog items are external links. The 전체 tab merges
+ * everything newest-first. All tabs share the search box.
  */
 
 interface Paper {
@@ -28,11 +29,13 @@ interface LinkItem {
 }
 
 interface Labels {
+  all: string;
   journal: string;
   news: string;
   blog: string;
   empty: string;
   visit: string;
+  searchPlaceholder: string;
 }
 
 interface Props {
@@ -42,23 +45,112 @@ interface Props {
   labels: Labels;
 }
 
-type Tab = "journal" | "news" | "blog";
+type Tab = "all" | "journal" | "news" | "blog";
 
 export default function PublicationTabs({ publications, news, blog, labels }: Props) {
-  const [activeTab, setActiveTab] = useState<Tab>("journal");
+  const [activeTab, setActiveTab] = useState<Tab>("all");
+  const [query, setQuery] = useState("");
 
   const tabs: { key: Tab; label: string }[] = [
+    { key: "all", label: labels.all },
     { key: "journal", label: labels.journal },
     { key: "news", label: labels.news },
     { key: "blog", label: labels.blog },
   ];
 
-  const linkItems = activeTab === "news" ? news : blog;
+  const q = query.trim().toLowerCase();
+
+  const filteredPublications = publications.filter(
+    (p) =>
+      !q ||
+      [p.title, p.venue, p.badge, p.date, p.subStrong ?? ""]
+        .join(" ")
+        .toLowerCase()
+        .includes(q),
+  );
+
+  const matchLink = (item: LinkItem) =>
+    !q ||
+    [item.title, item.source, item.summary, item.date]
+      .join(" ")
+      .toLowerCase()
+      .includes(q);
+
+  const filteredNews = news.filter(matchLink);
+  const filteredBlog = blog.filter(matchLink);
+
+  // 전체 탭: 논문 + 기사 + 블로그를 날짜 최신순으로 병합.
+  const allItems: ({ kind: "paper"; date: string; paper: Paper } | { kind: "link"; date: string; item: LinkItem })[] = [
+    ...filteredPublications.map((paper) => ({ kind: "paper" as const, date: paper.date, paper })),
+    ...filteredNews.map((item) => ({ kind: "link" as const, date: item.date, item })),
+    ...filteredBlog.map((item) => ({ kind: "link" as const, date: item.date, item })),
+  ].sort((a, b) => b.date.localeCompare(a.date));
+
+  const renderPaper = (pub: Paper, key: number | string) => (
+    <div key={key} className="border border-border rounded-lg p-5">
+      <div className="flex items-center gap-2 mb-2 flex-wrap">
+        <span className="inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill bg-secondary text-secondary-foreground text-xs font-medium">
+          {pub.date}
+        </span>
+        <span
+          className={`inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill text-xs font-medium ${pub.badgeClass}`}
+        >
+          {pub.badge}
+        </span>
+      </div>
+      <h3 className="text-[15px] font-semibold text-foreground leading-snug mb-2">
+        {pub.title}
+      </h3>
+      <p className="text-base text-muted mt-1">{pub.venue}</p>
+      {(pub.sub || pub.subStrong) && (
+        <p className="text-sm text-muted-foreground">
+          {pub.sub}
+          {pub.sub && pub.subStrong ? " · " : ""}
+          {pub.subStrong && (
+            <span className="font-semibold text-foreground">
+              {pub.subStrong}
+            </span>
+          )}
+        </p>
+      )}
+    </div>
+  );
+
+  const renderLink = (item: LinkItem, key: number | string) => (
+    <div key={key} className="border border-border rounded-lg p-5">
+      <div className="flex items-center gap-2 mb-2">
+        <span className="inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill bg-secondary text-secondary-foreground text-xs font-medium">
+          {item.date}
+        </span>
+      </div>
+      <h3 className="text-[15px] font-semibold text-foreground leading-snug mb-2">
+        {item.title}
+      </h3>
+      {item.source && <p className="text-base text-muted mt-1">{item.source}</p>}
+      {item.summary && (
+        <p className="text-sm text-muted-foreground">{item.summary}</p>
+      )}
+      {item.link && (
+        <div className="flex items-center gap-3 mt-3">
+          <a
+            href={item.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[13px] text-sal-terracotta hover:underline"
+          >
+            {labels.visit}
+          </a>
+        </div>
+      )}
+    </div>
+  );
+
+  const linkItems = activeTab === "news" ? filteredNews : filteredBlog;
 
   return (
     <div>
-      {/* Tab Filter */}
-      <div className="flex gap-2 mb-8">
+      {/* Tab Filter + Search */}
+      <div className="flex gap-2 mb-8 flex-wrap items-center">
         {tabs.map((tab) => (
           <button
             key={tab.key}
@@ -72,80 +164,45 @@ export default function PublicationTabs({ publications, news, blog, labels }: Pr
             {tab.label}
           </button>
         ))}
+        <input
+          type="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder={labels.searchPlaceholder}
+          className="w-full sm:w-[240px] sm:ml-auto px-4 py-2 text-[13px] border border-[#E4E4E7] rounded-lg bg-white text-[#0A0A0A] placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#A1A1AA] transition-colors"
+        />
       </div>
+
+      {/* 전체 Tab */}
+      {activeTab === "all" && (
+        <div className="space-y-4">
+          {allItems.map((entry, index) =>
+            entry.kind === "paper"
+              ? renderPaper(entry.paper, index)
+              : renderLink(entry.item, index),
+          )}
+
+          {allItems.length === 0 && (
+            <p className="text-[13px] text-[#A1A1AA] py-8 text-center">{labels.empty}</p>
+          )}
+        </div>
+      )}
 
       {/* Journal Paper Tab */}
       {activeTab === "journal" && (
         <div className="space-y-4">
-          {publications.map((pub, index) => (
-            <div key={index} className="border border-border rounded-lg p-5">
-              <div className="flex items-center gap-2 mb-2 flex-wrap">
-                <span className="inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill bg-secondary text-secondary-foreground text-xs font-medium">
-                  {pub.date}
-                </span>
-                <span
-                  className={`inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill text-xs font-medium ${pub.badgeClass}`}
-                >
-                  {pub.badge}
-                </span>
-              </div>
-              <h3 className="text-[15px] font-semibold text-foreground leading-snug mb-2">
-                {pub.title}
-              </h3>
-              <p className="text-base text-muted mt-1">{pub.venue}</p>
-              {(pub.sub || pub.subStrong) && (
-                <p className="text-sm text-muted-foreground">
-                  {pub.sub}
-                  {pub.sub && pub.subStrong ? " · " : ""}
-                  {pub.subStrong && (
-                    <span className="font-semibold text-foreground">
-                      {pub.subStrong}
-                    </span>
-                  )}
-                </p>
-              )}
-            </div>
-          ))}
+          {filteredPublications.map((pub, index) => renderPaper(pub, index))}
 
-          {publications.length === 0 && (
+          {filteredPublications.length === 0 && (
             <p className="text-[13px] text-[#A1A1AA] py-8 text-center">{labels.empty}</p>
           )}
         </div>
       )}
 
       {/* News / Blog Tabs */}
-      {activeTab !== "journal" && (
+      {(activeTab === "news" || activeTab === "blog") && (
         <div className="space-y-4">
-          {linkItems.map((item, index) => (
-            <div key={index} className="border border-border rounded-lg p-5">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill bg-secondary text-secondary-foreground text-xs font-medium">
-                  {item.date}
-                </span>
-              </div>
-              <h3 className="text-[15px] font-semibold text-foreground leading-snug mb-2">
-                {item.title}
-              </h3>
-              {item.source && (
-                <p className="text-base text-muted mt-1">{item.source}</p>
-              )}
-              {item.summary && (
-                <p className="text-sm text-muted-foreground">{item.summary}</p>
-              )}
-              {item.link && (
-                <div className="flex items-center gap-3 mt-3">
-                  <a
-                    href={item.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[13px] text-sal-terracotta hover:underline"
-                  >
-                    {labels.visit}
-                  </a>
-                </div>
-              )}
-            </div>
-          ))}
+          {linkItems.map((item, index) => renderLink(item, index))}
 
           {linkItems.length === 0 && (
             <p className="text-[13px] text-[#A1A1AA] py-8 text-center">{labels.empty}</p>

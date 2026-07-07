@@ -1,9 +1,13 @@
 ---
 /**
  * Notice list page (shared between /notice and /en/notice).
+ *
+ * The list itself (search + pagination) is rendered by NoticeList.tsx;
+ * this page loads/sorts the collection and passes plain data down.
  */
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PageHeader from "@/components/layout/PageHeader.astro";
+import NoticeList from "@/components/sections/NoticeList";
 import { getCollection } from "astro:content";
 
 interface Props {
@@ -21,6 +25,8 @@ const dict = {
     breadcrumb: "SAL > 공지사항",
     pinnedTitle: "고정 공지",
     pinnedTag: "[고정]",
+    empty: "검색 결과가 없습니다.",
+    searchPlaceholder: "검색",
   },
   en: {
     pageTitle: "Notice — SAL Lab",
@@ -29,6 +35,8 @@ const dict = {
     breadcrumb: "SAL > Notice",
     pinnedTitle: "Pinned",
     pinnedTag: "[Pinned]",
+    empty: "No results found.",
+    searchPlaceholder: "Search",
   },
 } as const;
 
@@ -43,15 +51,6 @@ const sorted = allNotices.sort((a, b) => {
   return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
 });
 
-const ITEMS_PER_PAGE = 10;
-const currentPage = Number(Astro.url.searchParams.get("page")) || 1;
-const totalPages = Math.max(1, Math.ceil(sorted.length / ITEMS_PER_PAGE));
-const safePage = Math.min(currentPage, totalPages);
-const paginatedNotices = sorted.slice(
-  (safePage - 1) * ITEMS_PER_PAGE,
-  safePage * ITEMS_PER_PAGE,
-);
-
 const formatDate = (date: Date) => {
   const y = date.getFullYear();
   const m = String(date.getMonth() + 1).padStart(2, "0");
@@ -59,12 +58,13 @@ const formatDate = (date: Date) => {
   return `${y}.${m}.${d}`;
 };
 
-const categoryColors: Record<string, { bg: string; text: string }> = {
-  "모집": { bg: "bg-[#DBEAFE]", text: "text-[#1E40AF]" },
-  "일반": { bg: "bg-[#F5F5F5]", text: "text-[#52525B]" },
-  "학술": { bg: "bg-[#FEF3C7]", text: "text-[#92400E]" },
-  "행사": { bg: "bg-[#D1FAE5]", text: "text-[#065F46]" },
-};
+const notices = sorted.map((notice) => ({
+  slug: notice.id.replace(/\.md$/, ""),
+  title: notice.data.title,
+  date: formatDate(notice.data.date),
+  category: notice.data.category,
+  pinned: notice.data.pinned,
+}));
 ---
 
 <BaseLayout
@@ -76,79 +76,16 @@ const categoryColors: Record<string, { bg: string; text: string }> = {
   <PageHeader title={T.headerTitle} breadcrumb={T.breadcrumb} />
 
   <div class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-[40px]">
-    <!-- Notice List -->
-    <div class="overflow-hidden">
-      {paginatedNotices.map((notice) => {
-        const colors = categoryColors[notice.data.category] ?? categoryColors["일반"];
-        return (
-          <a
-            href={`${prefix}/notice/${notice.id.replace(/\.md$/, "")}`}
-            class="flex items-center gap-4 py-5 border-b border-border hover:bg-[#FAFAFA] px-2 -mx-2 rounded transition-colors group"
-          >
-            <div class="w-[90px] flex-shrink-0 text-[13px] text-muted">
-              {formatDate(notice.data.date)}
-            </div>
-
-            {notice.data.pinned && (
-              <div class="flex-shrink-0" title={T.pinnedTitle}>
-                <svg class="w-4 h-4 text-sal-terracotta" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9.828 3.414a2 2 0 012.828 0l1.93 1.93a2 2 0 010 2.828l-4.243 4.243a1 1 0 01-.707.293H7.414a1 1 0 01-.707-.293L5.293 11a1 1 0 010-1.414l4.243-4.243a1 1 0 01.293-.707V3.414z" />
-                  <path d="M6 15l-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" />
-                </svg>
-              </div>
-            )}
-
-            <div class="flex-1 min-w-0">
-              <p class="text-[14px] sm:text-[15px] font-semibold text-foreground group-hover:text-sal-terracotta transition-colors truncate">
-                {notice.data.pinned && (
-                  <span class="text-sal-terracotta font-bold mr-1">{T.pinnedTag}</span>
-                )}
-                {notice.data.title}
-              </p>
-            </div>
-
-            <span class={`flex-shrink-0 px-2.5 py-[3px] text-[11px] rounded-full whitespace-nowrap ${colors.bg} ${colors.text}`}>
-              {notice.data.category}
-            </span>
-          </a>
-        );
-      })}
-    </div>
-
-    {totalPages > 1 && (
-      <div class="flex items-center justify-center gap-1 mt-8">
-        <a
-          href={safePage > 1 ? `${prefix}/notice?page=${safePage - 1}` : "#"}
-          class:list={[
-            "w-8 h-8 flex items-center justify-center text-[14px] rounded-lg transition-colors",
-            safePage === 1 ? "text-[#E4E4E7] pointer-events-none" : "text-[#71717A] hover:text-[#18181B]",
-          ]}
-        >
-          &lt;
-        </a>
-        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-          <a
-            href={`${prefix}/notice?page=${page}`}
-            class:list={[
-              "w-8 h-8 flex items-center justify-center text-[13px] rounded-lg transition-colors",
-              page === safePage
-                ? "bg-sal-terracotta text-white"
-                : "text-[#71717A] hover:text-[#18181B] hover:bg-[#F5F5F5]",
-            ]}
-          >
-            {page}
-          </a>
-        ))}
-        <a
-          href={safePage < totalPages ? `${prefix}/notice?page=${safePage + 1}` : "#"}
-          class:list={[
-            "w-8 h-8 flex items-center justify-center text-[14px] rounded-lg transition-colors",
-            safePage === totalPages ? "text-[#E4E4E7] pointer-events-none" : "text-[#71717A] hover:text-[#18181B]",
-          ]}
-        >
-          &gt;
-        </a>
-      </div>
-    )}
+    <NoticeList
+      notices={notices}
+      labels={{
+        pinnedTitle: T.pinnedTitle,
+        pinnedTag: T.pinnedTag,
+        empty: T.empty,
+        searchPlaceholder: T.searchPlaceholder,
+      }}
+      prefix={prefix}
+      client:load
+    />
   </div>
 </BaseLayout>

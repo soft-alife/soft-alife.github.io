@@ -18,34 +18,51 @@ interface Props {
 }
 
 export default function ProjectFilter({ projects }: Props) {
-  const [activeTab, setActiveTab] = useState<"ongoing" | "completed">("ongoing");
+  const [activeTab, setActiveTab] = useState<"all" | "ongoing" | "completed">("all");
+  const [query, setQuery] = useState("");
 
-  const filtered = projects.filter((p) => p.status === activeTab);
+  const q = query.trim().toLowerCase();
+  const filtered = projects
+    .filter((p) => activeTab === "all" || p.status === activeTab)
+    .filter(
+      (p) =>
+        !q ||
+        [p.title, p.titleEn ?? "", p.funding, p.ministry, p.role, p.description, ...p.keywords]
+          .join(" ")
+          .toLowerCase()
+          .includes(q),
+    );
+
+  const tabs = [
+    { key: "all" as const, label: "전체" },
+    { key: "ongoing" as const, label: "진행중인 과제" },
+    { key: "completed" as const, label: "완료된 과제" },
+  ];
 
   return (
     <div>
-      {/* Tab Filter */}
-      <div className="flex gap-2 mb-8">
-        <button
-          onClick={() => setActiveTab("ongoing")}
-          className={`px-4 py-2 text-[13px] rounded-lg transition-colors ${
-            activeTab === "ongoing"
-              ? "bg-[#18181B] text-white"
-              : "border border-[#E4E4E7] text-[#0A0A0A] hover:bg-[#F5F5F5]"
-          }`}
-        >
-          진행중인 과제
-        </button>
-        <button
-          onClick={() => setActiveTab("completed")}
-          className={`px-4 py-2 text-[13px] rounded-lg transition-colors ${
-            activeTab === "completed"
-              ? "bg-[#18181B] text-white"
-              : "border border-[#E4E4E7] text-[#0A0A0A] hover:bg-[#F5F5F5]"
-          }`}
-        >
-          완료된 과제
-        </button>
+      {/* Tab Filter + Search */}
+      <div className="flex gap-2 mb-8 flex-wrap items-center">
+        {tabs.map((tab) => (
+          <button
+            key={tab.key}
+            onClick={() => setActiveTab(tab.key)}
+            className={`px-4 py-2 text-[13px] rounded-lg transition-colors ${
+              activeTab === tab.key
+                ? "bg-[#18181B] text-white"
+                : "border border-[#E4E4E7] text-[#0A0A0A] hover:bg-[#F5F5F5]"
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
+        <input
+          type="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="검색"
+          className="w-full sm:w-[240px] sm:ml-auto px-4 py-2 text-[13px] border border-[#E4E4E7] rounded-lg bg-white text-[#0A0A0A] placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#A1A1AA] transition-colors"
+        />
       </div>
 
       {/* Project Cards */}
