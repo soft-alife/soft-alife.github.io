@@ -1,40 +1,314 @@
+# 수행 프로젝트 (출처: 제주대_박승민교수_이력서(260528))
+#
+# funding: 지원기관 / ministry: 주무부처 (이력서 표 기준)
+# role: 2019년 이후 시작 과제는 연구책임자로 수행
+# status: "ongoing" (진행중) | "completed" (완료)
+
 projects:
-  - title: "예시 진행 과제 제목 1"
-    titleEn: "Example Ongoing Project Title 1"
+  - title: "CNMV를 활용한 AI최적화알고리즘 기반 해양탄소배출 예측 시스템"
+    titleEn: ""
     status: "ongoing"
-    period: "20XX-20XX"
-    funding: "예시 지원 기관"
+    period: "2025.09 - 2026.08"
+    funding: "한국산업기술진흥원(KIAT)"
+    ministry: "한국산업기술진흥원(KIAT)"
     role: "연구책임자"
     pi: "박승민"
-    keywords: ["예시", "키워드"]
-    description: "예시 과제 설명이 들어갑니다. 실제 과제 정보로 교체해 주세요."
+    keywords: ["AI 최적화", "해양탄소배출 예측"]
+    description: "지역혁신클러스터육성사업"
 
-  - title: "예시 진행 과제 제목 2"
-    titleEn: "Example Ongoing Project Title 2"
+  - title: "인간-로봇 상호작용을 위한 월드모델 기반 상황인지를 통한 다중 로봇 제어 시스템 연구"
+    titleEn: ""
     status: "ongoing"
-    period: "20XX-20XX"
-    funding: "예시 지원 기관"
-    role: "공동연구원"
-    pi: "박승민"
-    keywords: ["예시", "키워드"]
-    description: "예시 과제 설명이 들어갑니다. 실제 과제 정보로 교체해 주세요."
-
-  - title: "예시 완료 과제 제목 1"
-    titleEn: "Example Completed Project Title 1"
-    status: "completed"
-    period: "20XX-20XX"
-    funding: "예시 지원 기관"
+    period: "2025.08 - 2026.07"
+    funding: "교육부"
+    ministry: "교육부"
     role: "연구책임자"
     pi: "박승민"
-    keywords: ["예시", "키워드"]
-    description: "예시 과제 설명이 들어갑니다. 실제 과제 정보로 교체해 주세요."
+    keywords: ["월드모델", "다중 로봇 제어", "HRI"]
+    description: "글로컬대학30"
 
-  - title: "예시 완료 과제 제목 2"
-    titleEn: "Example Completed Project Title 2"
+  - title: "2025 지역대학연계 심화코딩 운영사업"
+    titleEn: ""
     status: "completed"
-    period: "20XX-20XX"
-    funding: "예시 지원 기관"
+    period: "2025.10 - 2025.12"
+    funding: "부산광역시교육청"
+    ministry: "부산광역시교육청"
     role: "연구책임자"
     pi: "박승민"
-    keywords: ["예시", "키워드"]
-    description: "예시 과제 설명이 들어갑니다. 실제 과제 정보로 교체해 주세요."
+    keywords: ["코딩 교육"]
+    description: "교육용역사업"
+
+  - title: "디지털트윈 기반 도시 재난 대응 통합 시뮬레이션 시스템 개발"
+    titleEn: ""
+    status: "completed"
+    period: "2025.04 - 2026.03"
+    funding: "교육부"
+    ministry: "교육부"
+    role: "연구책임자"
+    pi: "박승민"
+    keywords: ["디지털트윈", "재난 대응 시뮬레이션"]
+    description: "글로컬대학30"
+
+  - title: "2025 부산광역시 디지털역량강화 사업"
+    titleEn: ""
+    status: "completed"
+    period: "2025.03 - 2025.12"
+    funding: "한국지능정보사회진흥원(NIA)"
+    ministry: "과학기술정보통신부"
+    role: "연구책임자"
+    pi: "박승민"
+    keywords: ["디지털 역량 교육"]
+    description: "디지털 역량강화사업"
+
+  - title: "사격 실력 향상을 위한 메타버스 기반 딥러닝 훈련 시스템 개발"
+    titleEn: ""
+    status: "completed"
+    period: "2024.03 - 2024.11"
+    funding: "정보통신기획평가원(IITP)"
+    ministry: "정보통신기획평가원(IITP)"
+    role: "연구책임자"
+    pi: "박승민"
+    keywords: ["메타버스", "딥러닝"]
+    description: "SW중심대학사업"
+
+  - title: "인간-로봇 상호작용을 위한 휴먼케어 로봇 인공지능 기술 개발"
+    titleEn: ""
+    status: "completed"
+    period: "2023.06 - 2023.11"
+    funding: "부산테크노파크"
+    ministry: "부산테크노파크"
+    role: "연구책임자"
+    pi: "박승민"
+    keywords: ["휴먼케어 로봇", "HRI"]
+    description: "2023년 대학R&D 씨앗기획사업"
+
+  - title: "2023 부산광역시 디지털역량강화 사업"
+    titleEn: ""
+    status: "completed"
+    period: "2023.04 - 2023.12"
+    funding: "한국지능정보사회진흥원(NIA)"
+    ministry: "과학기술정보통신부"
+    role: "연구책임자"
+    pi: "박승민"
+    keywords: ["디지털 역량 교육"]
+    description: "디지털 역량강화사업"
+
+  - title: "빅데이터 기반 이력서 직무경험 수집 및 큐레이션 모델 개발"
+    titleEn: ""
+    status: "completed"
+    period: "2023.03 - 2023.11"
+    funding: "정보통신기획평가원(IITP)"
+    ministry: "정보통신기획평가원(IITP)"
+    role: "연구책임자"
+    pi: "박승민"
+    keywords: ["빅데이터", "큐레이션"]
+    description: "SW중심대학사업"
+
+  - title: "사용자 의도인식을 위한 거울 신경 체계 기반 뉴로-로보틱스 시스템 개발"
+    titleEn: ""
+    status: "completed"
+    period: "2022.03 - 2025.02"
+    funding: "한국연구재단"
+    ministry: "교육부"
+    role: "연구책임자"
+    pi: "박승민"
+    keywords: ["뉴로-로보틱스", "BCI", "의도인식"]
+    description: "이공분야기초연구사업"
+
+  - title: "소상공인 상생을 위한 개별 소유형 웹/앱 쇼핑몰 개발"
+    titleEn: ""
+    status: "completed"
+    period: "2022.04 - 2022.11"
+    funding: "부산산업과학혁신원(BISTEP)"
+    ministry: "부산산업과학혁신원(BISTEP)"
+    role: "연구책임자"
+    pi: "박승민"
+    keywords: ["웹/앱 개발"]
+    description: "시민참여형서비스 R&D 지원사업"
+
+  - title: "지능형 3차원 좌표 인식을 통한 홈 트레이닝 자세 인지 시스템"
+    titleEn: ""
+    status: "completed"
+    period: "2022.03 - 2022.11"
+    funding: "정보통신기획평가원(IITP)"
+    ministry: "정보통신기획평가원(IITP)"
+    role: "연구책임자"
+    pi: "박승민"
+    keywords: ["3D 좌표 인식", "자세 추정"]
+    description: "SW중심대학사업"
+
+  - title: "AI기술을 접목한 리얼타임 엔진 기반의 버츄얼 휴먼(아이돌)을 활용한 메타버스 실감 콘서트 프로젝트"
+    titleEn: ""
+    status: "completed"
+    period: "2021.06 - 2021.12"
+    funding: "한국콘텐츠진흥원"
+    ministry: "한국콘텐츠진흥원"
+    role: "연구책임자"
+    pi: "박승민"
+    keywords: ["메타버스", "버츄얼 휴먼"]
+    description: "인공지능 연계 콘텐츠 창의인재 양성사업"
+
+  - title: "Convolutional LSTM을 이용한 사거리 교통체증 예측 시스템에 관한 연구"
+    titleEn: ""
+    status: "completed"
+    period: "2021.06 - 2021.11"
+    funding: "한국과학창의재단"
+    ministry: "한국과학창의재단"
+    role: "연구책임자"
+    pi: "박승민"
+    keywords: ["ConvLSTM", "교통체증 예측"]
+    description: "학부생연구프로그램(URP) 지원사업"
+
+  - title: "교육콘텐츠 생성 및 인공지능 분석 툴 개발"
+    titleEn: ""
+    status: "completed"
+    period: "2021.03 - 2021.11"
+    funding: "정보통신기획평가원(IITP)"
+    ministry: "정보통신기획평가원(IITP)"
+    role: "연구책임자"
+    pi: "박승민"
+    keywords: ["교육콘텐츠", "AI 분석"]
+    description: "SW중심대학사업"
+
+  - title: "예약솔루션 기반 마이크로 인플루언서 매칭플랫폼 개발"
+    titleEn: ""
+    status: "completed"
+    period: "2020.07 - 2020.12"
+    funding: "한국연구재단"
+    ministry: "교육부"
+    role: "연구책임자"
+    pi: "박승민"
+    keywords: ["매칭 플랫폼"]
+    description: "LINC+ 육성사업"
+
+  - title: "뇌간 의사소통을 위한 뇌-컴퓨터 인터페이스 기반 휴먼증강 시스템 개발"
+    titleEn: ""
+    status: "completed"
+    period: "2019.06 - 2019.09"
+    funding: "한국연구재단"
+    ministry: "교육부"
+    role: "연구책임자"
+    pi: "박승민"
+    keywords: ["BCI", "휴먼증강"]
+    description: "이공분야기초연구사업"
+
+  - title: "멀티 스케일 뇌 운동 메커니즘 규명을 통한 고성능 BCI 시스템 개발"
+    titleEn: ""
+    status: "ongoing"
+    period: "2018.03 - 현재"
+    funding: "한국연구재단"
+    ministry: "과학기술정보통신부"
+    role: ""
+    pi: ""
+    keywords: ["BCI", "뇌 운동 메커니즘"]
+    description: "이공분야기초연구사업"
+
+  - title: "(RCMS) 신발갑피 열용융 접착재봉(Fuse Sewing) 공정용 로봇시스템 개발"
+    titleEn: ""
+    status: "completed"
+    period: "2016.09 - 2019.04"
+    funding: "산업통상자원부"
+    ministry: "산업통상자원부"
+    role: ""
+    pi: ""
+    keywords: ["로봇시스템", "공정 자동화"]
+    description: "산업핵심기술개발사업"
+
+  - title: "PC기반 지능형 생태 수질 감시 시스템 개발"
+    titleEn: ""
+    status: "completed"
+    period: "2012.06 - 2013.04"
+    funding: "중소기업청"
+    ministry: "중소기업청"
+    role: ""
+    pi: ""
+    keywords: ["수질 감시", "지능시스템"]
+    description: "산학연공동기술개발지원사업"
+
+  - title: "인터넷 기반의 녹색경관(분수, 생태연못 외) 통합제어시스템 개발"
+    titleEn: ""
+    status: "completed"
+    period: "2011.06 - 2012.05"
+    funding: "중소기업청"
+    ministry: "중소기업청"
+    role: ""
+    pi: ""
+    keywords: ["통합제어시스템"]
+    description: "산학연공동기술개발지원사업"
+
+  - title: "GPIB를 이용한 범용 인터페이스 시스템 개발"
+    titleEn: ""
+    status: "completed"
+    period: "2010.09 - 2011.08"
+    funding: "㈜심스텍"
+    ministry: ""
+    role: ""
+    pi: ""
+    keywords: ["GPIB", "인터페이스"]
+    description: "산업체연구용역사업"
+
+  - title: "음악적 표현 최적화를 위한 음원 분석 시스템 개발"
+    titleEn: ""
+    status: "completed"
+    period: "2010.09 - 2011.05"
+    funding: "㈜에스제이베스텍"
+    ministry: ""
+    role: ""
+    pi: ""
+    keywords: ["음원 분석"]
+    description: "산업체연구용역사업"
+
+  - title: "인간-로봇 상호작용 기반 멀티 모달 뉴로 로봇 프레임워크 개발"
+    titleEn: ""
+    status: "completed"
+    period: "2010.09 - 2013.05"
+    funding: "한국연구재단"
+    ministry: "교육부"
+    role: ""
+    pi: ""
+    keywords: ["뉴로 로봇", "HRI"]
+    description: "중견연구자지원사업(도약연구)"
+
+  - title: "건강한 정서 자아를 위한 지능형 분수 시스템 연구"
+    titleEn: ""
+    status: "completed"
+    period: "2010.06 - 2011.05"
+    funding: "중소기업청"
+    ministry: "중소기업청"
+    role: ""
+    pi: ""
+    keywords: ["지능형 분수 시스템"]
+    description: "산학연공동기술개발지원사업"
+
+  - title: "저전력 멀티미디어 기술 연구인력 양성사업팀"
+    titleEn: ""
+    status: "completed"
+    period: "2010.03 - 2013.02"
+    funding: "한국연구재단"
+    ministry: "교육부"
+    role: ""
+    pi: ""
+    keywords: ["연구인력 양성"]
+    description: "BK21"
+
+  - title: "센서융합기술 기반 정신장애자 정서메커니즘 규명 및 정서재활시스템 개발"
+    titleEn: ""
+    status: "completed"
+    period: "2010.03 - 2011.08"
+    funding: "한국연구재단"
+    ministry: "교육부"
+    role: ""
+    pi: ""
+    keywords: ["센서융합", "정서재활"]
+    description: "중견연구자지원사업(핵심연구)"
+
+  - title: "지능형 감시 로봇의 자기위치인식 및 최적경로추정 기술개발"
+    titleEn: ""
+    status: "completed"
+    period: "2010.03 - 2010.05"
+    funding: "중소기업청"
+    ministry: "중소기업청"
+    role: ""
+    pi: ""
+    keywords: ["자기위치인식", "경로추정"]
+    description: "산학연공동기술개발지원사업"

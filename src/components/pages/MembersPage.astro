@@ -26,7 +26,10 @@ const dict = {
     headerTitle: "Member",
     breadcrumb: "SAL > 연구실 소개 > 멤버",
     graduates: "대학원생",
-    undergrads: "학부 연구생",
+    phds: "박사",
+    phdStudents: "박사과정생",
+    msStudents: "석사과정생",
+    undergrads: "학부연구생",
     alumni: "졸업생",
   },
   en: {
@@ -35,6 +38,9 @@ const dict = {
     headerTitle: "Members",
     breadcrumb: "SAL > Members",
     graduates: "Graduate Students",
+    phds: "Ph.D. Researchers",
+    phdStudents: "Ph.D. Students",
+    msStudents: "M.S. Students",
     undergrads: "Undergraduate Researchers",
     alumni: "Alumni",
   },
@@ -42,7 +48,15 @@ const dict = {
 
 const T = dict[lang];
 
-const { graduates, undergrads, alumni } = partitionMembers(loadMembers());
+const { phds, phdStudents, msStudents, undergrads, alumni } =
+  partitionMembers(loadMembers());
+
+// 대학원생 하위 그룹 — 비어 있는 그룹은 표시하지 않는다.
+const gradGroups = [
+  { title: T.phds, members: phds },
+  { title: T.phdStudents, members: phdStudents },
+  { title: T.msStudents, members: msStudents },
+].filter((g) => g.members.length > 0);
 
 // English page uses nameEn when available; Korean uses name.
 const displayName = (m: Member) => (lang === "en" ? (m.nameEn || m.name) : m.name);
@@ -57,23 +71,28 @@ const displayName = (m: Member) => (lang === "en" ? (m.nameEn || m.name) : m.nam
   <PageHeader title={T.headerTitle} breadcrumb={T.breadcrumb} />
 
   <div class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-[40px]">
-    {graduates.length > 0 && (
+    {gradGroups.length > 0 && (
       <section>
         <h2 class="text-2xl font-bold text-foreground mb-4">{T.graduates}</h2>
         <div class="border-t border-border mb-6"></div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {graduates.map((member) => (
-            <MemberCard
-              name={displayName(member)}
-              role={member.role}
-              photo={member.photo}
-              research={member.research}
-              email={member.email}
-              github={member.github}
-              scholar={member.scholar}
-            />
-          ))}
-        </div>
+        {gradGroups.map((group) => (
+          <div class="mb-8 last:mb-0">
+            <h3 class="text-lg font-semibold text-foreground mb-4">{group.title}</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {group.members.map((member) => (
+                <MemberCard
+                  name={displayName(member)}
+                  role={member.role}
+                  photo={member.photo}
+                  research={member.research}
+                  email={member.email}
+                  github={member.github}
+                  scholar={member.scholar}
+                />
+              ))}
+            </div>
+          </div>
+        ))}
       </section>
     )}
 

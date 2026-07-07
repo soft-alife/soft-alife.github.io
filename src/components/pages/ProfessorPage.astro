@@ -5,13 +5,16 @@
  * The bio/education/career text is bilingual via `dict`. Education and
  * career are arrays of strings — to add or change a line, edit the array.
  *
- * Publications and projects are loaded from publications.yaml/projects.yaml
- * via the centralized loaders. Patents stay hardcoded as placeholder data.
+ * Publications (journals/conferences), patents, tech transfers, and awards
+ * are loaded from professor.yaml; projects from projects.yaml. Journal and
+ * conference lists are grouped (SCI/SCIE · SCOPUS · KCI, 탑티어 · 국제 · 국내)
+ * and rendered as collapsible sections via PublicationGroup.
  */
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PageHeader from "@/components/layout/PageHeader.astro";
 import Accordion from "@/components/ui/Accordion.tsx";
-import { loadPublications, loadProjects } from "@/lib/content";
+import PublicationGroup from "@/components/ui/PublicationGroup.tsx";
+import { loadProfessor, loadProjects } from "@/lib/content";
 
 interface Props {
   lang: "ko" | "en";
@@ -48,15 +51,43 @@ const dict = {
     career: [
       "제주대학교 컴퓨터공학과 부교수 (2026.03 ~ 현재)",
       "동서대학교 소프트웨어학과 조교수, 부교수 (2019.10 ~ 2026.02)",
+      "동서대학교 AX혁신센터 센터장 (2025.02 ~ 2026.02)",
+      "동서대학교 일반대학원 컴퓨터공학과 주임교수 (2023.09 ~ 2026.02)",
+      "동서대학교 AI+X융합연구센터 센터장 (2022.08 ~ 2026.02)",
+      "동서대학교 소프트웨어학과 학과장 (2021.06 ~ 2022.07)",
       "산업인공지능 표준화 포럼 운영위원 (2021.10 ~ 현재)",
       "한국지능시스템학회 총무이사 (2021.02 ~ 현재)",
       "한국컴퓨터정보학회 이사 (2020.03 ~ 현재)",
-      "중앙대학교 박사후연구원 (2019.03 ~ 2019.09)",
+      "중앙대학교 산학협력단 전임연구원 (2019.06 ~ 2019.09)",
     ],
     interestsHeading: "연구 관심 분야",
-    pubsHeading: "주요 논문",
+    pubsHeading: "연구 논문",
+    journalsHeading: "학술지",
+    conferencesHeading: "학술대회",
+    groupTop: "탑티어 컨퍼런스",
+    groupIntl: "국제학술대회",
+    groupDomestic: "국내학술대회",
+    tierTop: "탑티어",
+    tierIntl: "국제",
+    tierDomestic: "국내",
+    roleFirst: "제1저자",
+    roleCorresponding: "교신저자",
+    roleCo: "공동저자",
+    showAll: "전체 보기",
+    collapse: "접기",
+    groupAll: "전체",
+    fundingLabel: "지원기관",
+    ministryLabel: "주무부처",
     projectsHeading: "참여 과제",
     patentsHeading: "특허",
+    techHeading: "기술이전",
+    techBadge: "기술이전",
+    awardsHeading: "수상 경력",
+    statusRegistered: "등록",
+    statusFiled: "출원",
+    designPrefix: "디자인",
+    appLabel: "출원",
+    regLabel: "등록",
     researchItems: [
       {
         title: "지능시스템 (Intelligent Systems)",
@@ -79,11 +110,6 @@ const dict = {
           "진화연산, 메타휴리스틱, 물리정보신경망(PINN) 등 자연 기반 최적화 알고리즘 연구 및 응용",
       },
     ],
-    patents: [
-      { year: "20XX", title: "예시 특허 제목", number: "제 10-XXXXXXX호", status: "등록" },
-      { year: "20XX", title: "예시 특허 제목 2", number: "제 10-XXXXXXX호", status: "출원" },
-    ],
-    patentRegistered: "등록",
   },
   en: {
     pageTitle: "Professor | SAL Lab",
@@ -113,15 +139,43 @@ const dict = {
     career: [
       "Associate Professor, Dept. of Computer Engineering, Jeju National University (Mar. 2026 – Present)",
       "Assistant/Associate Professor, Dept. of Software, Dongseo University (Oct. 2019 – Feb. 2026)",
+      "Director, AX Innovation Center, Dongseo University (Feb. 2025 – Feb. 2026)",
+      "Head Professor, Dept. of Computer Engineering, Graduate School, Dongseo University (Sep. 2023 – Feb. 2026)",
+      "Director, AI+X Convergence Research Center, Dongseo University (Aug. 2022 – Feb. 2026)",
+      "Department Chair, Dept. of Software, Dongseo University (Jun. 2021 – Jul. 2022)",
       "Executive Committee Member, Industrial AI Standardization Forum (Oct. 2021 – Present)",
       "General Affairs Director, Korean Institute of Intelligent Systems (Feb. 2021 – Present)",
       "Director, Korea Association of Computer Information (Mar. 2020 – Present)",
-      "Postdoctoral Researcher, Chung-Ang University (Mar. 2019 – Sep. 2019)",
+      "Researcher, Industry-Academic Cooperation Foundation, Chung-Ang University (Jun. 2019 – Sep. 2019)",
     ],
     interestsHeading: "Research Interests",
-    pubsHeading: "Selected Publications",
+    pubsHeading: "Publications",
+    journalsHeading: "Journals",
+    conferencesHeading: "Conferences",
+    groupTop: "Top-tier Conferences",
+    groupIntl: "International Conferences",
+    groupDomestic: "Domestic Conferences",
+    tierTop: "Top-tier",
+    tierIntl: "International",
+    tierDomestic: "Domestic",
+    roleFirst: "First Author",
+    roleCorresponding: "Corresponding Author",
+    roleCo: "Co-author",
+    showAll: "Show All",
+    collapse: "Collapse",
+    groupAll: "All",
+    fundingLabel: "Funding Agency",
+    ministryLabel: "Ministry",
     projectsHeading: "Research Projects",
     patentsHeading: "Patents",
+    techHeading: "Technology Transfer",
+    techBadge: "Tech Transfer",
+    awardsHeading: "Awards & Honors",
+    statusRegistered: "Registered",
+    statusFiled: "Filed",
+    designPrefix: "Design",
+    appLabel: "Application",
+    regLabel: "Registration",
     researchItems: [
       {
         title: "Intelligent Systems",
@@ -144,36 +198,155 @@ const dict = {
           "Researching nature-inspired optimization algorithms such as evolutionary computation, metaheuristics, and physics-informed neural networks (PINN)",
       },
     ],
-    patents: [
-      { year: "20XX", title: "Example Patent Title", number: "No. 10-XXXXXXX", status: "Registered" },
-      { year: "20XX", title: "Example Patent Title 2", number: "No. 10-XXXXXXX", status: "Filed" },
-    ],
-    patentRegistered: "Registered",
   },
 } as const;
 
 const T = dict[lang];
 
-// Show all publications from publications.yaml (yaml order).
-const publications = loadPublications()
-  .map((p) => ({
-    type: p.type === "journal" ? "Journal" : "Conference",
-    title: p.title,
-    authors: p.authors.join(", "),
-    venue: p.venue,
-    year: p.year,
-  }));
+// ---------------------------------------------------------------------------
+// Professor achievements (professor.yaml) → collapsible publication groups
+// ---------------------------------------------------------------------------
+const professor = loadProfessor();
 
-// Show one ongoing + one completed sample from projects.yaml.
-const allProjects = loadProjects();
-const projects = [
-  ...allProjects.filter((p) => p.status === "ongoing").slice(0, 1),
-  ...allProjects.filter((p) => p.status === "completed").slice(0, 1),
-].map((p) => ({
-  period: p.period,
+// Badge styles reuse the page's existing pill colors.
+const badgeStyles = {
+  index: "bg-secondary text-secondary-foreground", // journal index (SCI 등)
+  tier: "bg-[#EFF6FF] text-[#1D4ED8]", // conference tier
+  role: "bg-[#F5F5F5] text-[#52525B]", // author role
+  note: "bg-[#FEF3C7] text-[#92400E]", // awards/notes
+} as const;
+
+const indexLabels = { sci: "SCI/SCIE", scopus: "SCOPUS", kci: "KCI" } as const;
+const tierLabels = {
+  top: T.tierTop,
+  international: T.tierIntl,
+  domestic: T.tierDomestic,
+} as const;
+const roleLabels = {
+  first: T.roleFirst,
+  corresponding: T.roleCorresponding,
+  co: T.roleCo,
+} as const;
+
+const byDateDesc = (a: { date: string }, b: { date: string }) =>
+  b.date.localeCompare(a.date);
+
+function journalItems(index: "sci" | "scopus" | "kci") {
+  return professor.journals
+    .filter((j) => j.index === index)
+    .sort(byDateDesc)
+    .map((j) => ({
+      badges: [
+        { label: indexLabels[j.index], className: badgeStyles.index },
+        ...(j.authorRole
+          ? [{ label: roleLabels[j.authorRole], className: badgeStyles.role }]
+          : []),
+        ...(j.note ? [{ label: j.note, className: badgeStyles.note }] : []),
+      ],
+      title: j.title,
+      meta: j.venue + (j.volume ? `, ${j.volume}` : ""),
+      sub: [
+        j.date,
+        j.impactFactor ? `IF ${j.impactFactor}` : "",
+        j.quartile,
+      ]
+        .filter(Boolean)
+        .join(" · "),
+    }));
+}
+
+function conferenceItems(tier: "top" | "international" | "domestic") {
+  return professor.conferences
+    .filter((c) => c.tier === tier)
+    .sort(byDateDesc)
+    .map((c) => ({
+      badges: [
+        { label: tierLabels[c.tier], className: badgeStyles.tier },
+        ...(c.authorRole
+          ? [{ label: roleLabels[c.authorRole], className: badgeStyles.role }]
+          : []),
+        ...(c.note ? [{ label: c.note, className: badgeStyles.note }] : []),
+      ],
+      title: c.title,
+      meta: c.venue + (c.volume ? `, ${c.volume}` : ""),
+      sub: c.date,
+    }));
+}
+
+const sciItems = journalItems("sci");
+const scopusItems = journalItems("scopus");
+const kciItems = journalItems("kci");
+const topItems = conferenceItems("top");
+const intlItems = conferenceItems("international");
+const domesticItems = conferenceItems("domestic");
+
+// Patents: newest application first.
+const patents = [...professor.patents].sort((a, b) =>
+  b.applicationDate.localeCompare(a.applicationDate),
+);
+
+function patentStatusLabel(p: (typeof patents)[number]) {
+  const base = p.status === "registered" ? T.statusRegistered : T.statusFiled;
+  return p.kind === "design" ? `${T.designPrefix} ${base}` : base;
+}
+
+function patentNumberLine(p: (typeof patents)[number]) {
+  const parts: string[] = [];
+  if (p.applicationNumber) {
+    parts.push(
+      `${T.appLabel} ${p.applicationNumber}` +
+        (p.applicationDate ? ` (${p.applicationDate})` : ""),
+    );
+  }
+  if (p.registrationNumber) {
+    parts.push(
+      `${T.regLabel} ${p.registrationNumber}` +
+        (p.registrationDate ? ` (${p.registrationDate})` : ""),
+    );
+  }
+  return parts.join(" · ");
+}
+
+// Patents rendered as one collapsible group (registered = green, filed = amber).
+const patentItems = patents.map((p) => ({
+  badges: [
+    {
+      label: patentStatusLabel(p),
+      className:
+        p.status === "registered"
+          ? "bg-[#D1FAE5] text-[#065F46]"
+          : "bg-[#FEF3C7] text-[#92400E]",
+    },
+    ...(p.note ? [{ label: p.note, className: badgeStyles.tier }] : []),
+  ],
+  title: p.title,
+  meta: patentNumberLine(p),
+  sub: "",
+}));
+
+const techTransfers = professor.techTransfers.map((tt) => ({
+  ...tt,
+  line:
+    lang === "ko"
+      ? `특허 제${tt.patentNumber}호 · ${tt.year}`
+      : `Patent No. ${tt.patentNumber} · ${tt.year}`,
+}));
+
+const awards = [...professor.awards].sort(byDateDesc);
+
+// All projects from projects.yaml (yaml order = newest first) as one
+// collapsible group. Meta line: 지원기관/주무부처 labels per language.
+const projectItems = loadProjects().map((p) => ({
+  badges: [
+    { label: p.period, className: badgeStyles.index },
+    ...(p.role ? [{ label: p.role, className: badgeStyles.role }] : []),
+  ],
   title: lang === "en" ? (p.titleEn || p.title) : p.title,
-  funding: p.funding,
-  description: p.description,
+  meta: [
+    `${T.fundingLabel} : ${p.funding}`,
+    ...(p.ministry ? [`${T.ministryLabel} : ${p.ministry}`] : []),
+  ].join(", "),
+  sub: p.description,
 }));
 ---
 
@@ -279,75 +452,130 @@ const projects = [
     <!-- Publications -->
     <section class="mb-[48px]">
       <h2 class="text-[20px] font-bold text-foreground mb-4">{T.pubsHeading}</h2>
-      <div class="space-y-4">
-        {publications.map((pub) => (
-          <div class="border border-border rounded-lg p-5">
-            <div class="flex items-start gap-3 mb-2">
-              <span
-                class={`inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill text-xs font-medium ${
-                  pub.type === "Journal"
-                    ? "bg-secondary text-secondary-foreground"
-                    : "bg-[#EFF6FF] text-[#1D4ED8]"
-                }`}
-              >
-                {pub.type}
-              </span>
-              <h3 class="text-lg font-semibold text-foreground leading-snug">
-                {pub.title}
-              </h3>
-            </div>
-            <p class="text-base text-muted mt-1">{pub.authors}</p>
-            <p class="text-sm text-muted-foreground">{pub.venue}, {pub.year}</p>
-          </div>
-        ))}
+
+      <!-- Journals: SCI/SCIE · SCOPUS · KCI -->
+      <div class="mb-8">
+        <h3 class="text-lg font-semibold text-foreground mb-2">{T.journalsHeading}</h3>
+        <PublicationGroup
+          title="SCI/SCIE"
+          items={sciItems}
+          defaultOpen={true}
+          showAllLabel={T.showAll}
+          collapseLabel={T.collapse}
+          client:load
+        />
+        <PublicationGroup
+          title="SCOPUS"
+          items={scopusItems}
+          defaultOpen={true}
+          showAllLabel={T.showAll}
+          collapseLabel={T.collapse}
+          client:load
+        />
+        <PublicationGroup
+          title="KCI"
+          items={kciItems}
+          defaultOpen={false}
+          showAllLabel={T.showAll}
+          collapseLabel={T.collapse}
+          client:load
+        />
+      </div>
+
+      <!-- Conferences: 탑티어 · 국제 · 국내 -->
+      <div>
+        <h3 class="text-lg font-semibold text-foreground mb-2">{T.conferencesHeading}</h3>
+        {topItems.length > 0 && (
+          <PublicationGroup
+            title={T.groupTop}
+            items={topItems}
+            defaultOpen={true}
+            showAllLabel={T.showAll}
+            collapseLabel={T.collapse}
+            client:load
+          />
+        )}
+        <PublicationGroup
+          title={T.groupIntl}
+          items={intlItems}
+          defaultOpen={true}
+          showAllLabel={T.showAll}
+          collapseLabel={T.collapse}
+          client:load
+        />
+        <PublicationGroup
+          title={T.groupDomestic}
+          items={domesticItems}
+          defaultOpen={false}
+          showAllLabel={T.showAll}
+          collapseLabel={T.collapse}
+          client:load
+        />
       </div>
     </section>
 
     <!-- Research Projects -->
     <section class="mb-[48px]">
       <h2 class="text-[20px] font-bold text-foreground mb-4">{T.projectsHeading}</h2>
-      <div class="space-y-4">
-        {projects.map((project) => (
-          <div class="border border-border rounded-lg p-5">
-            <div class="flex items-start gap-3 mb-2">
-              <span class="inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill bg-secondary text-secondary-foreground text-xs font-medium">
-                {project.period}
-              </span>
-              <h3 class="text-lg font-semibold text-foreground leading-snug">
-                {project.title}
-              </h3>
-            </div>
-            <p class="text-base text-muted mb-1 mt-1">{project.funding}</p>
-            <p class="text-sm text-muted-foreground">{project.description}</p>
-          </div>
-        ))}
-      </div>
+      <PublicationGroup
+        title={T.groupAll}
+        items={projectItems}
+        defaultOpen={true}
+        showAllLabel={T.showAll}
+        collapseLabel={T.collapse}
+        client:load
+      />
     </section>
 
     <!-- Patents -->
     <section class="mb-[48px]">
       <h2 class="text-[20px] font-bold text-foreground mb-4">{T.patentsHeading}</h2>
+      <PublicationGroup
+        title={T.groupAll}
+        items={patentItems}
+        defaultOpen={true}
+        showAllLabel={T.showAll}
+        collapseLabel={T.collapse}
+        client:load
+      />
+    </section>
+
+    <!-- Technology Transfer -->
+    <section class="mb-[48px]">
+      <h2 class="text-[20px] font-bold text-foreground mb-4">{T.techHeading}</h2>
       <div class="space-y-4">
-        {T.patents.map((patent) => (
+        {techTransfers.map((tt) => (
           <div class="border border-border rounded-lg p-5">
             <div class="flex items-start gap-3 mb-2">
-              <span class={`inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill text-xs font-medium ${
-                patent.status === T.patentRegistered
-                  ? "bg-[#D1FAE5] text-[#065F46]"
-                  : "bg-[#FEF3C7] text-[#92400E]"
-              }`}>
-                {patent.status}
+              <span class="inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill text-xs font-medium bg-[#EFF6FF] text-[#1D4ED8]">
+                {T.techBadge}
               </span>
               <h3 class="text-lg font-semibold text-foreground leading-snug">
-                {patent.title}
+                {tt.title}
               </h3>
             </div>
-            <p class="text-sm text-muted-foreground">
-              {patent.number} · {patent.year}
-            </p>
+            <p class="text-sm text-muted-foreground">{tt.line}</p>
           </div>
         ))}
       </div>
+    </section>
+
+    <!-- Awards -->
+    <section class="mb-[48px]">
+      <h2 class="text-[20px] font-bold text-foreground mb-4">{T.awardsHeading}</h2>
+      <ul class="space-y-1.5 text-base text-muted">
+        {awards.map((award) => (
+          <li class="flex items-start gap-2">
+            <span class="text-muted-foreground mt-1.5 shrink-0">•</span>
+            <span>
+              <span class="text-foreground font-medium">{award.date}</span>
+              {" — "}
+              {award.event} {award.award}
+              {award.note && ` (${award.note})`}
+            </span>
+          </li>
+        ))}
+      </ul>
     </section>
   </div>
 </BaseLayout>

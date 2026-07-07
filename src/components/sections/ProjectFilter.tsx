@@ -6,6 +6,7 @@ interface Project {
   status: "ongoing" | "completed";
   period: string;
   funding: string;
+  ministry: string;
   role: string;
   pi: string;
   keywords: string[];
@@ -75,9 +76,15 @@ export default function ProjectFilter({ projects }: Props) {
               {project.title}
             </h3>
 
-            {/* Funding + Role */}
+            {/* Funding + Ministry + Role */}
             <p className="text-[13px] text-[#71717A] mb-2">
-              {project.funding} · {project.role}
+              {[
+                project.funding ? `지원기관 : ${project.funding}` : "",
+                project.ministry ? `주무부처 : ${project.ministry}` : "",
+              ]
+                .filter(Boolean)
+                .join(", ")}
+              {project.role ? ` · ${project.role}` : ""}
             </p>
 
             {/* Description */}

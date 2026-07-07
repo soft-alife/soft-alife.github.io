@@ -80,13 +80,89 @@ export const ProjectSchema = z.object({
   titleEn: z.string().default(""),
   status: z.enum(["ongoing", "completed"]),
   period: z.string().min(1),
-  funding: z.string().default(""),
+  funding: z.string().default(""), // 지원기관
+  ministry: z.string().default(""), // 주무부처
   role: z.string().default(""),
   pi: z.string().default(""),
   keywords: z.array(z.string()).default([]),
   description: z.string().default(""),
 });
 export type Project = z.infer<typeof ProjectSchema>;
+
+// ---------------------------------------------------------------------------
+// Professor achievements (src/content/professor.yaml)
+//
+// Holds the professor's full publication/patent/award record shown on the
+// Professor page. Kept separate from publications.yaml (the lab-wide selected
+// publications list used by the Publications page).
+// ---------------------------------------------------------------------------
+
+// "first" = 제1저자, "corresponding" = 교신저자, "co" = 공동저자.
+// null = 이력서에 저자 구분이 없는 항목 (배지 미표시).
+const ProfessorAuthorRole = z
+  .enum(["first", "corresponding", "co"])
+  .nullable()
+  .default(null);
+
+export const ProfessorJournalSchema = z.object({
+  title: z.string().min(1),
+  venue: z.string().min(1),
+  volume: z.string().default(""), // 권/호/쪽 e.g. "Vol.20, No.3, pp.383-393"
+  date: z.string().min(1), // "YYYY.MM" — 최신순 정렬에 사용
+  index: z.enum(["sci", "scopus", "kci"]), // sci = SCI/SCIE
+  impactFactor: z.string().default(""), // e.g. "2.5"
+  quartile: z.string().default(""), // e.g. "Q2", "Q1 (상위 4.3%)"
+  authorRole: ProfessorAuthorRole,
+  note: z.string().default(""), // e.g. "표지논문 선정"
+});
+export type ProfessorJournal = z.infer<typeof ProfessorJournalSchema>;
+
+export const ProfessorConferenceSchema = z.object({
+  title: z.string().min(1),
+  venue: z.string().min(1),
+  volume: z.string().default(""),
+  date: z.string().min(1),
+  tier: z.enum(["top", "international", "domestic"]),
+  authorRole: ProfessorAuthorRole,
+  note: z.string().default(""), // e.g. "우수논문상", "Keynote 강연"
+});
+export type ProfessorConference = z.infer<typeof ProfessorConferenceSchema>;
+
+export const ProfessorPatentSchema = z.object({
+  title: z.string().min(1),
+  kind: z.enum(["patent", "design"]).default("patent"),
+  status: z.enum(["registered", "filed"]),
+  applicationDate: z.string().default(""),
+  applicationNumber: z.string().default(""),
+  registrationDate: z.string().default(""),
+  registrationNumber: z.string().default(""),
+  note: z.string().default(""), // e.g. "기술이전"
+});
+export type ProfessorPatent = z.infer<typeof ProfessorPatentSchema>;
+
+export const ProfessorAwardSchema = z.object({
+  date: z.string().min(1),
+  event: z.string().min(1), // 대회/기관명
+  award: z.string().min(1), // 수상내역
+  note: z.string().default(""),
+});
+export type ProfessorAward = z.infer<typeof ProfessorAwardSchema>;
+
+export const ProfessorTechTransferSchema = z.object({
+  title: z.string().min(1),
+  year: z.number().int(),
+  patentNumber: z.string().default(""),
+  description: z.string().default(""),
+});
+export type ProfessorTechTransfer = z.infer<typeof ProfessorTechTransferSchema>;
+
+export interface Professor {
+  journals: ProfessorJournal[];
+  conferences: ProfessorConference[];
+  patents: ProfessorPatent[];
+  awards: ProfessorAward[];
+  techTransfers: ProfessorTechTransfer[];
+}
 
 // ---------------------------------------------------------------------------
 // Loaders
@@ -142,6 +218,18 @@ export function loadProjects(): Project[] {
   return parseList(ProjectSchema, readYaml(file), "projects", file);
 }
 
+export function loadProfessor(): Professor {
+  const file = "src/content/professor.yaml";
+  const data = readYaml(file);
+  return {
+    journals: parseList(ProfessorJournalSchema, data, "journals", file),
+    conferences: parseList(ProfessorConferenceSchema, data, "conferences", file),
+    patents: parseList(ProfessorPatentSchema, data, "patents", file),
+    awards: parseList(ProfessorAwardSchema, data, "awards", file),
+    techTransfers: parseList(ProfessorTechTransferSchema, data, "techTransfers", file),
+  };
+}
+
 export function loadSite(): Site {
   const file = "src/content/site.yaml";
   const data = readYaml(file);
@@ -164,16 +252,18 @@ export function t(field: BilingualText, lang: "ko" | "en" = "ko"): string {
 // Convenience filters (used by multiple pages — keep behavior consistent)
 // ---------------------------------------------------------------------------
 
-const GRADUATE_ROLES = new Set([
-  "M.S. Student",
-  "Ph.D. Student",
-  "M.S./Ph.D. Integrated",
-]);
-
+// Members page grouping:
+//   대학원생 — 박사(Post-doc) / 박사과정생(Ph.D. + 석박통합) / 석사과정생(M.S.)
+//   학부연구생 / 졸업생
 export function partitionMembers(members: Member[]) {
+  const active = members.filter((m) => !m.graduated);
   return {
-    graduates: members.filter((m) => !m.graduated && GRADUATE_ROLES.has(m.role)),
-    undergrads: members.filter((m) => !m.graduated && m.role === "학부연구생"),
+    phds: active.filter((m) => m.role === "Post-doc"),
+    phdStudents: active.filter(
+      (m) => m.role === "Ph.D. Student" || m.role === "M.S./Ph.D. Integrated",
+    ),
+    msStudents: active.filter((m) => m.role === "M.S. Student"),
+    undergrads: active.filter((m) => m.role === "학부연구생"),
     alumni: members.filter((m) => m.graduated),
   };
 }

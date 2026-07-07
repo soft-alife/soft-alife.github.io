@@ -27,7 +27,8 @@
 | 무엇을 바꾸려고 할 때 | 어떤 파일을 수정 |
 | --- | --- |
 | 구성원(멤버) 추가/수정/졸업 처리 | `src/content/members.yaml` |
-| 논문 추가/수정 | `src/content/publications.yaml` |
+| 논문 추가/수정 (연구실 대표 논문) | `src/content/publications.yaml` |
+| 교수 실적 (논문/특허/기술이전/수상) 추가/수정 | `src/content/professor.yaml` |
 | 연구 과제 추가/수정 | `src/content/projects.yaml` |
 | 공지 추가 | `src/content/notices/YYYY-MM-DD-slug.md` 새 파일 생성 |
 | 세미나 추가 | `src/content/seminars/YYYY-MM-DD-slug.md` 새 파일 생성 |
@@ -97,7 +98,8 @@ projects:
     titleEn: "Project English Title"
     status: "ongoing"                    # "ongoing" 또는 "completed"
     period: "2025-2027"
-    funding: "한국연구재단"
+    funding: "한국연구재단"                # 지원기관
+    ministry: "교육부"                    # 주무부처 (없으면 "")
     role: "연구책임자"
     pi: "박승민"
     keywords: ["키워드1", "키워드2"]
@@ -118,6 +120,50 @@ pinned: false             # 상단 고정 여부
 
 본문은 마크다운으로 자유롭게 작성.
 ```
+
+### 5.8 교수 실적 (`src/content/professor.yaml`)
+
+교수 페이지에 표시되는 전체 실적. `publications.yaml`(연구실 대표 논문, 논문 페이지용)과는 별개입니다.
+
+```yaml
+journals:        # 학술지 논문
+  - title: "논문 제목"
+    venue: "학술지 이름"
+    volume: "Vol.10, No.3, pp.1-9"   # 없으면 생략 가능
+    date: "2024.06"                  # YYYY.MM — 최신순 정렬 기준
+    index: "sci"                     # "sci" (SCI/SCIE) | "scopus" | "kci"
+    impactFactor: "2.3"              # 없으면 생략
+    quartile: "Q1 (상위 4.3%)"        # 없으면 생략
+    authorRole: "corresponding"      # "first" | "corresponding" | "co", 모르면 생략
+    note: "표지논문 선정"              # 특이사항, 없으면 생략
+conferences:     # 학술대회 논문
+  - title: "..."
+    venue: "2024 한국지능시스템학회 춘계학술대회"
+    date: "2024.04"
+    tier: "domestic"                 # "top" (탑티어) | "international" | "domestic"
+    authorRole: "corresponding"
+    note: "우수논문상"
+patents:         # 특허
+  - title: "..."
+    kind: "patent"                   # "patent" | "design" (생략 시 patent)
+    status: "registered"             # "registered" (등록) | "filed" (출원)
+    applicationDate: "2020.11.10"
+    applicationNumber: "10-2020-0148992"
+    registrationDate: "2022.11.09"   # 등록된 경우만
+    registrationNumber: "10-2466957" # 등록된 경우만
+    note: "기술이전"                  # 특이사항
+techTransfers:   # 기술이전 (금액은 공개 사이트에 표시하지 않음)
+  - title: "..."
+    year: 2023
+    patentNumber: "10-2550317"
+awards:          # 수상 경력
+  - date: "2024.04.20"
+    event: "2024 한국지능시스템학회 춘계학술대회"
+    award: "우수논문상"
+    note: ""                         # 수여 번호 등
+```
+
+교수 페이지에서 SCI/SCIE·SCOPUS·국제학술대회는 펼침, KCI·국내학술대회는 접힘 상태로 시작하고, 각 그룹은 최근 5건만 먼저 보여줍니다 (자동 처리 — 데이터만 추가하면 됨).
 
 ### 5.7 페이지 표시 텍스트 (`src/components/pages/*Page.astro`)
 

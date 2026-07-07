@@ -1,7 +1,19 @@
 members:
+  - name: "최준호"
+    nameEn: "Junho Choi"
+    role: "M.S./Ph.D. Integrated"
+    photo: "/images/members/choi-junho.jpg"
+    research:
+      - "PINN (Physics-Informed Neural Network)"
+    email: "junho74589@gmail.com"
+    github: "https://github.com/Choi-jun-ho"
+    scholar: ""
+    startYear: 2025
+    graduated: false
+
   - name: "박민건"
     nameEn: "Mingeon Park"
-    role: "M.S. Student"
+    role: "M.S./Ph.D. Integrated"
     photo: "/images/members/park-mingeon.jpg"
     research:
       - "LLM Agent"
@@ -19,18 +31,6 @@ members:
     research:
       - "PINN (Physics-Informed Neural Network)"
     email: "sungkyun@jejunu.ac.kr"
-    github: ""
-    scholar: ""
-    startYear: 2025
-    graduated: false
-
-  - name: "최준호"
-    nameEn: "Junho Choi"
-    role: "M.S./Ph.D. Integrated"
-    photo: "/images/members/choi-junho.jpg"
-    research:
-      - "PINN (Physics-Informed Neural Network)"
-    email: "junho@jejunu.ac.kr"
     github: ""
     scholar: ""
     startYear: 2025
