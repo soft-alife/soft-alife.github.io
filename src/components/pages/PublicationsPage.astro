@@ -1,10 +1,17 @@
 ---
 /**
  * Publications page (shared between /publications and /en/publications).
+ *
+ * Three tabs: Journal Paper / News / Blog.
+ * - Journal Paper: professor.yaml에서 SCI/SCIE·SCOPUS 학술지와 탑티어
+ *   컨퍼런스(tier: "top")만 자동으로 가져온다. 별도 관리 불필요.
+ * - News/Blog: news.yaml / blog.yaml의 외부 링크 목록.
+ * Tab UI and card markup live in PublicationTabs.tsx.
  */
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PageHeader from "@/components/layout/PageHeader.astro";
-import { loadPublications } from "@/lib/content";
+import PublicationTabs from "@/components/sections/PublicationTabs";
+import { loadProfessor, loadNews, loadBlog } from "@/lib/content";
 
 interface Props {
   lang: "ko" | "en";
@@ -18,23 +25,81 @@ const dict = {
     metaDescription: "SAL 연구실 논문 및 출판물 목록",
     headerTitle: "Publications",
     breadcrumb: "SAL > 출판물",
-    journalsHeading: "Journal Papers",
-    conferencesHeading: "Conference Papers",
+    tabJournal: "Journal Paper",
+    tabNews: "News",
+    tabBlog: "Blog",
+    empty: "등록된 항목이 없습니다.",
+    visit: "원문 보기",
+    topTier: "탑티어",
   },
   en: {
     pageTitle: "Publications - SAL Laboratory",
     metaDescription: "SAL Laboratory Publications",
     headerTitle: "Publications",
     breadcrumb: "SAL > Publications",
-    journalsHeading: "Journal Papers",
-    conferencesHeading: "Conference Papers",
+    tabJournal: "Journal Paper",
+    tabNews: "News",
+    tabBlog: "Blog",
+    empty: "No items yet.",
+    visit: "View Original",
+    topTier: "Top-tier",
   },
 } as const;
 
 const T = dict[lang];
-const publications = loadPublications();
-const journals = publications.filter((p) => p.type === "journal");
-const conferences = publications.filter((p) => p.type === "conference");
+
+const byDateDesc = (a: { date: string }, b: { date: string }) =>
+  b.date.localeCompare(a.date);
+
+// Journal Paper 탭: SCI/SCIE·SCOPUS 학술지 + 탑티어 컨퍼런스만 (최신순).
+// 분류별 배지 색상: SCI/SCIE·탑티어 노랑, SCOPUS 연푸른색.
+const badgeClasses = {
+  sci: "bg-[#FEF3C7] text-[#92400E]",
+  scopus: "bg-[#EFF6FF] text-[#1D4ED8]",
+  top: "bg-[#FEF3C7] text-[#92400E]",
+} as const;
+
+const professor = loadProfessor();
+
+const journalPapers = professor.journals
+  .filter((j) => j.index === "sci" || j.index === "scopus")
+  .map((j) => ({
+    date: j.date,
+    badge: j.index === "sci" ? "SCI/SCIE" : "SCOPUS",
+    badgeClass: j.index === "sci" ? badgeClasses.sci : badgeClasses.scopus,
+    title: j.title,
+    venue: j.venue + (j.volume ? `, ${j.volume}` : ""),
+    sub: "",
+    subStrong: [j.impactFactor ? `IF ${j.impactFactor}` : "", j.quartile]
+      .filter(Boolean)
+      .join(" · "),
+  }));
+
+const topConferencePapers = professor.conferences
+  .filter((c) => c.tier === "top")
+  .map((c) => ({
+    date: c.date,
+    badge: T.topTier,
+    badgeClass: badgeClasses.top,
+    title: c.title,
+    venue: c.venue + (c.volume ? `, ${c.volume}` : ""),
+    sub: "",
+  }));
+
+const publications = [...journalPapers, ...topConferencePapers].sort(byDateDesc);
+
+const news = loadNews().sort(byDateDesc);
+
+// Blog author is shown on the same line News uses for its source.
+const blog = loadBlog()
+  .sort(byDateDesc)
+  .map((b) => ({
+    title: b.title,
+    date: b.date,
+    source: b.author,
+    link: b.link,
+    summary: b.summary,
+  }));
 ---
 
 <BaseLayout
@@ -46,92 +111,18 @@ const conferences = publications.filter((p) => p.type === "conference");
   <PageHeader title={T.headerTitle} breadcrumb={T.breadcrumb} />
 
   <div class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-[40px]">
-    {journals.length > 0 && (
-      <section class="mb-[48px]">
-        <h2 class="text-2xl font-bold text-foreground mb-4">{T.journalsHeading}</h2>
-        <div class="border-t border-border mb-6"></div>
-        <div class="space-y-4">
-          {journals.map((pub) => (
-            <div class="border border-border rounded-lg p-5">
-              <div class="flex items-start gap-3 mb-2">
-                <span class="inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill bg-secondary text-secondary-foreground text-xs font-medium">
-                  {pub.year}
-                </span>
-                <h3 class="text-[15px] font-semibold text-foreground leading-snug">
-                  {pub.title}
-                </h3>
-              </div>
-              <p class="text-base text-muted mt-1">{pub.authors.join(", ")}</p>
-              <p class="text-sm text-muted-foreground">{pub.venue}</p>
-              <div class="flex flex-wrap gap-1.5 mt-2">
-                {pub.tags.map((tag) => (
-                  <span class="inline-block px-2 py-[2px] text-[10px] bg-[#F5F5F5] text-[#52525B] rounded-full">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-              {(pub.doi || pub.pdf) && (
-                <div class="flex items-center gap-3 mt-3">
-                  {pub.doi && (
-                    <a href={pub.doi} target="_blank" rel="noopener noreferrer" class="text-[13px] text-sal-terracotta hover:underline">
-                      DOI
-                    </a>
-                  )}
-                  {pub.pdf && (
-                    <a href={pub.pdf} target="_blank" rel="noopener noreferrer" class="text-[13px] text-sal-terracotta hover:underline">
-                      PDF
-                    </a>
-                  )}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </section>
-    )}
-
-    {conferences.length > 0 && (
-      <section class="mb-[48px]">
-        <h2 class="text-2xl font-bold text-foreground mb-4">{T.conferencesHeading}</h2>
-        <div class="border-t border-border mb-6"></div>
-        <div class="space-y-4">
-          {conferences.map((pub) => (
-            <div class="border border-border rounded-lg p-5">
-              <div class="flex items-start gap-3 mb-2">
-                <span class="inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill bg-[#EFF6FF] text-[#1D4ED8] text-xs font-medium">
-                  {pub.year}
-                </span>
-                <h3 class="text-[15px] font-semibold text-foreground leading-snug">
-                  {pub.title}
-                </h3>
-              </div>
-              <p class="text-base text-muted mt-1">{pub.authors.join(", ")}</p>
-              <p class="text-sm text-muted-foreground">{pub.venue}</p>
-              <div class="flex flex-wrap gap-1.5 mt-2">
-                {pub.tags.map((tag) => (
-                  <span class="inline-block px-2 py-[2px] text-[10px] bg-[#F5F5F5] text-[#52525B] rounded-full">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-              {(pub.doi || pub.pdf) && (
-                <div class="flex items-center gap-3 mt-3">
-                  {pub.doi && (
-                    <a href={pub.doi} target="_blank" rel="noopener noreferrer" class="text-[13px] text-sal-terracotta hover:underline">
-                      DOI
-                    </a>
-                  )}
-                  {pub.pdf && (
-                    <a href={pub.pdf} target="_blank" rel="noopener noreferrer" class="text-[13px] text-sal-terracotta hover:underline">
-                      PDF
-                    </a>
-                  )}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </section>
-    )}
+    <PublicationTabs
+      publications={publications}
+      news={news}
+      blog={blog}
+      labels={{
+        journal: T.tabJournal,
+        news: T.tabNews,
+        blog: T.tabBlog,
+        empty: T.empty,
+        visit: T.visit,
+      }}
+      client:load
+    />
   </div>
 </BaseLayout>

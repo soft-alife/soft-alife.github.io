@@ -23,7 +23,8 @@ export interface PublicationItem {
   badges: Badge[];
   title: string;
   meta: string; // venue · volume
-  sub: string; // date · IF · quartile
+  sub: string; // date
+  subStrong?: string; // IF · quartile — 굵게 표시
 }
 
 interface Props {
@@ -73,7 +74,7 @@ export default function PublicationGroup({
         <div className="pb-5 space-y-4">
           {visible.map((item, index) => (
             <div key={index} className="border border-border rounded-lg p-5">
-              <div className="flex items-start gap-3 mb-2 flex-wrap">
+              <div className="flex items-center gap-2 mb-2 flex-wrap">
                 {item.badges.map((badge, i) => (
                   <span
                     key={i}
@@ -82,13 +83,21 @@ export default function PublicationGroup({
                     {badge.label}
                   </span>
                 ))}
-                <h3 className="text-lg font-semibold text-foreground leading-snug w-full sm:w-auto sm:flex-1">
-                  {item.title}
-                </h3>
               </div>
+              <h3 className="text-lg font-semibold text-foreground leading-snug mb-2">
+                {item.title}
+              </h3>
               <p className="text-base text-muted mt-1">{item.meta}</p>
-              {item.sub && (
-                <p className="text-sm text-muted-foreground">{item.sub}</p>
+              {(item.sub || item.subStrong) && (
+                <p className="text-sm text-muted-foreground">
+                  {item.sub}
+                  {item.sub && item.subStrong ? " · " : ""}
+                  {item.subStrong && (
+                    <span className="font-semibold text-foreground">
+                      {item.subStrong}
+                    </span>
+                  )}
+                </p>
               )}
             </div>
           ))}

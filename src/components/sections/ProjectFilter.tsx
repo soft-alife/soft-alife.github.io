@@ -69,6 +69,11 @@ export default function ProjectFilter({ projects }: Props) {
                   완료
                 </span>
               )}
+              {project.role && (
+                <span className="inline-block bg-[#FEF3C7] text-[#92400E] text-[11px] font-medium rounded-full px-2.5 py-[2px]">
+                  {project.role}
+                </span>
+              )}
             </div>
 
             {/* Title */}
@@ -76,7 +81,7 @@ export default function ProjectFilter({ projects }: Props) {
               {project.title}
             </h3>
 
-            {/* Funding + Ministry + Role */}
+            {/* Funding + Ministry */}
             <p className="text-[13px] text-[#71717A] mb-2">
               {[
                 project.funding ? `지원기관 : ${project.funding}` : "",
@@ -84,7 +89,6 @@ export default function ProjectFilter({ projects }: Props) {
               ]
                 .filter(Boolean)
                 .join(", ")}
-              {project.role ? ` · ${project.role}` : ""}
             </p>
 
             {/* Description */}

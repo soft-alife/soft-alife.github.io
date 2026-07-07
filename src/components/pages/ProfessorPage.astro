@@ -208,12 +208,40 @@ const T = dict[lang];
 // ---------------------------------------------------------------------------
 const professor = loadProfessor();
 
-// Badge styles reuse the page's existing pill colors.
+// 배지 색상 규칙:
+//   노랑 — SCI/SCIE, 탑티어 컨퍼런스, 국제 특허
+//   파랑 — 국제학술대회, 국내 특허 등록
+//   연푸른색 — SCOPUS
+//   회색 — KCI, 국내학술대회, 국내 특허 출원
+const badgeColors = {
+  yellow: "bg-[#FEF3C7] text-[#92400E]",
+  blue: "bg-[#DBEAFE] text-[#1E40AF]",
+  lightBlue: "bg-[#EFF6FF] text-[#1D4ED8]",
+  gray: "bg-[#F5F5F5] text-[#52525B]",
+} as const;
+
+const indexBadgeColors = {
+  sci: badgeColors.yellow,
+  scopus: badgeColors.lightBlue,
+  kci: badgeColors.gray,
+} as const;
+
+const tierBadgeColors = {
+  top: badgeColors.yellow,
+  international: badgeColors.blue,
+  domestic: badgeColors.gray,
+} as const;
+
+// 저자 구분: 제1저자 노랑 / 교신저자 파랑 / 공동저자 회색
+const roleBadgeColors = {
+  first: badgeColors.yellow,
+  corresponding: badgeColors.blue,
+  co: badgeColors.gray,
+} as const;
+
 const badgeStyles = {
-  index: "bg-secondary text-secondary-foreground", // journal index (SCI 등)
-  tier: "bg-[#EFF6FF] text-[#1D4ED8]", // conference tier
-  role: "bg-[#F5F5F5] text-[#52525B]", // author role
   note: "bg-[#FEF3C7] text-[#92400E]", // awards/notes
+  date: "bg-secondary text-secondary-foreground", // 날짜/기간 배지
 } as const;
 
 const indexLabels = { sci: "SCI/SCIE", scopus: "SCOPUS", kci: "KCI" } as const;
@@ -237,19 +265,17 @@ function journalItems(index: "sci" | "scopus" | "kci") {
     .sort(byDateDesc)
     .map((j) => ({
       badges: [
-        { label: indexLabels[j.index], className: badgeStyles.index },
+        { label: j.date, className: badgeStyles.date },
+        { label: indexLabels[j.index], className: indexBadgeColors[j.index] },
         ...(j.authorRole
-          ? [{ label: roleLabels[j.authorRole], className: badgeStyles.role }]
+          ? [{ label: roleLabels[j.authorRole], className: roleBadgeColors[j.authorRole] }]
           : []),
         ...(j.note ? [{ label: j.note, className: badgeStyles.note }] : []),
       ],
       title: j.title,
       meta: j.venue + (j.volume ? `, ${j.volume}` : ""),
-      sub: [
-        j.date,
-        j.impactFactor ? `IF ${j.impactFactor}` : "",
-        j.quartile,
-      ]
+      sub: "",
+      subStrong: [j.impactFactor ? `IF ${j.impactFactor}` : "", j.quartile]
         .filter(Boolean)
         .join(" · "),
     }));
@@ -261,15 +287,16 @@ function conferenceItems(tier: "top" | "international" | "domestic") {
     .sort(byDateDesc)
     .map((c) => ({
       badges: [
-        { label: tierLabels[c.tier], className: badgeStyles.tier },
+        { label: c.date, className: badgeStyles.date },
+        { label: tierLabels[c.tier], className: tierBadgeColors[c.tier] },
         ...(c.authorRole
-          ? [{ label: roleLabels[c.authorRole], className: badgeStyles.role }]
+          ? [{ label: roleLabels[c.authorRole], className: roleBadgeColors[c.authorRole] }]
           : []),
         ...(c.note ? [{ label: c.note, className: badgeStyles.note }] : []),
       ],
       title: c.title,
       meta: c.venue + (c.volume ? `, ${c.volume}` : ""),
-      sub: c.date,
+      sub: "",
     }));
 }
 
@@ -307,39 +334,62 @@ function patentNumberLine(p: (typeof patents)[number]) {
   return parts.join(" · ");
 }
 
-// Patents rendered as one collapsible group (registered = green, filed = amber).
+// Patents rendered as one collapsible group.
+// 색상: 국제 특허 노랑 / 국내 등록 파랑 / 국내 출원 회색.
 const patentItems = patents.map((p) => ({
   badges: [
     {
+      label: p.registrationDate || p.applicationDate,
+      className: badgeStyles.date,
+    },
+    {
       label: patentStatusLabel(p),
       className:
-        p.status === "registered"
-          ? "bg-[#D1FAE5] text-[#065F46]"
-          : "bg-[#FEF3C7] text-[#92400E]",
+        p.country === "international"
+          ? badgeColors.yellow
+          : p.status === "registered"
+            ? badgeColors.blue
+            : badgeColors.gray,
     },
-    ...(p.note ? [{ label: p.note, className: badgeStyles.tier }] : []),
+    ...(p.note ? [{ label: p.note, className: badgeColors.lightBlue }] : []),
   ],
   title: p.title,
   meta: patentNumberLine(p),
   sub: "",
 }));
 
-const techTransfers = professor.techTransfers.map((tt) => ({
-  ...tt,
-  line:
+// Tech transfers rendered as one collapsible group (금액은 표시하지 않음).
+const techTransferItems = professor.techTransfers.map((tt) => ({
+  badges: [
+    { label: String(tt.year), className: badgeStyles.date },
+    { label: T.techBadge, className: badgeColors.lightBlue },
+  ],
+  title: tt.title,
+  meta:
     lang === "ko"
-      ? `특허 제${tt.patentNumber}호 · ${tt.year}`
-      : `Patent No. ${tt.patentNumber} · ${tt.year}`,
+      ? `특허 제${tt.patentNumber}호`
+      : `Patent No. ${tt.patentNumber}`,
+  sub: "",
 }));
 
-const awards = [...professor.awards].sort(byDateDesc);
+// Awards rendered as one collapsible group (날짜 배지 + 수상명 배지 + 대회/기관명).
+const awardItems = [...professor.awards].sort(byDateDesc).map((a) => ({
+  badges: [
+    { label: a.date, className: badgeStyles.date },
+    { label: a.award, className: badgeStyles.note },
+  ],
+  title: a.event,
+  meta: a.note,
+  sub: "",
+}));
 
 // All projects from projects.yaml (yaml order = newest first) as one
 // collapsible group. Meta line: 지원기관/주무부처 labels per language.
 const projectItems = loadProjects().map((p) => ({
   badges: [
-    { label: p.period, className: badgeStyles.index },
-    ...(p.role ? [{ label: p.role, className: badgeStyles.role }] : []),
+    { label: p.period, className: badgeStyles.date },
+    // 연구책임자는 노란색 배지
+    ...(p.role ? [{ label: p.role, className: badgeColors.yellow }] : []),
   ],
   title: lang === "en" ? (p.titleEn || p.title) : p.title,
   meta: [
@@ -378,7 +428,7 @@ const projectItems = loadProjects().map((p) => ({
         <div class="flex items-center gap-3 mb-3">
           <h2 class="text-[24px] font-bold text-foreground">{T.name}</h2>
           <span
-            class="inline-flex items-center px-2 py-0.5 rounded-pill bg-secondary text-secondary-foreground text-sm font-medium"
+            class="inline-flex items-center px-2 py-0.5 rounded-pill bg-[#DBEAFE] text-[#1E40AF] text-sm font-medium"
           >
             {T.rankBadge}
           </span>
@@ -543,39 +593,27 @@ const projectItems = loadProjects().map((p) => ({
     <!-- Technology Transfer -->
     <section class="mb-[48px]">
       <h2 class="text-[20px] font-bold text-foreground mb-4">{T.techHeading}</h2>
-      <div class="space-y-4">
-        {techTransfers.map((tt) => (
-          <div class="border border-border rounded-lg p-5">
-            <div class="flex items-start gap-3 mb-2">
-              <span class="inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill text-xs font-medium bg-[#EFF6FF] text-[#1D4ED8]">
-                {T.techBadge}
-              </span>
-              <h3 class="text-lg font-semibold text-foreground leading-snug">
-                {tt.title}
-              </h3>
-            </div>
-            <p class="text-sm text-muted-foreground">{tt.line}</p>
-          </div>
-        ))}
-      </div>
+      <PublicationGroup
+        title={T.groupAll}
+        items={techTransferItems}
+        defaultOpen={true}
+        showAllLabel={T.showAll}
+        collapseLabel={T.collapse}
+        client:load
+      />
     </section>
 
     <!-- Awards -->
     <section class="mb-[48px]">
       <h2 class="text-[20px] font-bold text-foreground mb-4">{T.awardsHeading}</h2>
-      <ul class="space-y-1.5 text-base text-muted">
-        {awards.map((award) => (
-          <li class="flex items-start gap-2">
-            <span class="text-muted-foreground mt-1.5 shrink-0">•</span>
-            <span>
-              <span class="text-foreground font-medium">{award.date}</span>
-              {" — "}
-              {award.event} {award.award}
-              {award.note && ` (${award.note})`}
-            </span>
-          </li>
-        ))}
-      </ul>
+      <PublicationGroup
+        title={T.groupAll}
+        items={awardItems}
+        defaultOpen={true}
+        showAllLabel={T.showAll}
+        collapseLabel={T.collapse}
+        client:load
+      />
     </section>
   </div>
 </BaseLayout>

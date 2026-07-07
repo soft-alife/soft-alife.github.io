@@ -27,7 +27,9 @@
 | 무엇을 바꾸려고 할 때 | 어떤 파일을 수정 |
 | --- | --- |
 | 구성원(멤버) 추가/수정/졸업 처리 | `src/content/members.yaml` |
-| 논문 추가/수정 (연구실 대표 논문) | `src/content/publications.yaml` |
+| 논문 추가/수정 | `src/content/professor.yaml` (Publications 페이지 Journal Paper 탭은 여기의 SCI/SCIE·SCOPUS 학술지 + 탑티어 컨퍼런스에서 자동 생성) |
+| 기사(News 탭) 추가/수정 | `src/content/news.yaml` |
+| 블로그 글(Blog 탭) 추가/수정 | `src/content/blog.yaml` |
 | 교수 실적 (논문/특허/기술이전/수상) 추가/수정 | `src/content/professor.yaml` |
 | 연구 과제 추가/수정 | `src/content/projects.yaml` |
 | 공지 추가 | `src/content/notices/YYYY-MM-DD-slug.md` 새 파일 생성 |
@@ -121,6 +123,28 @@ pinned: false             # 상단 고정 여부
 본문은 마크다운으로 자유롭게 작성.
 ```
 
+### 5.9 기사/블로그 (`src/content/news.yaml`, `src/content/blog.yaml`)
+
+Publications 페이지의 News / Blog 탭에 표시되는 외부 링크 목록. 최신순 자동 정렬.
+
+```yaml
+# news.yaml
+news:
+  - title: "기사 제목"
+    date: "2026.07.08"      # YYYY.MM.DD
+    source: "언론사 이름"    # 없으면 ""
+    link: "https://..."     # 기사 원문 주소 (클릭 시 새 탭)
+    summary: "한 줄 요약"    # 없으면 ""
+
+# blog.yaml
+blog:
+  - title: "글 제목"
+    date: "2026.07.08"
+    author: "작성자 이름"    # 없으면 ""
+    link: "https://..."
+    summary: "한 줄 요약"
+```
+
 ### 5.8 교수 실적 (`src/content/professor.yaml`)
 
 교수 페이지에 표시되는 전체 실적. `publications.yaml`(연구실 대표 논문, 논문 페이지용)과는 별개입니다.
@@ -146,6 +170,7 @@ conferences:     # 학술대회 논문
 patents:         # 특허
   - title: "..."
     kind: "patent"                   # "patent" | "design" (생략 시 patent)
+    country: "domestic"              # "domestic" (국내) | "international" (국제), 생략 시 domestic
     status: "registered"             # "registered" (등록) | "filed" (출원)
     applicationDate: "2020.11.10"
     applicationNumber: "10-2020-0148992"

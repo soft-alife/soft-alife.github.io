@@ -90,6 +90,30 @@ export const ProjectSchema = z.object({
 export type Project = z.infer<typeof ProjectSchema>;
 
 // ---------------------------------------------------------------------------
+// News / Blog (Publications 페이지 탭)
+//
+// 외부 링크 목록. link가 있으면 목록에서 원문/글로 바로 이동한다.
+// ---------------------------------------------------------------------------
+
+export const NewsItemSchema = z.object({
+  title: z.string().min(1),
+  date: z.string().min(1), // "YYYY.MM.DD" — 최신순 정렬에 사용
+  source: z.string().default(""), // 언론사/출처
+  link: z.string().default(""), // 기사 원문 URL
+  summary: z.string().default(""),
+});
+export type NewsItem = z.infer<typeof NewsItemSchema>;
+
+export const BlogPostSchema = z.object({
+  title: z.string().min(1),
+  date: z.string().min(1), // "YYYY.MM.DD"
+  author: z.string().default(""), // 작성자
+  link: z.string().default(""), // 블로그 글 URL
+  summary: z.string().default(""),
+});
+export type BlogPost = z.infer<typeof BlogPostSchema>;
+
+// ---------------------------------------------------------------------------
 // Professor achievements (src/content/professor.yaml)
 //
 // Holds the professor's full publication/patent/award record shown on the
@@ -131,6 +155,7 @@ export type ProfessorConference = z.infer<typeof ProfessorConferenceSchema>;
 export const ProfessorPatentSchema = z.object({
   title: z.string().min(1),
   kind: z.enum(["patent", "design"]).default("patent"),
+  country: z.enum(["domestic", "international"]).default("domestic"), // 국제 특허면 "international"
   status: z.enum(["registered", "filed"]),
   applicationDate: z.string().default(""),
   applicationNumber: z.string().default(""),
@@ -216,6 +241,16 @@ export function loadPublications(): Publication[] {
 export function loadProjects(): Project[] {
   const file = "src/content/projects.yaml";
   return parseList(ProjectSchema, readYaml(file), "projects", file);
+}
+
+export function loadNews(): NewsItem[] {
+  const file = "src/content/news.yaml";
+  return parseList(NewsItemSchema, readYaml(file), "news", file);
+}
+
+export function loadBlog(): BlogPost[] {
+  const file = "src/content/blog.yaml";
+  return parseList(BlogPostSchema, readYaml(file), "blog", file);
 }
 
 export function loadProfessor(): Professor {
