@@ -10,6 +10,17 @@ members:
     scholar: ''
     startYear: 2026
     graduated: false
+  - name: 최준호
+    nameEn: Junho Choi
+    role: M.S./Ph.D. Integrated
+    photo: /images/members/choi-junho.jpg
+    research:
+      - Physics AI, Co-evolutionary Algorithm
+    email: junho74589@gmail.com
+    github: https://github.com/Choi-jun-ho
+    scholar: ''
+    startYear: 2025
+    graduated: false
   - name: 박민건
     nameEn: Mingeon Park
     role: M.S./Ph.D. Integrated
@@ -30,17 +41,6 @@ members:
       - PINN (Physics-Informed Neural Network)
     email: sungkyun@jejunu.ac.kr
     github: ''
-    scholar: ''
-    startYear: 2025
-    graduated: false
-  - name: 최준호
-    nameEn: Junho Choi
-    role: M.S./Ph.D. Integrated
-    photo: /images/members/choi-junho.jpg
-    research:
-      - Physics AI, Co-evolutionary Algorithm
-    email: junho74589@gmail.com
-    github: https://github.com/Choi-jun-ho
     scholar: ''
     startYear: 2025
     graduated: false
