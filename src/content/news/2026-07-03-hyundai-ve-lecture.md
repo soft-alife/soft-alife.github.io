@@ -24,13 +24,7 @@ SAL(Soft Artificial Life) 연구실이 7월 1일부터 3일까지 서울대학�
 
 ![교육시간표 — 버추얼 엔지니어링 개론 및 해석기술 기초 1차 (3일, 총 20시간)](/images/uploads/2026-07-hyundai-ve-curriculum.jpg)
 
-## 강의 자료
-
-연구실이 직접 제작한 실습 중심의 강의 자료로 진행됐다. 몇 시간짜리 시뮬레이션을 밀리초 단위 예측으로 바꾸는 AI 서로게이트 모델 실습(최준호 연구원), Surrogate Model·Generative AI·VE+AI 워크플로우 실습(박민건 연구원) 등 연구실의 연구 성과가 교육 과정에 그대로 반영됐다.
-
-![강의 자료 — AI 서로게이트 모델 설계 실습 (최준호 연구원)](/images/uploads/2026-07-hyundai-ve-slide-surrogate.jpg)
-
-![강의 자료 — VE를 가속하는 AI 워크플로우 (박민건 연구원)](/images/uploads/2026-07-hyundai-ve-slide-workflow.jpg)
+## 
 
 ## 강의 현장
 
