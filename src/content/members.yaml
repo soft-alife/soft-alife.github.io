@@ -15,7 +15,8 @@ members:
     role: M.S./Ph.D. Integrated
     photo: /images/members/choi-junho.jpg
     research:
-      - Physics AI, Co-evolutionary Algorithm
+      - Physics AI
+      - Co-evolutionary Algorithm
     email: junho74589@gmail.com
     github: https://github.com/Choi-jun-ho
     scholar: ''
