@@ -36,6 +36,7 @@
 | 세미나 추가 | `src/content/seminars/YYYY-MM-DD-slug.md` 새 파일 생성 |
 | 멤버/교수 사진 | `public/images/members/`, `public/images/professor/` |
 | 홈 채용 배너 문구/링크 (이중 언어) | `src/content/site.yaml` |
+| CMS 관리자 페이지 설정 (필드/컬렉션) | `public/admin/config.yml` (로그인 설정은 [`docs/CMS-SETUP.md`](./docs/CMS-SETUP.md)) |
 
 이 표에 없는 파일은 4절을 다시 확인하세요.
 

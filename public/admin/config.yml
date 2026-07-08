@@ -1,0 +1,101 @@
+# SAL Lab CMS 설정 (Sveltia CMS)
+#
+# 접속: https://soft-alife.github.io/admin
+# 로그인이 동작하려면 아래 base_url을 Cloudflare Workers에 배포한
+# sveltia-cms-auth 주소로 교체해야 합니다. 절차: docs/CMS-SETUP.md
+
+backend:
+  name: github
+  repo: soft-alife/soft-alife.github.io
+  branch: main
+  base_url: https://sveltia-cms-auth.jnusal-admin.workers.dev
+
+media_folder: public/images/uploads
+public_folder: /images/uploads
+
+slug:
+  encoding: unicode
+  clean_accents: false
+
+collections:
+  - name: news
+    label: "News (기사)"
+    label_singular: "기사"
+    folder: src/content/news
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "제목", name: title, widget: string }
+      - { label: "날짜", name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "언론사/출처 (직접 쓴 글이면 비움)", name: source, widget: string, required: false, default: "" }
+      - { label: "외부 기사 링크 (직접 쓴 글이면 비움)", name: link, widget: string, required: false, default: "" }
+      - { label: "한 줄 요약", name: summary, widget: string, required: false, default: "" }
+      - { label: "본문 (직접 쓴 글일 때 작성)", name: body, widget: markdown, required: false }
+
+  - name: notices
+    label: "공지사항"
+    label_singular: "공지"
+    folder: src/content/notices
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "제목", name: title, widget: string }
+      - { label: "날짜", name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "카테고리", name: category, widget: select, options: ["모집", "일반", "학술", "행사"] }
+      - { label: "상단 고정", name: pinned, widget: boolean, default: false }
+      - { label: "본문", name: body, widget: markdown }
+
+  - name: seminars
+    label: "세미나"
+    label_singular: "세미나"
+    folder: src/content/seminars
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "제목", name: title, widget: string }
+      - { label: "날짜", name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "발표자", name: presenter, widget: string }
+      - { label: "소속", name: affiliation, widget: string, required: false, default: "" }
+      - { label: "카테고리", name: category, widget: select, options: ["지능시스템", "인공생명", "기계학습", "최적화 이론", "기타"] }
+      - { label: "태그", name: tags, widget: list, required: false, default: [] }
+      - { label: "발표자료 PDF 경로", name: pdf, widget: string, required: false, default: "" }
+      - { label: "슬라이드 경로", name: slides, widget: string, required: false, default: "" }
+      - { label: "한 줄 요약", name: summary, widget: string, required: false, default: "" }
+      - { label: "본문", name: body, widget: markdown, required: false }
+
+  - name: blog
+    label: "Blog"
+    label_singular: "블로그 글"
+    folder: src/content/blog
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "제목", name: title, widget: string }
+      - { label: "날짜", name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "작성자", name: author, widget: string, required: false, default: "" }
+      - { label: "외부 글 링크 (직접 쓴 글이면 비움)", name: link, widget: string, required: false, default: "" }
+      - { label: "한 줄 요약", name: summary, widget: string, required: false, default: "" }
+      - { label: "본문 (직접 쓴 글일 때 작성)", name: body, widget: markdown, required: false }
+
+  - name: people
+    label: "멤버"
+    files:
+      - name: members
+        label: "멤버 목록"
+        file: src/content/members.yaml
+        fields:
+          - label: "멤버"
+            name: members
+            widget: list
+            summary: "{{fields.name}} ({{fields.role}})"
+            fields:
+              - { label: "이름 (한글)", name: name, widget: string }
+              - { label: "이름 (영문)", name: nameEn, widget: string }
+              - { label: "구분", name: role, widget: select, options: ["M.S. Student", "Ph.D. Student", "M.S./Ph.D. Integrated", "학부연구생", "Post-doc"] }
+              - { label: "사진", name: photo, widget: image, required: false, default: "", media_folder: /public/images/members, public_folder: /images/members }
+              - { label: "연구 키워드", name: research, widget: list, required: false, default: [] }
+              - { label: "이메일", name: email, widget: string, required: false, default: "" }
+              - { label: "GitHub 주소", name: github, widget: string, required: false, default: "" }
+              - { label: "Google Scholar 주소", name: scholar, widget: string, required: false, default: "" }
+              - { label: "입학 연도", name: startYear, widget: number, value_type: int }
+              - { label: "졸업 여부", name: graduated, widget: boolean, default: false }
