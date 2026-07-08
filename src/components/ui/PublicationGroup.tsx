@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ExternalLink } from "lucide-react";
 
 /**
  * Collapsible publication group for the Professor page.
@@ -25,6 +25,7 @@ export interface PublicationItem {
   meta: string; // venue · volume
   sub: string; // date
   subStrong?: string; // IF · quartile — 굵게 표시
+  link?: string; // 있으면 카드 클릭 시 새 탭으로 이동 (예: DOI 주소)
 }
 
 interface Props {
@@ -72,35 +73,68 @@ export default function PublicationGroup({
 
       {open && (
         <div className="pb-5 space-y-4">
-          {visible.map((item, index) => (
-            <div key={index} className="border border-border rounded-lg p-5">
-              <div className="flex items-center gap-2 mb-2 flex-wrap">
-                {item.badges.map((badge, i) => (
-                  <span
-                    key={i}
-                    className={`inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill text-xs font-medium ${badge.className}`}
-                  >
-                    {badge.label}
-                  </span>
-                ))}
-              </div>
-              <h3 className="text-lg font-semibold text-foreground leading-snug mb-2">
-                {item.title}
-              </h3>
-              <p className="text-base text-muted mt-1">{item.meta}</p>
-              {(item.sub || item.subStrong) && (
-                <p className="text-sm text-muted-foreground">
-                  {item.sub}
-                  {item.sub && item.subStrong ? " · " : ""}
-                  {item.subStrong && (
-                    <span className="font-semibold text-foreground">
-                      {item.subStrong}
+          {visible.map((item, index) => {
+            const content = (
+              <>
+                <div className="flex items-center gap-2 mb-2 flex-wrap">
+                  {item.badges.map((badge, i) => (
+                    <span
+                      key={i}
+                      className={`inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill text-xs font-medium ${badge.className}`}
+                    >
+                      {badge.label}
                     </span>
-                  )}
-                </p>
-              )}
-            </div>
-          ))}
+                  ))}
+                </div>
+                <h3 className="text-lg font-semibold text-foreground leading-snug mb-2">
+                  {item.title}
+                </h3>
+                <p className="text-base text-muted mt-1">{item.meta}</p>
+                {(item.sub || item.subStrong) && (
+                  <p className="text-sm text-muted-foreground">
+                    {item.sub}
+                    {item.sub && item.subStrong ? " · " : ""}
+                    {item.subStrong && (
+                      <span className="font-semibold text-foreground">
+                        {item.subStrong}
+                      </span>
+                    )}
+                  </p>
+                )}
+                {item.link && (
+                  <div className="flex justify-end mt-2">
+                    <ExternalLink size={14} className="text-[#A1A1AA]" />
+                  </div>
+                )}
+              </>
+            );
+
+            // 링크 카드는 <a> 대신 클릭 핸들러를 써서 텍스트 드래그 선택을
+            // 허용한다 (텍스트를 선택 중이면 클릭해도 이동하지 않음).
+            return item.link ? (
+              <div
+                key={index}
+                role="link"
+                tabIndex={0}
+                onClick={() => {
+                  if (window.getSelection()?.toString()) return;
+                  window.open(item.link, "_blank", "noopener,noreferrer");
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    window.open(item.link, "_blank", "noopener,noreferrer");
+                  }
+                }}
+                className="border border-border rounded-lg p-5 hover:bg-[#FAFAFA] transition-colors cursor-pointer"
+              >
+                {content}
+              </div>
+            ) : (
+              <div key={index} className="border border-border rounded-lg p-5">
+                {content}
+              </div>
+            );
+          })}
 
           {hasMore && (
             <div className="flex justify-center pt-1">

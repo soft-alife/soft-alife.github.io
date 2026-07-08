@@ -1,0 +1,108 @@
+---
+/**
+ * News/Blog 직접 작성 글 상세 페이지 (shared between ko/en, news/blog).
+ *
+ * Publications 페이지의 News/Blog 탭에서 link가 없는(직접 작성) 글을
+ * 클릭하면 이 페이지로 들어온다. Layout mirrors NoticeDetailPage.
+ */
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { render, type CollectionEntry } from "astro:content";
+
+interface Props {
+  lang: "ko" | "en";
+  entry: CollectionEntry<"news"> | CollectionEntry<"blog">;
+  type: "news" | "blog";
+}
+
+const { lang, entry, type } = Astro.props;
+const prefix = lang === "en" ? "/en" : "";
+
+const dict = {
+  ko: {
+    breadcrumb: type === "news" ? "SAL > 출판물 > News" : "SAL > 출판물 > Blog",
+    back: "출판물 목록으로 돌아가기",
+  },
+  en: {
+    breadcrumb: type === "news" ? "SAL > Publications > News" : "SAL > Publications > Blog",
+    back: "Back to Publications",
+  },
+} as const;
+
+const T = dict[lang];
+const { Content } = await render(entry);
+
+// news는 source, blog는 author를 배지로 표시
+const badge =
+  "source" in entry.data ? entry.data.source : (entry.data as { author?: string }).author ?? "";
+
+const formatDate = (date: Date) => {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}.${m}.${d}`;
+};
+---
+
+<BaseLayout
+  title={`${entry.data.title} — SAL Lab`}
+  description={entry.data.summary || entry.data.title}
+  activeNav="Publications"
+  lang={lang}
+>
+  <!-- Page Header -->
+  <div class="bg-[#FAFAFA] border-b border-border px-6 lg:px-[60px] pt-7 pb-5">
+    <div class="max-w-[1200px] mx-auto">
+      <p class="text-sm text-muted-foreground mb-2">
+        <a href={`${prefix}/publications`} class="hover:text-foreground transition-colors">{T.breadcrumb}</a>
+      </p>
+      <div class="flex items-center gap-3">
+        <h1 class="text-[24px] font-bold text-foreground">{entry.data.title}</h1>
+        {badge && (
+          <span class="inline-block px-2.5 py-[3px] text-[11px] rounded-full bg-[#F5F5F5] text-[#52525B]">
+            {badge}
+          </span>
+        )}
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-[40px]">
+    <div class="max-w-[800px]">
+      <!-- Meta -->
+      <div class="mb-6 pb-6 border-b border-border">
+        <div class="flex items-center gap-3 text-[13px] text-muted">
+          <span>{formatDate(entry.data.date)}</span>
+        </div>
+      </div>
+
+      <!-- Markdown Body -->
+      <article class="prose prose-sm max-w-none
+        prose-headings:text-foreground prose-headings:font-bold
+        prose-h2:text-[18px] prose-h2:mt-8 prose-h2:mb-4
+        prose-h3:text-[15px] prose-h3:mt-6 prose-h3:mb-3
+        prose-p:text-[14px] prose-p:text-[#3F3F46] prose-p:leading-relaxed
+        prose-li:text-[14px] prose-li:text-[#3F3F46]
+        prose-strong:text-foreground
+        prose-a:text-sal-terracotta prose-a:no-underline hover:prose-a:underline
+        prose-table:text-[13px]
+        prose-th:bg-[#F5F5F5] prose-th:px-3 prose-th:py-2
+        prose-td:px-3 prose-td:py-2 prose-td:border-border
+      ">
+        <Content />
+      </article>
+
+      <!-- Back Link -->
+      <div class="mt-10 pt-6 border-t border-border">
+        <a
+          href={`${prefix}/publications`}
+          class="inline-flex items-center gap-1 text-[13px] text-muted hover:text-foreground transition-colors"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          {T.back}
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

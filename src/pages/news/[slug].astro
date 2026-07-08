@@ -1,0 +1,16 @@
+---
+import PostDetailPage from "@/components/pages/PostDetailPage.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("news");
+  return entries.map((entry) => ({
+    params: { slug: entry.id.replace(/\.md$/, "") },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+---
+
+<PostDetailPage lang="ko" entry={entry} type="news" />

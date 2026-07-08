@@ -86,32 +86,10 @@ export const ProjectSchema = z.object({
   pi: z.string().default(""),
   keywords: z.array(z.string()).default([]),
   description: z.string().default(""),
+  national: z.boolean().default(false), // 국가연구과제 여부 (노란 배지 + NTIS 링크)
+  url: z.string().default(""), // 지정 시 NTIS 검색 링크보다 우선
 });
 export type Project = z.infer<typeof ProjectSchema>;
-
-// ---------------------------------------------------------------------------
-// News / Blog (Publications 페이지 탭)
-//
-// 외부 링크 목록. link가 있으면 목록에서 원문/글로 바로 이동한다.
-// ---------------------------------------------------------------------------
-
-export const NewsItemSchema = z.object({
-  title: z.string().min(1),
-  date: z.string().min(1), // "YYYY.MM.DD" — 최신순 정렬에 사용
-  source: z.string().default(""), // 언론사/출처
-  link: z.string().default(""), // 기사 원문 URL
-  summary: z.string().default(""),
-});
-export type NewsItem = z.infer<typeof NewsItemSchema>;
-
-export const BlogPostSchema = z.object({
-  title: z.string().min(1),
-  date: z.string().min(1), // "YYYY.MM.DD"
-  author: z.string().default(""), // 작성자
-  link: z.string().default(""), // 블로그 글 URL
-  summary: z.string().default(""),
-});
-export type BlogPost = z.infer<typeof BlogPostSchema>;
 
 // ---------------------------------------------------------------------------
 // Professor achievements (src/content/professor.yaml)
@@ -138,6 +116,8 @@ export const ProfessorJournalSchema = z.object({
   quartile: z.string().default(""), // e.g. "Q2", "Q1 (상위 4.3%)"
   authorRole: ProfessorAuthorRole,
   note: z.string().default(""), // e.g. "표지논문 선정"
+  doi: z.string().default(""), // e.g. "10.3390/electronics10101158" — 있으면 카드 클릭 시 이동
+  url: z.string().default(""), // 지정 시 doi보다 우선하는 원문 링크 (예: ResearchGate)
 });
 export type ProfessorJournal = z.infer<typeof ProfessorJournalSchema>;
 
@@ -149,6 +129,8 @@ export const ProfessorConferenceSchema = z.object({
   tier: z.enum(["top", "international", "domestic"]),
   authorRole: ProfessorAuthorRole,
   note: z.string().default(""), // e.g. "우수논문상", "Keynote 강연"
+  doi: z.string().default(""), // 있으면 카드 클릭 시 이동
+  url: z.string().default(""), // 지정 시 doi보다 우선하는 원문 링크
 });
 export type ProfessorConference = z.infer<typeof ProfessorConferenceSchema>;
 
@@ -162,6 +144,7 @@ export const ProfessorPatentSchema = z.object({
   registrationDate: z.string().default(""),
   registrationNumber: z.string().default(""),
   note: z.string().default(""), // e.g. "기술이전"
+  url: z.string().default(""), // 지정 시 자동 생성되는 Google Patents 링크보다 우선
 });
 export type ProfessorPatent = z.infer<typeof ProfessorPatentSchema>;
 
@@ -241,16 +224,6 @@ export function loadPublications(): Publication[] {
 export function loadProjects(): Project[] {
   const file = "src/content/projects.yaml";
   return parseList(ProjectSchema, readYaml(file), "projects", file);
-}
-
-export function loadNews(): NewsItem[] {
-  const file = "src/content/news.yaml";
-  return parseList(NewsItemSchema, readYaml(file), "news", file);
-}
-
-export function loadBlog(): BlogPost[] {
-  const file = "src/content/blog.yaml";
-  return parseList(BlogPostSchema, readYaml(file), "blog", file);
 }
 
 export function loadProfessor(): Professor {

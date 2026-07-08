@@ -2,22 +2,26 @@
 /**
  * Publications page (shared between /publications and /en/publications).
  *
- * Three tabs: Journal Paper / News / Blog.
+ * Four tabs: 전체 / Journal Paper / News / Blog.
  * - Journal Paper: professor.yaml에서 SCI/SCIE·SCOPUS 학술지와 탑티어
  *   컨퍼런스(tier: "top")만 자동으로 가져온다. 별도 관리 불필요.
- * - News/Blog: news.yaml / blog.yaml의 외부 링크 목록.
+ * - News/Blog: src/content/news/, src/content/blog/ 마크다운 컬렉션.
+ *   link가 있으면 외부 기사(새 탭), 없으면 직접 작성 글로 사이트 내
+ *   상세 페이지(/news/슬러그, /blog/슬러그)로 이동한다.
  * Tab UI and card markup live in PublicationTabs.tsx.
  */
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PageHeader from "@/components/layout/PageHeader.astro";
 import PublicationTabs from "@/components/sections/PublicationTabs";
-import { loadProfessor, loadNews, loadBlog } from "@/lib/content";
+import { loadProfessor } from "@/lib/content";
+import { getCollection } from "astro:content";
 
 interface Props {
   lang: "ko" | "en";
 }
 
 const { lang } = Astro.props;
+const prefix = lang === "en" ? "/en" : "";
 
 const dict = {
   ko: {
@@ -77,6 +81,7 @@ const journalPapers = professor.journals
     subStrong: [j.impactFactor ? `IF ${j.impactFactor}` : "", j.quartile]
       .filter(Boolean)
       .join(" · "),
+    link: j.url || (j.doi ? `https://doi.org/${j.doi}` : ""),
   }));
 
 const topConferencePapers = professor.conferences
@@ -88,22 +93,40 @@ const topConferencePapers = professor.conferences
     title: c.title,
     venue: c.venue + (c.volume ? `, ${c.volume}` : ""),
     sub: "",
+    link: c.url || (c.doi ? `https://doi.org/${c.doi}` : ""),
   }));
 
 const publications = [...journalPapers, ...topConferencePapers].sort(byDateDesc);
 
-const news = loadNews().sort(byDateDesc);
+const formatDate = (date: Date) => {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}.${m}.${d}`;
+};
 
-// Blog author is shown on the same line News uses for its source.
-const blog = loadBlog()
-  .sort(byDateDesc)
-  .map((b) => ({
-    title: b.title,
-    date: b.date,
-    source: b.author,
-    link: b.link,
-    summary: b.summary,
-  }));
+// News/Blog: 외부 기사는 link(새 탭), 직접 작성 글은 사이트 내 상세 페이지로.
+const news = (await getCollection("news"))
+  .map((e) => ({
+    title: e.data.title,
+    date: formatDate(e.data.date),
+    source: e.data.source,
+    link: e.data.link,
+    internalHref: e.data.link ? "" : `${prefix}/news/${e.id.replace(/\.md$/, "")}`,
+    summary: e.data.summary,
+  }))
+  .sort(byDateDesc);
+
+const blog = (await getCollection("blog"))
+  .map((e) => ({
+    title: e.data.title,
+    date: formatDate(e.data.date),
+    source: e.data.author,
+    link: e.data.link,
+    internalHref: e.data.link ? "" : `${prefix}/blog/${e.id.replace(/\.md$/, "")}`,
+    summary: e.data.summary,
+  }))
+  .sort(byDateDesc);
 ---
 
 <BaseLayout

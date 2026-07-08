@@ -25,4 +25,29 @@ const notices = defineCollection({
   }),
 });
 
-export const collections = { seminars, notices };
+// Publications 페이지 News 탭. link가 있으면 외부 기사(원문으로 이동),
+// 없으면 직접 작성한 글로 사이트 내 상세 페이지(/news/슬러그)에서 본문을 보여준다.
+const news = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    source: z.string().optional().default(""), // 언론사/출처 (직접 쓴 글이면 "")
+    link: z.string().optional().default(""), // 외부 기사 원문 URL (직접 쓴 글이면 "")
+    summary: z.string().optional().default(""),
+  }),
+});
+
+// Publications 페이지 Blog 탭. 규칙은 news와 동일 (직접 작성 글 → /blog/슬러그).
+const blog = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    author: z.string().optional().default(""),
+    link: z.string().optional().default(""),
+    summary: z.string().optional().default(""),
+  }),
+});
+
+export const collections = { seminars, notices, news, blog };

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ExternalLink } from "lucide-react";
 
 /**
  * Publications page tabs: 전체 / Journal Paper / News / Blog.
@@ -18,13 +19,15 @@ interface Paper {
   venue: string; // 학술지/학회명 + 권/호/쪽
   sub: string;
   subStrong?: string; // IF · 분위 — 굵게 표시
+  link?: string; // 있으면 카드 클릭 시 새 탭으로 이동 (예: DOI 주소)
 }
 
 interface LinkItem {
   title: string;
   date: string;
   source: string; // 언론사(News) 또는 작성자(Blog)
-  link: string;
+  link: string; // 외부 기사/글 URL (있으면 새 탭으로 이동)
+  internalHref: string; // 직접 작성 글의 사이트 내 상세 페이지 경로
   summary: string;
 }
 
@@ -86,64 +89,118 @@ export default function PublicationTabs({ publications, news, blog, labels }: Pr
     ...filteredBlog.map((item) => ({ kind: "link" as const, date: item.date, item })),
   ].sort((a, b) => b.date.localeCompare(a.date));
 
-  const renderPaper = (pub: Paper, key: number | string) => (
-    <div key={key} className="border border-border rounded-lg p-5">
-      <div className="flex items-center gap-2 mb-2 flex-wrap">
-        <span className="inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill bg-secondary text-secondary-foreground text-xs font-medium">
-          {pub.date}
-        </span>
-        <span
-          className={`inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill text-xs font-medium ${pub.badgeClass}`}
-        >
-          {pub.badge}
-        </span>
-      </div>
-      <h3 className="text-[15px] font-semibold text-foreground leading-snug mb-2">
-        {pub.title}
-      </h3>
-      <p className="text-base text-muted mt-1">{pub.venue}</p>
-      {(pub.sub || pub.subStrong) && (
-        <p className="text-sm text-muted-foreground">
-          {pub.sub}
-          {pub.sub && pub.subStrong ? " · " : ""}
-          {pub.subStrong && (
-            <span className="font-semibold text-foreground">
-              {pub.subStrong}
-            </span>
-          )}
-        </p>
-      )}
-    </div>
-  );
-
-  const renderLink = (item: LinkItem, key: number | string) => (
-    <div key={key} className="border border-border rounded-lg p-5">
-      <div className="flex items-center gap-2 mb-2">
-        <span className="inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill bg-secondary text-secondary-foreground text-xs font-medium">
-          {item.date}
-        </span>
-      </div>
-      <h3 className="text-[15px] font-semibold text-foreground leading-snug mb-2">
-        {item.title}
-      </h3>
-      {item.source && <p className="text-base text-muted mt-1">{item.source}</p>}
-      {item.summary && (
-        <p className="text-sm text-muted-foreground">{item.summary}</p>
-      )}
-      {item.link && (
-        <div className="flex items-center gap-3 mt-3">
-          <a
-            href={item.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[13px] text-sal-terracotta hover:underline"
+  const renderPaper = (pub: Paper, key: number | string) => {
+    const content = (
+      <>
+        <div className="flex items-center gap-2 mb-2 flex-wrap">
+          <span className="inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill bg-secondary text-secondary-foreground text-xs font-medium">
+            {pub.date}
+          </span>
+          <span
+            className={`inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill text-xs font-medium ${pub.badgeClass}`}
           >
-            {labels.visit}
-          </a>
+            {pub.badge}
+          </span>
         </div>
-      )}
-    </div>
-  );
+        <h3 className="text-[15px] font-semibold text-foreground leading-snug mb-2">
+          {pub.title}
+        </h3>
+        <p className="text-base text-muted mt-1">{pub.venue}</p>
+        {(pub.sub || pub.subStrong) && (
+          <p className="text-sm text-muted-foreground">
+            {pub.sub}
+            {pub.sub && pub.subStrong ? " · " : ""}
+            {pub.subStrong && (
+              <span className="font-semibold text-foreground">
+                {pub.subStrong}
+              </span>
+            )}
+          </p>
+        )}
+        {pub.link && (
+          <div className="flex justify-end mt-2">
+            <ExternalLink size={14} className="text-[#A1A1AA]" />
+          </div>
+        )}
+      </>
+    );
+
+    // 링크 카드는 <a> 대신 클릭 핸들러를 써서 텍스트 드래그 선택을 허용한다.
+    return pub.link ? (
+      <div
+        key={key}
+        role="link"
+        tabIndex={0}
+        onClick={() => {
+          if (window.getSelection()?.toString()) return;
+          window.open(pub.link, "_blank", "noopener,noreferrer");
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            window.open(pub.link, "_blank", "noopener,noreferrer");
+          }
+        }}
+        className="border border-border rounded-lg p-5 hover:bg-[#FAFAFA] transition-colors cursor-pointer"
+      >
+        {content}
+      </div>
+    ) : (
+      <div key={key} className="border border-border rounded-lg p-5">
+        {content}
+      </div>
+    );
+  };
+
+  // 외부 기사(link)는 새 탭으로, 직접 작성 글(internalHref)은 사이트 내
+  // 상세 페이지로 이동한다. 텍스트 드래그 선택은 유지.
+  const renderLink = (item: LinkItem, key: number | string) => {
+    const clickable = item.link || item.internalHref;
+    const navigate = () => {
+      if (window.getSelection()?.toString()) return;
+      if (item.link) {
+        window.open(item.link, "_blank", "noopener,noreferrer");
+      } else if (item.internalHref) {
+        window.location.href = item.internalHref;
+      }
+    };
+
+    return (
+      <div
+        key={key}
+        {...(clickable
+          ? {
+              role: "link" as const,
+              tabIndex: 0,
+              onClick: navigate,
+              onKeyDown: (e: React.KeyboardEvent) => {
+                if (e.key === "Enter") navigate();
+              },
+            }
+          : {})}
+        className={`border border-border rounded-lg p-5 ${
+          clickable ? "hover:bg-[#FAFAFA] transition-colors cursor-pointer" : ""
+        }`}
+      >
+        <div className="flex items-center gap-2 mb-2">
+          <span className="inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill bg-secondary text-secondary-foreground text-xs font-medium">
+            {item.date}
+          </span>
+        </div>
+        <h3 className="text-[15px] font-semibold text-foreground leading-snug mb-2">
+          {item.title}
+        </h3>
+        {item.source && <p className="text-base text-muted mt-1">{item.source}</p>}
+        {item.summary && (
+          <p className="text-sm text-muted-foreground">{item.summary}</p>
+        )}
+        {item.link && (
+          <div className="flex justify-end mt-2">
+            <ExternalLink size={14} className="text-[#A1A1AA]" />
+          </div>
+        )}
+      </div>
+    );
+  };
 
   const linkItems = activeTab === "news" ? filteredNews : filteredBlog;
 

@@ -28,8 +28,8 @@
 | --- | --- |
 | 구성원(멤버) 추가/수정/졸업 처리 | `src/content/members.yaml` |
 | 논문 추가/수정 | `src/content/professor.yaml` (Publications 페이지 Journal Paper 탭은 여기의 SCI/SCIE·SCOPUS 학술지 + 탑티어 컨퍼런스에서 자동 생성) |
-| 기사(News 탭) 추가/수정 | `src/content/news.yaml` |
-| 블로그 글(Blog 탭) 추가/수정 | `src/content/blog.yaml` |
+| 기사(News 탭) 추가 | `src/content/news/YYYY-MM-DD-slug.md` 새 파일 생성 |
+| 블로그 글(Blog 탭) 추가 | `src/content/blog/YYYY-MM-DD-slug.md` 새 파일 생성 |
 | 교수 실적 (논문/특허/기술이전/수상) 추가/수정 | `src/content/professor.yaml` |
 | 연구 과제 추가/수정 | `src/content/projects.yaml` |
 | 공지 추가 | `src/content/notices/YYYY-MM-DD-slug.md` 새 파일 생성 |
@@ -123,26 +123,21 @@ pinned: false             # 상단 고정 여부
 본문은 마크다운으로 자유롭게 작성.
 ```
 
-### 5.9 기사/블로그 (`src/content/news.yaml`, `src/content/blog.yaml`)
+### 5.9 기사/블로그 (`src/content/news/`, `src/content/blog/` 마크다운)
 
-Publications 페이지의 News / Blog 탭에 표시되는 외부 링크 목록. 최신순 자동 정렬.
+Publications 페이지의 News / Blog 탭에 표시. 파일명은 공지와 동일한 **날짜-슬러그.md** 규칙.
 
-```yaml
-# news.yaml
-news:
-  - title: "기사 제목"
-    date: "2026.07.08"      # YYYY.MM.DD
-    source: "언론사 이름"    # 없으면 ""
-    link: "https://..."     # 기사 원문 주소 (클릭 시 새 탭)
-    summary: "한 줄 요약"    # 없으면 ""
+```markdown
+---
+title: "제목"
+date: 2026-07-08
+source: ""            # news 전용: 언론사 이름. blog는 author: "작성자"
+link: ""              # 외부 기사/글 주소. 있으면 카드 클릭 시 새 탭으로 원문 이동
+summary: "한 줄 요약"
+---
 
-# blog.yaml
-blog:
-  - title: "글 제목"
-    date: "2026.07.08"
-    author: "작성자 이름"    # 없으면 ""
-    link: "https://..."
-    summary: "한 줄 요약"
+link가 비어 있으면 "직접 작성한 글"로 취급되어, 카드 클릭 시 사이트 내
+상세 페이지(/news/슬러그, /blog/슬러그)가 열리고 이 본문이 표시됩니다.
 ```
 
 ### 5.8 교수 실적 (`src/content/professor.yaml`)
@@ -160,6 +155,8 @@ journals:        # 학술지 논문
     quartile: "Q1 (상위 4.3%)"        # 없으면 생략
     authorRole: "corresponding"      # "first" | "corresponding" | "co", 모르면 생략
     note: "표지논문 선정"              # 특이사항, 없으면 생략
+    doi: "10.3390/electronics10101158" # 있으면 카드 클릭 시 DOI 페이지로 이동, 없으면 생략
+    url: ""                          # 지정 시 doi보다 우선하는 원문 링크 (예: ResearchGate 주소)
 conferences:     # 학술대회 논문
   - title: "..."
     venue: "2024 한국지능시스템학회 춘계학술대회"

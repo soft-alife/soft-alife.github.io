@@ -78,6 +78,7 @@ const dict = {
     groupAll: "전체",
     fundingLabel: "지원기관",
     ministryLabel: "주무부처",
+    nationalLabel: "국가연구과제",
     projectsHeading: "참여 과제",
     patentsHeading: "특허",
     techHeading: "기술이전",
@@ -166,6 +167,7 @@ const dict = {
     groupAll: "All",
     fundingLabel: "Funding Agency",
     ministryLabel: "Ministry",
+    nationalLabel: "National R&D",
     projectsHeading: "Research Projects",
     patentsHeading: "Patents",
     techHeading: "Technology Transfer",
@@ -278,6 +280,7 @@ function journalItems(index: "sci" | "scopus" | "kci") {
       subStrong: [j.impactFactor ? `IF ${j.impactFactor}` : "", j.quartile]
         .filter(Boolean)
         .join(" · "),
+      link: j.url || (j.doi ? `https://doi.org/${j.doi}` : ""),
     }));
 }
 
@@ -297,6 +300,7 @@ function conferenceItems(tier: "top" | "international" | "domestic") {
       title: c.title,
       meta: c.venue + (c.volume ? `, ${c.volume}` : ""),
       sub: "",
+      link: c.url || (c.doi ? `https://doi.org/${c.doi}` : ""),
     }));
 }
 
@@ -334,6 +338,16 @@ function patentNumberLine(p: (typeof patents)[number]) {
   return parts.join(" · ");
 }
 
+// 특허는 KIPRIS 상세 페이지로 연결 — 특허 DOI(10.8080/출원번호)가 KIPRIS로
+// 리다이렉트된다 (등록·출원 25건 전부 DOI 실존 검증됨. 디자인은 미발급이라 제외).
+function patentLink(p: (typeof patents)[number]) {
+  if (p.url) return p.url;
+  if (p.kind === "patent" && p.applicationNumber) {
+    return `https://doi.org/10.8080/${p.applicationNumber.replace(/-/g, "")}`;
+  }
+  return "";
+}
+
 // Patents rendered as one collapsible group.
 // 색상: 국제 특허 노랑 / 국내 등록 파랑 / 국내 출원 회색.
 const patentItems = patents.map((p) => ({
@@ -356,21 +370,29 @@ const patentItems = patents.map((p) => ({
   title: p.title,
   meta: patentNumberLine(p),
   sub: "",
+  link: patentLink(p),
 }));
 
 // Tech transfers rendered as one collapsible group (금액은 표시하지 않음).
-const techTransferItems = professor.techTransfers.map((tt) => ({
-  badges: [
-    { label: String(tt.year), className: badgeStyles.date },
-    { label: T.techBadge, className: badgeColors.lightBlue },
-  ],
-  title: tt.title,
-  meta:
-    lang === "ko"
-      ? `특허 제${tt.patentNumber}호`
-      : `Patent No. ${tt.patentNumber}`,
-  sub: "",
-}));
+// 근거 특허(patentNumber)와 같은 특허 페이지로 연결한다.
+const techTransferItems = professor.techTransfers.map((tt) => {
+  const basePatent = patents.find(
+    (p) => p.registrationNumber === tt.patentNumber,
+  );
+  return {
+    badges: [
+      { label: String(tt.year), className: badgeStyles.date },
+      { label: T.techBadge, className: badgeColors.lightBlue },
+    ],
+    title: tt.title,
+    meta:
+      lang === "ko"
+        ? `특허 제${tt.patentNumber}호`
+        : `Patent No. ${tt.patentNumber}`,
+    sub: "",
+    link: basePatent ? patentLink(basePatent) : "",
+  };
+});
 
 // Awards rendered as one collapsible group (날짜 배지 + 수상명 배지 + 대회/기관명).
 const awardItems = [...professor.awards].sort(byDateDesc).map((a) => ({
@@ -385,9 +407,16 @@ const awardItems = [...professor.awards].sort(byDateDesc).map((a) => ({
 
 // All projects from projects.yaml (yaml order = newest first) as one
 // collapsible group. Meta line: 지원기관/주무부처 labels per language.
+// 국가연구과제는 노란 배지 + NTIS 검색 링크로 연결한다.
+const ntisSearch = (title: string) =>
+  `https://www.ntis.go.kr/ThSearchTotalList.do?searchWord=${encodeURIComponent(title)}`;
+
 const projectItems = loadProjects().map((p) => ({
   badges: [
     { label: p.period, className: badgeStyles.date },
+    ...(p.national
+      ? [{ label: T.nationalLabel, className: badgeColors.yellow }]
+      : []),
     // 연구책임자는 노란색 배지
     ...(p.role ? [{ label: p.role, className: badgeColors.yellow }] : []),
   ],
@@ -397,6 +426,7 @@ const projectItems = loadProjects().map((p) => ({
     ...(p.ministry ? [`${T.ministryLabel} : ${p.ministry}`] : []),
   ].join(", "),
   sub: p.description,
+  link: p.url || (p.national ? ntisSearch(p.title) : ""),
 }));
 ---
 

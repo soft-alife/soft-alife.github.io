@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ExternalLink } from "lucide-react";
 
 interface Project {
   title: string;
@@ -11,6 +12,8 @@ interface Project {
   pi: string;
   keywords: string[];
   description: string;
+  national: boolean; // 국가연구과제 (노란 배지 + NTIS 링크)
+  url: string; // 지정 시 NTIS 검색 링크보다 우선
 }
 
 interface Props {
@@ -67,13 +70,38 @@ export default function ProjectFilter({ projects }: Props) {
 
       {/* Project Cards */}
       <div className="flex flex-col gap-5">
-        {filtered.map((project, index) => (
+        {filtered.map((project, index) => {
+          // 국가연구과제는 NTIS 검색 결과로 연결 (텍스트 드래그 선택 유지)
+          const link =
+            project.url ||
+            (project.national
+              ? `https://www.ntis.go.kr/ThSearchTotalList.do?searchWord=${encodeURIComponent(project.title)}`
+              : "");
+          const navigate = () => {
+            if (!link) return;
+            if (window.getSelection()?.toString()) return;
+            window.open(link, "_blank", "noopener,noreferrer");
+          };
+
+          return (
           <div
             key={index}
-            className="border border-[#E4E4E7] rounded-lg bg-white p-5 md:p-6"
+            {...(link
+              ? {
+                  role: "link" as const,
+                  tabIndex: 0,
+                  onClick: navigate,
+                  onKeyDown: (e: React.KeyboardEvent) => {
+                    if (e.key === "Enter") navigate();
+                  },
+                }
+              : {})}
+            className={`border border-[#E4E4E7] rounded-lg bg-white p-5 md:p-6 ${
+              link ? "hover:bg-[#FAFAFA] transition-colors cursor-pointer" : ""
+            }`}
           >
             {/* Top row: badges */}
-            <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center gap-2 mb-3 flex-wrap">
               <span className="inline-block bg-[#D4735E]/10 text-[#D4735E] text-[11px] font-medium rounded-full px-2.5 py-[2px]">
                 {project.period}
               </span>
@@ -84,6 +112,11 @@ export default function ProjectFilter({ projects }: Props) {
               ) : (
                 <span className="inline-block bg-[#F5F5F5] text-[#71717A] text-[11px] font-medium rounded-full px-2.5 py-[2px]">
                   완료
+                </span>
+              )}
+              {project.national && (
+                <span className="inline-block bg-[#FEF3C7] text-[#92400E] text-[11px] font-medium rounded-full px-2.5 py-[2px]">
+                  국가연구과제
                 </span>
               )}
               {project.role && (
@@ -126,8 +159,15 @@ export default function ProjectFilter({ projects }: Props) {
                 ))}
               </div>
             )}
+
+            {link && (
+              <div className="flex justify-end mt-2">
+                <ExternalLink size={14} className="text-[#A1A1AA]" />
+              </div>
+            )}
           </div>
-        ))}
+          );
+        })}
 
         {filtered.length === 0 && (
           <p className="text-[13px] text-[#A1A1AA] py-8 text-center">

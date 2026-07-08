@@ -18,6 +18,7 @@ journals:
     impactFactor: "2.5"
     quartile: "Q2"
     authorRole: "co"
+    doi: "10.1007/s12555-011-0321-1"
 
   - title: "Game Model-based Co-evolutionary Algorithm with Non-dominated Memory and Euclidean Distance Selection Mechanisms for Multi-objective Optimization"
     venue: "International Journal of Control, Automation, and Systems"
@@ -27,6 +28,7 @@ journals:
     impactFactor: "2.5"
     quartile: "Q2"
     authorRole: "first"
+    doi: "10.1007/s12555-011-0513-8"
 
   - title: "A Study on Swarm Robot-Based Invader-Enclosing Technique on Multiple Distributed Object Environments"
     venue: "Journal of Electrical Engineering & Technology"
@@ -36,6 +38,7 @@ journals:
     impactFactor: "1.6"
     quartile: "Q3"
     authorRole: "co"
+    doi: "10.5370/jeet.2011.6.6.806"
 
   - title: "Training HMM Structure and Parameters with Genetic Algorithm and Harmony Search Algorithm"
     venue: "Journal of Electrical Engineering & Technology"
@@ -45,6 +48,7 @@ journals:
     impactFactor: "1.6"
     quartile: "Q3"
     authorRole: "co"
+    doi: "10.5370/jeet.2012.7.1.109"
 
   - title: "Hybrid Model-Based Classification of the Action for Brain-Computer Interface"
     venue: "Sensor Letters"
@@ -53,6 +57,8 @@ journals:
     index: "sci"
     impactFactor: "0.819"
     authorRole: "first"
+    doi: "10.1166/sl.2012.2284"
+    url: "https://www.researchgate.net/publication/277441333_Hybrid_Model-Based_Classification_of_the_Action_for_Brain-Computer_Interfaces"
 
   - title: "Real-Time Heart Rate Monitoring System based on Ring-Type Pulse Oximeter Sensor"
     venue: "Journal of Electrical Engineering & Technology"
@@ -62,6 +68,7 @@ journals:
     impactFactor: "1.6"
     quartile: "Q3"
     authorRole: "first"
+    doi: "10.5370/jeet.2013.8.2.376"
 
   - title: "Electroencephalography Signal Grouping and Feature Classification Using Harmony Search for BCI"
     venue: "Journal of Applied Mathematics"
@@ -71,6 +78,7 @@ journals:
     impactFactor: "1.2"
     quartile: "Q3"
     authorRole: "co"
+    doi: "10.1155/2013/754539"
 
   - title: "Heuristic Feature Extraction Method for BCI with Harmony Search and Discrete Wavelet Transform"
     venue: "International Journal of Control, Automation, and Systems"
@@ -80,6 +88,7 @@ journals:
     impactFactor: "2.5"
     quartile: "Q2"
     authorRole: "first"
+    doi: "10.1007/s12555-016-0031-9"
 
   - title: "Symmetrical Feature for Interpreting Motor Imagery EEG Signals in the Brain-Computer Interface"
     venue: "Optik - International Journal for Light and Electron Optics"
@@ -89,6 +98,7 @@ journals:
     impactFactor: "3.5"
     quartile: "Q2"
     authorRole: "first"
+    doi: "10.1016/j.ijleo.2016.10.047"
 
   - title: "EEG Electrode Selection Method based on BPSO with Channel Impact Factor for Acquisition of Significant Brain Signal"
     venue: "Optik - International Journal for Light and Electron Optics"
@@ -98,6 +108,7 @@ journals:
     impactFactor: "3.5"
     quartile: "Q2"
     authorRole: "first"
+    doi: "10.1016/j.ijleo.2017.10.085"
 
   - title: "Optimal Hyperparameter Tuning of Convolutional Neural Networks based on the Parameter-Setting-Free Harmony Search Algorithm"
     venue: "Optik - International Journal for Light and Electron Optics"
@@ -107,6 +118,7 @@ journals:
     impactFactor: "3.5"
     quartile: "Q2"
     authorRole: "co"
+    doi: "10.1016/j.ijleo.2018.07.044"
 
   - title: "Advanced Parameter-Setting-Free Harmony Search Algorithm"
     venue: "Applied Sciences (MDPI)"
@@ -116,6 +128,7 @@ journals:
     impactFactor: "2.5"
     quartile: "Q2"
     authorRole: "co"
+    doi: "10.3390/app10072586"
 
   - title: "User State Classification based on Functional Brain Connectivity using a Convolutional Neural Network"
     venue: "Electronics (MDPI)"
@@ -126,6 +139,7 @@ journals:
     quartile: "Q2"
     authorRole: "first"
     note: "표지논문 선정"
+    doi: "10.3390/electronics10101158"
 
   - title: "Generation of CNN Architectures Using the Harmonic Search Algorithm and its Application to Classification of Damaged Sewer"
     venue: "IEEE Access"
@@ -135,6 +149,7 @@ journals:
     impactFactor: "3.9"
     quartile: "Q2"
     authorRole: "co"
+    doi: "10.1109/access.2022.3160719"
 
   - title: "Enhancing Control Systems through Type-3 Fuzzy Logic Optimization"
     venue: "Mathematics (MDPI)"
@@ -144,6 +159,7 @@ journals:
     impactFactor: "2.3"
     quartile: "Q1 (상위 4.3%)"
     authorRole: "corresponding"
+    doi: "10.3390/math12121792"
 
   - title: "Schizophrenia Detection and Classification: A Systematic Review of the Last Decade"
     venue: "Diagnostics (MDPI)"
@@ -153,6 +169,7 @@ journals:
     impactFactor: "3.0"
     quartile: "Q1 (상위 17.9%)"
     authorRole: "corresponding"
+    doi: "10.3390/diagnostics14232698"
 
   # ----- SCOPUS -----
   - title: "PSO를 이용한 인공면역계 기반 자율분산로봇시스템의 군 제어"
@@ -161,6 +178,7 @@ journals:
     date: "2012.05"
     index: "scopus"
     authorRole: "co"
+    doi: "10.5302/j.icros.2012.18.5.465"
 
   - title: "지능형 멀티 에이전트 로봇시스템을 위한 통신시스템의 설계"
     venue: "제어로봇시스템학회 논문지"
@@ -168,6 +186,7 @@ journals:
     date: "2012.08"
     index: "scopus"
     authorRole: "co"
+    doi: "10.5302/j.icros.2012.18.8.758"
 
   - title: "동작 상상 P300 기반 BCI 환경에서의 로봇 제어 실용화 기술"
     venue: "제어로봇시스템학회 논문지"
@@ -175,6 +194,7 @@ journals:
     date: "2013.03"
     index: "scopus"
     authorRole: "co"
+    doi: "10.5302/j.icros.2013.13.1866"
 
   - title: "Physiological Responses-based Emotion Recognition using Multi-Class SVM with RBF Kernel"
     venue: "제어로봇시스템학회 논문지"
@@ -182,6 +202,7 @@ journals:
     date: "2013.04"
     index: "scopus"
     authorRole: "co"
+    doi: "10.5302/j.icros.2013.13.1879"
 
   - title: "Support Vector Machine 기반 Genetic Algorithm과 Binary PSO를 이용한 최적의 EEG 채널 선택"
     venue: "제어로봇시스템학회 논문지"
@@ -189,6 +210,7 @@ journals:
     date: "2013.06"
     index: "scopus"
     authorRole: "co"
+    doi: "10.5302/j.icros.2013.13.1864"
 
   - title: "Binary Harmony Search 기반의 EEG 채널 그룹화를 이용한 다중 자극에 반응하는 뇌파 신호의 특성 연구"
     venue: "제어로봇시스템학회 논문지"
@@ -196,6 +218,7 @@ journals:
     date: "2013.08"
     index: "scopus"
     authorRole: "co"
+    doi: "10.5302/j.icros.2013.13.1915"
 
   - title: "악력 세기와 뇌파의 상관관계에 관한 연구"
     venue: "제어로봇시스템학회 논문지"
@@ -203,6 +226,7 @@ journals:
     date: "2013.09"
     index: "scopus"
     authorRole: "co"
+    doi: "10.5302/j.icros.2013.13.1916"
 
   - title: "Parallel Model Feature Extraction to Improve Performance of a BCI System"
     venue: "제어로봇시스템학회 논문지"
@@ -210,6 +234,7 @@ journals:
     date: "2013.11"
     index: "scopus"
     authorRole: "co"
+    doi: "10.5302/j.icros.2013.13.1930"
 
   - title: "IoT 시스템을 위한 시간 동기화방식 기반 SEED 알고리즘"
     venue: "제어로봇시스템학회 논문지"
@@ -217,6 +242,7 @@ journals:
     date: "2016.09"
     index: "scopus"
     authorRole: "co"
+    doi: "10.5302/j.icros.2016.16.0058"
 
   - title: "CNN 기반 신발갑피 패턴인식 및 점착제 도포를 위한 경로점 생성"
     venue: "제어로봇시스템학회 논문지"
@@ -224,6 +250,7 @@ journals:
     date: "2017.09"
     index: "scopus"
     authorRole: "co"
+    doi: "10.5302/j.icros.2017.17.0109"
 
   - title: "Synesthesia-based Human Augmentation System for Brain to Brain Communication"
     venue: "TEST Engineering & Management"
@@ -231,6 +258,7 @@ journals:
     date: "2020.03"
     index: "scopus"
     authorRole: "first"
+    url: "http://www.testmagzine.biz/index.php/testmagzine/article/view/4357"
 
   - title: "Real-Time AR Text Recognition Based Library Management System"
     venue: "TEST Engineering & Management"
@@ -238,6 +266,7 @@ journals:
     date: "2020.03"
     index: "scopus"
     authorRole: "corresponding"
+    url: "http://www.testmagzine.biz/index.php/testmagzine/article/view/4355"
 
   - title: "Computer-Vision-Based Advanced Optical Music Recognition System"
     venue: "Journal of Computational and Theoretical Nanoscience"
@@ -245,6 +274,9 @@ journals:
     date: "2021.05"
     index: "scopus"
     authorRole: "corresponding"
+    doi: "10.1166/jctn.2021.9626"
+    # DOI가 Ingenta "Content Not Found"로 연결되어 ResearchGate로 대체
+    url: "https://www.researchgate.net/publication/360173074_Computer-Vision-Based_Advanced_Optical_Music_Recognition_System"
 
   - title: "KoBART-based Hybrid Literacy Improvement System for Each level for Efficient Reading"
     venue: "Lecture Notes in Electrical Engineering (Springer)"
@@ -254,12 +286,14 @@ journals:
     authorRole: "corresponding"
 
   # ----- KCI -----
+    doi: "10.1007/978-981-99-1252-0_88"
   - title: "음색 기반 뇌파측정 및 분석기법 개발"
     venue: "한국지능시스템학회 논문지"
     volume: "Vol.20, No.3, pp.383-393"
     date: "2010.06"
     index: "kci"
     authorRole: "first"
+    doi: "10.5391/jkiis.2010.20.3.388"
 
   - title: "VCM과 Beat Tracking을 이용한 음악의 명암 분류 기법 개발"
     venue: "한국지능시스템학회 논문지"
@@ -267,6 +301,7 @@ journals:
     date: "2010.12"
     index: "kci"
     authorRole: "first"
+    doi: "10.5391/jkiis.2010.20.6.884"
 
   - title: "Specified Object Tracking Problem in an Environment of Multiple Moving Objects"
     venue: "International Journal of Fuzzy Logic and Intelligent Systems"
@@ -274,6 +309,7 @@ journals:
     date: "2011.06"
     index: "kci"
     authorRole: "first"
+    doi: "10.5391/ijfis.2011.11.2.118"
 
   - title: "건강한 정서 자아를 위한 지능형 녹색경관 제어시스템 개발"
     venue: "한국지능시스템학회 논문지"
@@ -281,6 +317,7 @@ journals:
     date: "2012.06"
     index: "kci"
     authorRole: "first"
+    doi: "10.5391/jkiis.2012.22.3.281"
 
   - title: "BCI 기반 로봇 손 제어를 위한 악력 변화에 따른 EEG 분석"
     venue: "한국지능시스템학회 논문지"
@@ -288,6 +325,7 @@ journals:
     date: "2013.04"
     index: "kci"
     authorRole: "co"
+    doi: "10.5391/jkiis.2013.23.2.172"
 
   - title: "암호화 기법을 활용한 사물인터넷 기반의 스마트 도어락 시스템"
     venue: "한국지능시스템학회 논문지"
@@ -295,6 +333,7 @@ journals:
     date: "2017.02"
     index: "kci"
     authorRole: "co"
+    doi: "10.5391/jkiis.2017.27.1.065"
 
   - title: "PSF-HS 알고리즘을 이용한 신발 갑피의 점착제 도포 경로 생성"
     venue: "한국지능시스템학회 논문지"
@@ -302,6 +341,7 @@ journals:
     date: "2018.02"
     index: "kci"
     authorRole: "co"
+    doi: "10.5391/jkiis.2018.28.1.49"
 
   - title: "임베디드 보드를 활용한 인버터 특성의 리니어 모터 드라이버 개발"
     venue: "한국지능시스템학회 논문지"
@@ -309,6 +349,7 @@ journals:
     date: "2019.02"
     index: "kci"
     authorRole: "co"
+    doi: "10.5391/jkiis.2019.29.1.50"
 
   - title: "컨볼루션 신경망 기반 운동심상을 이용한 뇌의 연결성 분석 및 분류방법"
     venue: "한국지능시스템학회 논문지"
@@ -316,6 +357,7 @@ journals:
     date: "2019.04"
     index: "kci"
     authorRole: "first"
+    doi: "10.5391/jkiis.2019.29.2.124"
 
   - title: "비전센서 기반 점착제 도포를 위한 경로 생성 및 신발갑피 패턴 인식에 관한 연구"
     venue: "한국지능시스템학회 논문지"
@@ -323,6 +365,7 @@ journals:
     date: "2019.06"
     index: "kci"
     authorRole: "first"
+    doi: "10.5391/jkiis.2019.29.3.229"
 
   - title: "CNN 기반 전이학습을 이용한 음성 감정 인식"
     venue: "한국지능시스템학회 논문지"
@@ -330,6 +373,7 @@ journals:
     date: "2019.10"
     index: "kci"
     authorRole: "co"
+    doi: "10.5391/jkiis.2019.29.5.339"
 
   - title: "퍼지추론과 뉴럴 네트워크를 이용한 색청 공감각의 모델링 및 스마트폰 앱 구현"
     venue: "한국지능시스템학회 논문지"
@@ -337,6 +381,7 @@ journals:
     date: "2020.04"
     index: "kci"
     authorRole: "corresponding"
+    doi: "10.5391/jkiis.2020.30.2.87"
 
   - title: "광학 음악 인식 기반 자동 편곡 시스템을 위한 화성 생성 연구"
     venue: "한국지능시스템학회 논문지"
@@ -344,6 +389,7 @@ journals:
     date: "2021.06"
     index: "kci"
     authorRole: "corresponding"
+    doi: "10.5391/jkiis.2021.31.3.199"
 
   - title: "유전알고리즘을 이용한 사용자 평가 기반 여행계획 모델링"
     venue: "한국지능시스템학회 논문지"
@@ -351,6 +397,7 @@ journals:
     date: "2021.08"
     index: "kci"
     authorRole: "corresponding"
+    doi: "10.5391/jkiis.2021.31.4.311"
 
   - title: "개척자 기반 새로운 최적화 알고리즘"
     venue: "한국지능시스템학회 논문지"
@@ -358,6 +405,7 @@ journals:
     date: "2021.12"
     index: "kci"
     authorRole: "corresponding"
+    doi: "10.5391/jkiis.2021.31.6.485"
 
   - title: "CNN 모델 기반의 소아 ADHD 분류 기법"
     venue: "한국전자통신학회 논문지"
@@ -365,6 +413,7 @@ journals:
     date: "2022.10"
     index: "kci"
     authorRole: "co"
+    doi: "10.13067/JKIECS.2022.17.5.809"
 
   - title: "이미지 추상화 기법을 이용한 반려견 이름 추천 시스템 개발"
     venue: "한국전자통신학회 논문지"
@@ -372,6 +421,7 @@ journals:
     date: "2023.04"
     index: "kci"
     authorRole: "corresponding"
+    doi: "10.13067/JKIECS.2023.18.2.321"
 
   - title: "효율적인 교통 체계 구축을 위한 Conv-LSTM기반 사거리 모델링 및 교통 체증 예측 알고리즘 연구"
     venue: "한국전자통신학회 논문지"
@@ -386,6 +436,7 @@ journals:
     date: "2023.04"
     index: "kci"
     authorRole: "corresponding"
+    doi: "10.13067/JKIECS.2023.18.2.329"
 
   - title: "실시간 온라인 수업 수강자들의 집중력 기반 복습 지원 도구의 설계 및 구현"
     venue: "한국전자통신학회 논문지"
@@ -400,6 +451,7 @@ journals:
     date: "2024.02"
     index: "kci"
     authorRole: "corresponding"
+    doi: "10.13067/JKIECS.2024.19.1.225"
 
   - title: "합리적 보험료 산정을 위한 OpenCV기반 반려동물 건강나이 예측 시스템"
     venue: "한국전자통신학회 논문지"
@@ -407,6 +459,7 @@ journals:
     date: "2024.06"
     index: "kci"
     authorRole: "corresponding"
+    doi: "10.13067/JKIECS.2024.19.3.577"
 
   - title: "거울 신경 체계 모델링을 위한 동적 환경에 강인한 실시간 자세추정"
     venue: "한국전자통신학회 논문지"
@@ -414,6 +467,7 @@ journals:
     date: "2024.06"
     index: "kci"
     authorRole: "corresponding"
+    doi: "10.13067/JKIECS.2024.19.3.583"
 
   - title: "컴퓨터 공학 기술 면접 지원 시스템의 설계 및 구현"
     venue: "한국전자통신학회 논문지"
@@ -421,6 +475,7 @@ journals:
     date: "2024.06"
     index: "kci"
     authorRole: "co"
+    doi: "10.13067/JKIECS.2024.19.3.603"
 
   - title: "거울신경체계 모델링을 위한 Graph Attention Network 기반 기능적 뇌 연결성 분석 기법"
     venue: "한국지능시스템학회 논문지"
@@ -428,6 +483,7 @@ journals:
     date: "2024.12"
     index: "kci"
     authorRole: "corresponding"
+    doi: "10.5391/jkiis.2024.34.6.550"
 
   - title: "KoBERT기반 비속어 검출 모델 및 FAST API 서버 구현"
     venue: "한국전자통신학회 논문지"
@@ -435,6 +491,7 @@ journals:
     date: "2024.12"
     index: "kci"
     authorRole: "corresponding"
+    doi: "10.13067/JKIECS.2024.19.6.1147"
 
   - title: "웹소설 TTS를 위한 KoBERT기반 문장 유형 판별 시스템"
     venue: "한국전자통신학회 논문지"
@@ -442,6 +499,7 @@ journals:
     date: "2024.12"
     index: "kci"
     authorRole: "corresponding"
+    doi: "10.13067/JKIECS.2024.19.6.1231"
 
   - title: "효율적인 촬영을 위한 OpenCV 및 Dlib을 활용한 실시간 정면 얼굴 판별 시스템"
     venue: "한국전자통신학회 논문지"
@@ -449,6 +507,7 @@ journals:
     date: "2024.12"
     index: "kci"
     authorRole: "corresponding"
+    doi: "10.13067/JKIECS.2024.19.6.1237"
 
   - title: "사용자의 문해력 향상을 위한 LLM기반 문제 생성 시스템"
     venue: "한국전자통신학회 논문지"
@@ -456,6 +515,7 @@ journals:
     date: "2024.12"
     index: "kci"
     authorRole: "corresponding"
+    doi: "10.13067/JKIECS.2024.19.6.1243"
 
   - title: "국가유산 보존을 위한 Computer Vision기반 CNN 알고리즘을 이용한 소유권 공유 시스템"
     venue: "한국전자통신학회 논문지"
@@ -484,6 +544,7 @@ journals:
     date: "2025.06"
     index: "kci"
     authorRole: "corresponding"
+    doi: "10.13067/JKIECS.2025.20.3.535"
 
   - title: "행동 레이블링 데이터셋을 활용한 CNN 및 dlib 기반 어린이 행동 유형 분류 시스템"
     venue: "한국전자통신학회 논문지"
@@ -491,6 +552,7 @@ journals:
     date: "2025.06"
     index: "kci"
     authorRole: "corresponding"
+    doi: "10.13067/JKIECS.2025.20.3.651"
 
   - title: "유사도 기반 선별적 데이터 활용을 통한 차량 내 비전 시스템의 실시간 적응형 파인튜닝 기법 연구"
     venue: "한국전자통신학회 논문지"
@@ -498,6 +560,7 @@ journals:
     date: "2025.06"
     index: "kci"
     authorRole: "co"
+    doi: "10.13067/JKIECS.2025.20.3.629"
 
   - title: "BERT기반 리뷰 분석을 통한 글로벌 전자상거래 사기 위험도 평가시스템"
     venue: "한국전자통신학회 논문지"
@@ -505,6 +568,7 @@ journals:
     date: "2025.08"
     index: "kci"
     authorRole: "co"
+    doi: "10.13067/JKIECS.2025.20.4.823"
 
   - title: "사람 추적을 위한 디지털 휴먼의 얼굴 움직임에 대한 연구 개발"
     venue: "한국전자통신학회 논문지"
@@ -512,6 +576,7 @@ journals:
     date: "2025.10"
     index: "kci"
     authorRole: "co"
+    doi: "10.13067/JKIECS.2025.20.5.1133"
 
   - title: "디지털트윈 환경 구현을 위한 3D Point Cloud 기반 맵 모델링"
     venue: "한국지능시스템학회 논문지"
@@ -519,6 +584,7 @@ journals:
     date: "2025.10"
     index: "kci"
     authorRole: "corresponding"
+    doi: "10.5391/jkiis.2025.35.5.483"
 
   - title: "메타 휴리스틱 알고리즘 기반 디지털 관광지 추천 시스템에 관한 연구"
     venue: "한국전자통신학회 논문지"
@@ -526,6 +592,7 @@ journals:
     date: "2026.02"
     index: "kci"
     authorRole: "corresponding"
+    doi: "10.13067/JKIECS.2026.21.1.363"
 
   - title: "PINN 기반 물체의 외력에 의한 변형 및 응력 예측 시뮬레이션"
     venue: "한국전자통신학회 논문지"
@@ -533,6 +600,7 @@ journals:
     date: "2026.04"
     index: "kci"
     authorRole: "corresponding"
+    doi: "10.13067/JKIECS.2026.21.2.625"
 
   - title: "CVAE기반 World Model을 활용한 유속 최소화를 위한 물체 배치 최적화"
     venue: "한국전자통신학회 논문지"
@@ -540,6 +608,7 @@ journals:
     date: "2026.04"
     index: "kci"
     authorRole: "corresponding"
+    doi: "10.13067/JKIECS.2026.21.2.751"
 
 conferences:
   # ----- 국제학술대회 -----
@@ -556,6 +625,7 @@ conferences:
     date: "2011.06"
     tier: "international"
     authorRole: "first"
+    doi: "10.1109/fuzzy.2011.6007503"
 
   - title: "A Study on the Analysis of Auditory Cortex Active Status by Music Genre: drawing on EEG"
     venue: "8th International Conference on Fuzzy Systems and Knowledge Discovery (ICNC-FSKD 2011)"
@@ -563,6 +633,7 @@ conferences:
     date: "2011.07"
     tier: "international"
     authorRole: "first"
+    doi: "10.1109/fskd.2011.6019916"
 
   - title: "Improved Mirror Neuron System: Hybrid Model of HMM/GMM"
     venue: "The 3rd Annual Meeting of Society for Computational Neuroscience"
@@ -592,6 +663,7 @@ conferences:
     tier: "international"
     authorRole: "first"
     note: "Best Student Paper Award"
+    doi: "10.1109/iccas.2013.6704033"
 
   - title: "Real-Time AR Text Recognition System using Smart Glass"
     venue: "The 6th International Conference on Small & Medium Business (ICSMB 2020)"
@@ -619,36 +691,42 @@ conferences:
     date: "2022.12"
     tier: "international"
     authorRole: "corresponding"
+    doi: "10.1007/978-981-99-1252-0_88"
 
   - title: "Graph Attention Network-based EEG Classification Technology using Functional Brain Connectivity Information"
     venue: "ICCAD 2025 (IEEE)"
     date: "2025.07"
     tier: "international"
     authorRole: "corresponding"
+    doi: "10.1109/iccad64771.2025.11099387"
 
   - title: "Metaverse-based shooting training simulation to improve user concentration and shooting skills"
     venue: "ICCAD 2025 (IEEE)"
     date: "2025.07"
     tier: "international"
     authorRole: "corresponding"
+    doi: "10.1109/iccad64771.2025.11099282"
 
   - title: "KoGPT-2 Integrated SSVEP-Based BCI for Efficient Language Processing"
     venue: "ICCAD 2025 (IEEE)"
     date: "2025.07"
     tier: "international"
     authorRole: "corresponding"
+    doi: "10.1109/iccad64771.2025.11099240"
 
   - title: "Digital Tourism Recommendation System Based on Harmony Search Algorithm"
     venue: "ICCAD 2025 (IEEE)"
     date: "2025.07"
     tier: "international"
     authorRole: "corresponding"
+    doi: "10.1109/iccad64771.2025.11099315"
 
   - title: "Advanced Pioneer Algorithm: Inheritance-based Pioneer-Inspired Optimization Algorithm"
     venue: "AICOMPS 2025 (IEEE)"
     date: "2025.11"
     tier: "international"
     authorRole: "corresponding"
+    url: "https://aicomps2025.conferenceservice.jp/"
 
   # ----- 국내학술대회 -----
   - title: "음색 기반 뇌파측정 및 분석기법 개발"
@@ -658,6 +736,7 @@ conferences:
     tier: "domestic"
     authorRole: "first"
     note: "우수논문상"
+    url: "https://www.dbpia.co.kr/journal/voisDetail?voisId=VOIS00068500"
 
   - title: "EEG를 이용한 사용자 의도 인식을 위한 GMMs와 HMMs의 하이브리드 모델 연구"
     venue: "2010 대한전자공학회 하계종합학술대회"
@@ -672,6 +751,7 @@ conferences:
     date: "2010.11"
     tier: "domestic"
     authorRole: "first"
+    url: "https://www.dbpia.co.kr/journal/voisDetail?voisId=VOIS00074972"
 
   - title: "EEG를 이용한 청각피질 활성도에 따른 음악과 감정의 상관관계 연구"
     venue: "2011 제26회 제어로봇시스템학회(ICROS) 학술대회"
@@ -687,6 +767,7 @@ conferences:
     tier: "domestic"
     authorRole: "first"
     note: "우수논문상"
+    url: "https://www.dbpia.co.kr/journal/voisDetail?voisId=VOIS00085834"
 
   - title: "손 움직임 제어를 위한 청각패러다임 기반 뇌-컴퓨터 인터페이스"
     venue: "2012 제27회 제어로봇시스템학회(ICROS) 학술대회"
@@ -701,6 +782,7 @@ conferences:
     date: "2015.04"
     tier: "domestic"
     authorRole: "co"
+    url: "https://www.dbpia.co.kr/journal/voisDetail?voisId=VOIS00233098"
 
   - title: "Cascade 안면 검출기와 Convolutional Neural Network를 이용한 얼굴 분류"
     venue: "2015 한국지능시스템학회 추계학술대회 (충북대학교)"
@@ -708,6 +790,7 @@ conferences:
     date: "2015.10"
     tier: "domestic"
     authorRole: "co"
+    url: "https://www.dbpia.co.kr/journal/voisDetail?voisId=VOIS00256450"
 
   - title: "스마트 도어록 시스템을 위한 IoT 기반의 실시간 스트리밍 및 원격제어"
     venue: "2015 한국지능시스템학회 추계학술대회 (충북대학교)"
@@ -716,6 +799,7 @@ conferences:
     tier: "domestic"
     authorRole: "co"
     note: "우수논문상"
+    url: "https://www.dbpia.co.kr/journal/voisDetail?voisId=VOIS00256450"
 
   - title: "Lip detection based on Histogram and Sliding-Window Convolutional Neural Network"
     venue: "2016 한국지능시스템학회 춘계학술대회 (가천대학교)"
@@ -723,6 +807,7 @@ conferences:
     date: "2016.04"
     tier: "domestic"
     authorRole: "co"
+    url: "https://www.dbpia.co.kr/journal/voisDetail?voisId=VOIS00249140"
 
   - title: "EMG 신호 기반의 웨어러블 기기를 통한 자율주행 로봇 제어"
     venue: "2016 한국지능시스템학회 춘계학술대회 (가천대학교)"
@@ -730,6 +815,7 @@ conferences:
     date: "2016.04"
     tier: "domestic"
     authorRole: "co"
+    url: "https://www.dbpia.co.kr/journal/voisDetail?voisId=VOIS00249140"
 
   - title: "사물인터넷 데이터 보안을 위한 개선된 SEED 알고리즘 구현"
     venue: "2016 한국지능시스템학회 춘계학술대회 (가천대학교)"
@@ -737,6 +823,7 @@ conferences:
     date: "2016.04"
     tier: "domestic"
     authorRole: "co"
+    url: "https://www.dbpia.co.kr/journal/voisDetail?voisId=VOIS00249140"
 
   - title: "머신 비전 기반의 신발 갑피 적층 시스템 구현을 위한 이미지 처리"
     venue: "2016 한국기계가공학회 추계학술대회"
@@ -751,6 +838,7 @@ conferences:
     date: "2016.10"
     tier: "domestic"
     authorRole: "first"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20160701"
 
   - title: "암호화 기법을 활용한 사물인터넷 기반의 스마트 도어락 시스템"
     venue: "2016 한국지능시스템학회 추계학술대회 (연세대학교)"
@@ -759,6 +847,7 @@ conferences:
     tier: "domestic"
     authorRole: "co"
     note: "우수논문상"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20160701"
 
   - title: "점착제 도포를 위한 유전알고리즘 기반 로봇의 최적 자세 생성 알고리즘 개발"
     venue: "2018 한국정밀공학회 춘계학술대회"
@@ -774,6 +863,7 @@ conferences:
     tier: "domestic"
     authorRole: "first"
     note: "우수논문상"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20180901"
 
   - title: "유전 알고리즘을 이용한 사용자 평가 기반 여행 계획 모델링"
     venue: "2020 한국지능시스템학회 춘계학술대회 (국민대학교)"
@@ -782,18 +872,21 @@ conferences:
     tier: "domestic"
     authorRole: "corresponding"
     note: "우수논문상"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20200201"
 
   - title: "AI융합 기반의 뇌공학 발전 사례"
     venue: "2020 한국컴퓨터정보학회 하계학술대회 (제주대학교)"
     date: "2020.07"
     tier: "domestic"
     note: "Keynote 강연"
+    url: "https://www.dbpia.co.kr/journal/voisDetail?voisId=VOIS00575531"
 
   - title: "AI+X 융합기술 기반 Brain-Computer Interface 연구동향"
     venue: "2020 한국지능시스템학회 추계학술대회 (전북대학교)"
     date: "2020.11"
     tier: "domestic"
     note: "신진과학자 발표"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20200901"
 
   - title: "광학음악인식 기반 자동편곡 시스템"
     venue: "2020 한국지능시스템학회 추계학술대회 (전북대학교)"
@@ -802,6 +895,7 @@ conferences:
     tier: "domestic"
     authorRole: "corresponding"
     note: "우수논문상"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20200901"
 
   - title: "블록체인 기반 IoT 보안 알고리즘"
     venue: "2020 한국지능시스템학회 추계학술대회 (전북대학교)"
@@ -809,6 +903,7 @@ conferences:
     date: "2020.11"
     tier: "domestic"
     authorRole: "co"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20200901"
 
   - title: "Convolutional LSTM 알고리즘을 이용한 사거리 교통체증 예측 시스템"
     venue: "2021 한국지능시스템학회 춘계학술대회 (세종대학교)"
@@ -816,6 +911,7 @@ conferences:
     date: "2021.04"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20210101"
 
   - title: "딥러닝기반 YOLO를 활용한 후숙과일 분류 및 숙성 예측 시스템"
     venue: "2021 한국컴퓨터정보학회 하계학술대회 (제주대학교 산학융합원)"
@@ -823,6 +919,7 @@ conferences:
     date: "2021.07"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://www.dbpia.co.kr/journal/voisDetail?voisId=VOIS00638350"
 
   - title: "사용자 의도인식을 위한 C-LSTM알고리즘 기반 BCI 뉴로로보틱스 시스템"
     venue: "2021 한국지능시스템학회 추계학술대회 (조선대학교)"
@@ -830,6 +927,7 @@ conferences:
     date: "2021.11"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20210801"
 
   - title: "확산을 기반으로 하는 새로운 휴리스틱 최적화 알고리즘"
     venue: "2021 한국지능시스템학회 추계학술대회 (조선대학교)"
@@ -838,6 +936,7 @@ conferences:
     tier: "domestic"
     authorRole: "corresponding"
     note: "우수논문상"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20210801"
 
   - title: "효율적인 독서를 위한 KoBART기반 수준별 문해력 향상 시스템"
     venue: "2022 한국지능시스템학회 춘계학술대회 (한경대학교)"
@@ -846,6 +945,7 @@ conferences:
     tier: "domestic"
     authorRole: "corresponding"
     note: "우수논문상"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20220201"
 
   - title: "문화재 복원을 위한 DCGAN 기반 Image Completion 시스템"
     venue: "2022 한국지능시스템학회 춘계학술대회 (한경대학교)"
@@ -853,6 +953,7 @@ conferences:
     date: "2022.05"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20220201"
 
   - title: "Few-shot Learning 기반 Model-Agnostic Meta-Learning algorithm 활용한 영상 등급 분류 시스템에 관한 연구"
     venue: "2022 한국지능시스템학회 춘계학술대회 (한경대학교)"
@@ -860,6 +961,7 @@ conferences:
     date: "2022.05"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20220201"
 
   - title: "사용자 감정이입을 위한 BCI기반 뉴로로보틱스 시스템"
     venue: "2022 한국지능시스템학회 춘계학술대회 (한경대학교)"
@@ -867,6 +969,7 @@ conferences:
     date: "2022.05"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20220201"
 
   - title: "야생 환경과의 동화율 개선을 위한 GAN알고리즘 기반 위장 패턴 생성 파라미터 최적화 시스템"
     venue: "2022 한국컴퓨터정보학회 하계학술대회 (제주대학교 산학융합원)"
@@ -875,6 +978,7 @@ conferences:
     tier: "domestic"
     authorRole: "co"
     note: "우수논문상"
+    url: "https://www.dbpia.co.kr/journal/voisDetail?voisId=VOIS00695244"
 
   - title: "효율적인 문서 구성을 위한 TF-IDF 알고리즘 기반 문서 제안 시스템의 설계"
     venue: "2022 한국컴퓨터정보학회 하계학술대회 (제주대학교 산학융합원)"
@@ -882,6 +986,7 @@ conferences:
     date: "2022.07"
     tier: "domestic"
     authorRole: "co"
+    url: "https://www.dbpia.co.kr/journal/voisDetail?voisId=VOIS00695244"
 
   - title: "온라인 수업의 상호작용 향상을 위한 웹 기반 에듀테크 시스템의 설계"
     venue: "2022 한국컴퓨터정보학회 하계학술대회 (제주대학교 산학융합원)"
@@ -889,6 +994,7 @@ conferences:
     date: "2022.07"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://www.dbpia.co.kr/journal/voisDetail?voisId=VOIS00695244"
 
   - title: "거울 신경 체계 모방을 위한 휴머노이드 로봇 기반 Human Pose Estimation"
     venue: "2022 한국정보시스템학회 추계학술대회 (부경대학교)"
@@ -903,6 +1009,7 @@ conferences:
     tier: "domestic"
     authorRole: "corresponding"
     note: "우수논문상"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20220701"
 
   - title: "CNN기반 이미지 검색 알고리즘과 KoGPT2를 이용한 사용자 맞춤형 지능형 챗봇 시스템"
     venue: "2022 한국지능시스템학회 추계학술대회 (목포해양대학교)"
@@ -910,6 +1017,7 @@ conferences:
     date: "2022.10"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20220701"
 
   - title: "거울신경체계 모델링을 위한 Zero-Shot Learning (ZSL)기반 사용자 의도인식 시스템"
     venue: "2022 한국지능시스템학회 추계학술대회 (목포해양대학교)"
@@ -917,6 +1025,7 @@ conferences:
     date: "2022.10"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20220701"
 
   - title: "EfficientNet기반 동물 피부질환 진단 시스템"
     venue: "2023 한국지능시스템학회 춘계학술대회 (제주대학교)"
@@ -924,6 +1033,7 @@ conferences:
     date: "2023.04"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20230101"
 
   - title: "메타러닝 기반 EEG 데이터를 활용한 사용자 의도 인식 시스템"
     venue: "2023 한국지능시스템학회 춘계학술대회 (제주대학교)"
@@ -931,6 +1041,7 @@ conferences:
     date: "2023.04"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20230101"
 
   - title: "메타휴리스틱 알고리즘 기반 최적 경유지 탐색 기법"
     venue: "2023 한국지능시스템학회 춘계학술대회 (제주대학교)"
@@ -938,6 +1049,7 @@ conferences:
     date: "2023.04"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20230101"
 
   - title: "실감형 TTS개발을 위한 KoBERT 기반 문장 분류 시스템"
     venue: "2023 한국지능시스템학회 춘계학술대회 (제주대학교)"
@@ -945,6 +1057,7 @@ conferences:
     date: "2023.04"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20230101"
 
   - title: "인지적 시뮬레이션을 위한 Latent Diffusion 기반 뉴럴 디코딩 시스템"
     venue: "2023 한국지능시스템학회 춘계학술대회 (제주대학교)"
@@ -952,6 +1065,7 @@ conferences:
     date: "2023.04"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20230101"
 
   - title: "합리적인 보험료 산정을 위한 XGboost Regression기반 반려동물 건강나이 예측 시스템"
     venue: "2023 한국지능시스템학회 춘계학술대회 (제주대학교)"
@@ -959,6 +1073,7 @@ conferences:
     date: "2023.04"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20230101"
 
   - title: "효율적인 구직 준비를 위한 KoGPT기반 개인화된 취업 시스템"
     venue: "2023 한국지능시스템학회 춘계학술대회 (제주대학교)"
@@ -966,6 +1081,7 @@ conferences:
     date: "2023.04"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20230101"
 
   - title: "거울신경체계 구현을 위한 EEG 데이터 기반 행동 유도성 특징 분석"
     venue: "2023 한국컴퓨터정보학회 하계학술대회 (제주대학교)"
@@ -974,6 +1090,7 @@ conferences:
     tier: "domestic"
     authorRole: "corresponding"
     note: "우수논문상"
+    url: "https://www.dbpia.co.kr/journal/voisDetail?voisId=VOIS00728255"
 
   - title: "객체 탐지 알고리즘 기반 이미지 검색 시스템"
     venue: "2023 한국컴퓨터정보학회 하계학술대회 (제주대학교)"
@@ -981,6 +1098,7 @@ conferences:
     date: "2023.07"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://www.dbpia.co.kr/journal/voisDetail?voisId=VOIS00728255"
 
   - title: "하모니서치 알고리즘 기반 인접 다중 경유지 최적 경로 탐색 기법"
     venue: "2023 한국컴퓨터정보학회 하계학술대회 (제주대학교)"
@@ -988,6 +1106,7 @@ conferences:
     date: "2023.07"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://www.dbpia.co.kr/journal/voisDetail?voisId=VOIS00728255"
 
   - title: "FastText 알고리즘을 이용한 사용자 지정 키워드 기반 동영상 요약 시스템"
     venue: "2023 한국컴퓨터정보학회 하계학술대회 (제주대학교)"
@@ -995,6 +1114,7 @@ conferences:
     date: "2023.07"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://www.dbpia.co.kr/journal/voisDetail?voisId=VOIS00728255"
 
   - title: "사용자 집중력 향상을 위한 뇌-컴퓨터 인터페이스 기반 메타버스 트레이닝 시스템"
     venue: "2023 한국컴퓨터정보학회 하계학술대회 (제주대학교)"
@@ -1002,6 +1122,7 @@ conferences:
     date: "2023.07"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://www.dbpia.co.kr/journal/voisDetail?voisId=VOIS00728255"
 
   - title: "거울신경체계 모델링을 위한 Graph Attention Network 기반 기능적 뇌 연결성 분석 기법"
     venue: "2024 한국지능시스템학회 춘계학술대회 (서강대학교)"
@@ -1010,6 +1131,7 @@ conferences:
     tier: "domestic"
     authorRole: "corresponding"
     note: "우수논문상"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20240201"
 
   - title: "사용자 사격 실력 향상을 위한 메타버스 기반 GCN 알고리즘을 활용한 개인화된 사격 결과 피드백"
     venue: "2024 한국지능시스템학회 춘계학술대회 (서강대학교)"
@@ -1017,6 +1139,7 @@ conferences:
     date: "2024.04"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20240201"
 
   - title: "보이스피싱을 예방을 위한 KoBERT 기반 실시간 통화 간 보이스피싱 감지 및 경고 시스템의 설계"
     venue: "2024 한국컴퓨터정보학회 하계학술대회 (제주대학교)"
@@ -1024,6 +1147,7 @@ conferences:
     date: "2024.07"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://www.dbpia.co.kr/journal/voisDetail?voisId=VOIS00755305"
 
   - title: "국가유산 보존을 이용한 Vision AI 기반의 소유권 공유 시스템"
     venue: "2024 한국컴퓨터정보학회 하계학술대회 (제주대학교)"
@@ -1031,6 +1155,7 @@ conferences:
     date: "2024.07"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://www.dbpia.co.kr/journal/voisDetail?voisId=VOIS00755305"
 
   - title: "LLM기반 SSVEP를 활용한 Mind Sentencer 개발"
     venue: "2024 한국컴퓨터정보학회 하계학술대회 (제주대학교)"
@@ -1038,6 +1163,7 @@ conferences:
     date: "2024.07"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://www.dbpia.co.kr/journal/voisDetail?voisId=VOIS00755305"
 
   - title: "지식 증류 기반 하모니 서치 알고리즘을 이용한 효율적 여행경로 추천시스템"
     venue: "2024 한국컴퓨터정보학회 하계학술대회 (제주대학교)"
@@ -1046,6 +1172,7 @@ conferences:
     tier: "domestic"
     authorRole: "corresponding"
     note: "우수논문상"
+    url: "https://www.dbpia.co.kr/journal/voisDetail?voisId=VOIS00755305"
 
   - title: "유해가스 분포 및 유동 예측을 위한 FDS 데이터 기반 PINN 시뮬레이션"
     venue: "2024 한국컴퓨터정보학회 하계학술대회 (제주대학교)"
@@ -1054,6 +1181,7 @@ conferences:
     tier: "domestic"
     authorRole: "corresponding"
     note: "우수논문상"
+    url: "https://www.dbpia.co.kr/journal/voisDetail?voisId=VOIS00755305"
 
   - title: "유해가스 및 화재 예측을 위한 Neural Operator 기반 실시간 시뮬레이션"
     venue: "2024 한국지능시스템학회 추계학술대회 (강릉원주대학교)"
@@ -1061,6 +1189,7 @@ conferences:
     date: "2024.11"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20240801"
 
   - title: "메타 휴리스틱 알고리즘 기반 VR관광 모델링"
     venue: "2024 한국지능시스템학회 추계학술대회 (강릉원주대학교)"
@@ -1068,6 +1197,7 @@ conferences:
     date: "2024.11"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20240801"
 
   - title: "MTAN기반 Point rendering과 Object segmentation 모델링"
     venue: "2024 한국지능시스템학회 추계학술대회 (강릉원주대학교)"
@@ -1075,6 +1205,7 @@ conferences:
     date: "2024.11"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20240801"
 
   - title: "사용자 집중력 향상을 위한 메타버스 기반 사격 훈련 시뮬레이션"
     venue: "2024 한국지능시스템학회 추계학술대회 (강릉원주대학교)"
@@ -1082,6 +1213,7 @@ conferences:
     date: "2024.11"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20240801"
 
   - title: "디지털 트윈 환경 구현을 위한 3D Point cloud 기반 맵 모델링"
     venue: "2025 한국지능시스템학회 춘계학술대회 (국립금오공과대학교)"
@@ -1089,24 +1221,28 @@ conferences:
     date: "2025.04"
     tier: "domestic"
     note: "우수논문상"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20250201"
 
   - title: "상속기반 개척자 최적화 알고리즘에 관한 연구"
     venue: "2025 한국지능시스템학회 춘계학술대회 (국립금오공과대학교)"
     volume: "Vol.35, No.1, pp.102-103"
     date: "2025.04"
     tier: "domestic"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20250201"
 
   - title: "CFD데이터를 사용한 침수 예측을 위한 PINO 모델링"
     venue: "2025 한국지능시스템학회 춘계학술대회 (국립금오공과대학교)"
     volume: "Vol.35, No.1, pp.114-115"
     date: "2025.04"
     tier: "domestic"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20250201"
 
   - title: "메타버스 기반 우울증 환자 상담 시스템"
     venue: "2025 한국지능시스템학회 춘계학술대회 (국립금오공과대학교)"
     volume: "Vol.35, No.1, pp.118-119"
     date: "2025.04"
     tier: "domestic"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20250201"
 
   - title: "Physics Informed World Model을 이용한 물체 배치 기반 유체 유입 최적화"
     venue: "2025 한국지능시스템학회 추계학술대회 (서경대학교)"
@@ -1114,6 +1250,7 @@ conferences:
     date: "2025.11"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20250802"
 
   - title: "PINN 알고리즘 기반 물체의 응력 및 변형 예측 시뮬레이션"
     venue: "2025 한국지능시스템학회 추계학술대회 (서경대학교)"
@@ -1121,6 +1258,7 @@ conferences:
     date: "2025.11"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20250802"
 
   - title: "EEG기반 멀티모달 감정인식 시스템"
     venue: "2025 한국지능시스템학회 추계학술대회 (서경대학교)"
@@ -1128,6 +1266,7 @@ conferences:
     date: "2025.11"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20250802"
 
   - title: "Attention Gate 기반 Physics-Guided GNN을 활용한 입자 시뮬레이션 가속화 연구"
     venue: "2026 한국지능시스템학회 춘계학술대회 (제주대학교)"
@@ -1135,6 +1274,7 @@ conferences:
     date: "2026.05"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20260301"
 
   - title: "학습 안정성 향상을 위한 동적 손실 가중치 및 중요도 샘플링기반 PINN 열-기계 연성 해석 모델"
     venue: "2026 한국지능시스템학회 춘계학술대회 (제주대학교)"
@@ -1142,6 +1282,7 @@ conferences:
     date: "2026.05"
     tier: "domestic"
     authorRole: "corresponding"
+    url: "https://kiis.or.kr/Conference/ConferenceView.asp?AC=0&CODE=CC20260301"
 
 patents:
   - title: "스캔기능이 되는 디스플레이"
