@@ -1,37 +1,46 @@
 members:
-  - name: "최준호"
-    nameEn: "Junho Choi"
-    role: "M.S./Ph.D. Integrated"
-    photo: "/images/members/choi-junho.jpg"
+  - name: 이장훈
+    nameEn: Janghun Lee
+    role: Ph.D. Student
+    photo: /images/members/Lee-Janghun.jpg
     research:
-      - "PINN (Physics-Informed Neural Network)"
-    email: "junho74589@gmail.com"
-    github: "https://github.com/Choi-jun-ho"
-    scholar: ""
+      - Optimization
+    email: leejang91347@gmail.com
+    github: ''
+    scholar: ''
+    startYear: 2026
+    graduated: false
+  - name: 박민건
+    nameEn: Mingeon Park
+    role: M.S./Ph.D. Integrated
+    photo: /images/members/park-mingeon.jpg
+    research:
+      - LLM Agent
+      - LLM Memory System
+    email: mingeon@jejunu.ac.kr
+    github: https://github.com/DevMinGeonPark
+    scholar: ''
     startYear: 2025
     graduated: false
-
-  - name: "박민건"
-    nameEn: "Mingeon Park"
-    role: "M.S./Ph.D. Integrated"
-    photo: "/images/members/park-mingeon.jpg"
+  - name: 문성균
+    nameEn: Sungkyun Moon
+    role: M.S./Ph.D. Integrated
+    photo: /images/members/moon-sungkyun.jpg
     research:
-      - "LLM Agent"
-      - "LLM Memory System"
-    email: "mingeon@jejunu.ac.kr"
-    github: "https://github.com/DevMinGeonPark"
-    scholar: ""
+      - PINN (Physics-Informed Neural Network)
+    email: sungkyun@jejunu.ac.kr
+    github: ''
+    scholar: ''
     startYear: 2025
     graduated: false
-
-  - name: "문성균"
-    nameEn: "Sungkyun Moon"
-    role: "M.S./Ph.D. Integrated"
-    photo: "/images/members/moon-sungkyun.jpg"
+  - name: 최준호
+    nameEn: Junho Choi
+    role: M.S./Ph.D. Integrated
+    photo: /images/members/choi-junho.jpg
     research:
-      - "PINN (Physics-Informed Neural Network)"
-    email: "sungkyun@jejunu.ac.kr"
-    github: ""
-    scholar: ""
+      - Physics AI, Co-evolutionary Algorithm
+    email: junho74589@gmail.com
+    github: https://github.com/Choi-jun-ho
+    scholar: ''
     startYear: 2025
     graduated: false
