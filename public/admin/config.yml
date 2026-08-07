@@ -77,6 +77,50 @@ collections:
       - { label: "한 줄 요약", name: summary, widget: string, required: false, default: "" }
       - { label: "본문 (직접 쓴 글일 때 작성)", name: body, widget: markdown, required: false }
 
+  - name: site
+    label: "홈 배너"
+    files:
+      - name: banners
+        label: "홈 배너 캐러셀"
+        file: src/content/site.yaml
+        fields:
+          - label: "슬라이드 (여러 개면 10초마다 자동 전환)"
+            name: banners
+            widget: list
+            summary: "{{fields.title.ko}}"
+            fields:
+              - { label: "표시 여부 (끄면 이 슬라이드만 숨김)", name: enabled, widget: boolean, default: true }
+              - label: "클릭 시 이동할 링크"
+                name: link
+                widget: object
+                fields:
+                  - { label: "한국어 페이지용 (예: /notice/2026-03-01-recruitment 또는 외부 주소)", name: ko, widget: string }
+                  - { label: "영어 페이지용 (예: /en/notice/...)", name: en, widget: string }
+              - label: "작은 라벨 (예: OPEN POSITION, NEWS)"
+                name: label
+                widget: object
+                fields:
+                  - { label: "한국어", name: ko, widget: string }
+                  - { label: "영어", name: en, widget: string }
+              - label: "제목"
+                name: title
+                widget: object
+                fields:
+                  - { label: "한국어", name: ko, widget: string }
+                  - { label: "영어", name: en, widget: string }
+              - label: "본문 (한 줄 설명)"
+                name: body
+                widget: object
+                fields:
+                  - { label: "한국어", name: ko, widget: string }
+                  - { label: "영어", name: en, widget: string }
+              - label: "버튼 문구"
+                name: button
+                widget: object
+                fields:
+                  - { label: "한국어", name: ko, widget: string, default: "자세히 보기" }
+                  - { label: "영어", name: en, widget: string, default: "Learn More" }
+
   - name: people
     label: "멤버"
     files:

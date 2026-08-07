@@ -67,3 +67,4 @@ Cloudflare 대시보드 → Workers & Pages → 1단계에서 만든 Worker → 
 | 세미나 | 발표자/카테고리/태그 포함 | `src/content/seminars/` |
 | Blog | 외부 글 링크 또는 직접 작성 글 | `src/content/blog/` |
 | 멤버 | 멤버 목록 편집 (사진 업로드 가능) | `src/content/members.yaml` |
+| 홈 배너 | 홈 배너 캐러셀 슬라이드 편집 (한/영, 링크) | `src/content/site.yaml` |
