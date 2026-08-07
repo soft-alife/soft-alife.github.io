@@ -1,27 +1,43 @@
 # Site-wide editable text.
 #
-# This file holds bilingual snippets that change often (e.g. each recruiting
-# cycle) so non-developers can update them without touching .astro files.
+# banners: 홈 상단 회색 배너 캐러셀. 여러 개 등록하면 10초마다 옆으로
+# 넘어갑니다. enabled: false 로 개별 슬라이드를 숨길 수 있습니다.
+# link에 사이트 내 경로(/notice/..., /news/...)나 외부 주소를 넣으세요.
 #
 # Schema is enforced in src/lib/content.ts (`SiteSchema`). Adding a new key
 # here without also updating the schema will fail the build.
-#
-# Add new keys per language as `{ ko: "...", en: "..." }`.
 
-recruit:
-  enabled: true
-  link:
-    ko: "/notice/2026-03-01-recruitment"
-    en: "/en/notice/2026-03-01-recruitment"
-  label:
-    ko: "OPEN POSITION"
-    en: "OPEN POSITION"
-  title:
-    ko: "2026 후기 석사/박사 연구원을 모집합니다"
-    en: "Recruiting M.S./Ph.D. Researchers for Fall 2026"
-  body:
-    ko: "지능시스템, 인공생명, 기계학습, 최적화 이론 분야에 관심 있는 열정적인 학생을 찾습니다."
-    en: "We are looking for passionate students interested in Intelligent Systems, Artificial Life, Machine Learning, and Optimization Theory."
-  button:
-    ko: "자세히 보기"
-    en: "Learn More"
+banners:
+  - enabled: true
+    link:
+      ko: "/notice/2026-03-01-recruitment"
+      en: "/en/notice/2026-03-01-recruitment"
+    label:
+      ko: "OPEN POSITION"
+      en: "OPEN POSITION"
+    title:
+      ko: "2026 후기 석사/박사 연구원을 모집합니다"
+      en: "Recruiting M.S./Ph.D. Researchers for Fall 2026"
+    body:
+      ko: "지능시스템, 인공생명, 기계학습, 최적화 이론 분야에 관심 있는 열정적인 학생을 찾습니다."
+      en: "We are looking for passionate students interested in Intelligent Systems, Artificial Life, Machine Learning, and Optimization Theory."
+    button:
+      ko: "자세히 보기"
+      en: "Learn More"
+
+  - enabled: true
+    link:
+      ko: "/news/2026-07-03-hyundai-ve-lecture"
+      en: "/en/news/2026-07-03-hyundai-ve-lecture"
+    label:
+      ko: "NEWS"
+      en: "NEWS"
+    title:
+      ko: "현대자동차 대상 버추얼 엔지니어링 교육 진행"
+      en: "Virtual Engineering Training for Hyundai Motor Company"
+    body:
+      ko: "서울대 현대·기아 차세대자동차 연구관에서 3일간 VE·AI 실습 교육을 진행했습니다."
+      en: "A 3-day hands-on VE & AI training at the SNU Hyundai-Kia Next Generation Vehicle Research Hall."
+    button:
+      ko: "기사 보기"
+      en: "Read More"

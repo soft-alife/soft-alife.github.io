@@ -2,26 +2,21 @@
 /**
  * Publications page (shared between /publications and /en/publications).
  *
- * Four tabs: 전체 / Journal Paper / News / Blog.
- * - Journal Paper: professor.yaml에서 SCI/SCIE·SCOPUS 학술지와 탑티어
- *   컨퍼런스(tier: "top")만 자동으로 가져온다. 별도 관리 불필요.
- * - News/Blog: src/content/news/, src/content/blog/ 마크다운 컬렉션.
- *   link가 있으면 외부 기사(새 탭), 없으면 직접 작성 글로 사이트 내
- *   상세 페이지(/news/슬러그, /blog/슬러그)로 이동한다.
- * Tab UI and card markup live in PublicationTabs.tsx.
+ * 논문 목록 전용 페이지. professor.yaml에서 SCI/SCIE·SCOPUS 학술지와
+ * 탑티어 컨퍼런스(tier: "top")만 자동으로 가져온다 — 별도 관리 불필요.
+ * News/Blog는 독립 메뉴(/news, /blog)로 분리되어 있다.
+ * 목록/검색 UI는 PaperList.tsx.
  */
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PageHeader from "@/components/layout/PageHeader.astro";
-import PublicationTabs from "@/components/sections/PublicationTabs";
+import PaperList from "@/components/sections/PaperList";
 import { loadProfessor } from "@/lib/content";
-import { getCollection } from "astro:content";
 
 interface Props {
   lang: "ko" | "en";
 }
 
 const { lang } = Astro.props;
-const prefix = lang === "en" ? "/en" : "";
 
 const dict = {
   ko: {
@@ -29,28 +24,18 @@ const dict = {
     metaDescription: "SAL 연구실 논문 및 출판물 목록",
     headerTitle: "Publications",
     breadcrumb: "SAL > 출판물",
-    tabAll: "전체",
-    tabJournal: "Journal Paper",
-    tabNews: "News",
-    tabBlog: "Blog",
-    empty: "등록된 항목이 없습니다.",
-    visit: "원문 보기",
-    topTier: "탑티어",
+    empty: "검색 결과가 없습니다.",
     searchPlaceholder: "검색",
+    topTier: "탑티어",
   },
   en: {
     pageTitle: "Publications - SAL Laboratory",
     metaDescription: "SAL Laboratory Publications",
     headerTitle: "Publications",
     breadcrumb: "SAL > Publications",
-    tabAll: "All",
-    tabJournal: "Journal Paper",
-    tabNews: "News",
-    tabBlog: "Blog",
-    empty: "No items yet.",
-    visit: "View Original",
-    topTier: "Top-tier",
+    empty: "No results found.",
     searchPlaceholder: "Search",
+    topTier: "Top-tier",
   },
 } as const;
 
@@ -59,7 +44,7 @@ const T = dict[lang];
 const byDateDesc = (a: { date: string }, b: { date: string }) =>
   b.date.localeCompare(a.date);
 
-// Journal Paper 탭: SCI/SCIE·SCOPUS 학술지 + 탑티어 컨퍼런스만 (최신순).
+// SCI/SCIE·SCOPUS 학술지 + 탑티어 컨퍼런스만 (최신순).
 // 분류별 배지 색상: SCI/SCIE·탑티어 노랑, SCOPUS 연푸른색.
 const badgeClasses = {
   sci: "bg-[#FEF3C7] text-[#92400E]",
@@ -93,40 +78,11 @@ const topConferencePapers = professor.conferences
     title: c.title,
     venue: c.venue + (c.volume ? `, ${c.volume}` : ""),
     sub: "",
+    subStrong: "",
     link: c.url || (c.doi ? `https://doi.org/${c.doi}` : ""),
   }));
 
 const publications = [...journalPapers, ...topConferencePapers].sort(byDateDesc);
-
-const formatDate = (date: Date) => {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, "0");
-  const d = String(date.getDate()).padStart(2, "0");
-  return `${y}.${m}.${d}`;
-};
-
-// News/Blog: 외부 기사는 link(새 탭), 직접 작성 글은 사이트 내 상세 페이지로.
-const news = (await getCollection("news"))
-  .map((e) => ({
-    title: e.data.title,
-    date: formatDate(e.data.date),
-    source: e.data.source,
-    link: e.data.link,
-    internalHref: e.data.link ? "" : `${prefix}/news/${e.id.replace(/\.md$/, "")}`,
-    summary: e.data.summary,
-  }))
-  .sort(byDateDesc);
-
-const blog = (await getCollection("blog"))
-  .map((e) => ({
-    title: e.data.title,
-    date: formatDate(e.data.date),
-    source: e.data.author,
-    link: e.data.link,
-    internalHref: e.data.link ? "" : `${prefix}/blog/${e.id.replace(/\.md$/, "")}`,
-    summary: e.data.summary,
-  }))
-  .sort(byDateDesc);
 ---
 
 <BaseLayout
@@ -138,19 +94,9 @@ const blog = (await getCollection("blog"))
   <PageHeader title={T.headerTitle} breadcrumb={T.breadcrumb} />
 
   <div class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-[40px]">
-    <PublicationTabs
+    <PaperList
       publications={publications}
-      news={news}
-      blog={blog}
-      labels={{
-        all: T.tabAll,
-        journal: T.tabJournal,
-        news: T.tabNews,
-        blog: T.tabBlog,
-        empty: T.empty,
-        visit: T.visit,
-        searchPlaceholder: T.searchPlaceholder,
-      }}
+      labels={{ empty: T.empty, searchPlaceholder: T.searchPlaceholder }}
       client:load
     />
   </div>

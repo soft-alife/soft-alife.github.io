@@ -6,6 +6,7 @@
  * URL prefixes for internal links are computed via `prefix()`.
  */
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import HomeBanner from "@/components/sections/HomeBanner";
 import { getCollection } from "astro:content";
 import { loadMembers, loadSite, t } from "@/lib/content";
 
@@ -24,7 +25,7 @@ const dict = {
     heroEyebrow: "Jeju National University · Dept. of Computer Engineering",
     heroBodyLine1: "지능시스템, 인공생명, 기계학습, 최적화 이론을 연구하는",
     heroBodyLine2: "제주대학교 SAL 연구실입니다.",
-    recentSeminars: "Recent Seminars",
+    newsHeading: "News",
     notice: "Notice",
     researchAreasHeading: "Research Areas",
     membersHeading: "Members",
@@ -34,7 +35,7 @@ const dict = {
     profEmail: "이메일",
     profAlt: "박승민 교수",
     profName: "박승민",
-    emptySeminars: "등록된 세미나가 없습니다.",
+    emptyNews: "등록된 소식이 없습니다.",
     emptyNotices: "등록된 공지가 없습니다.",
     researchAreas: [
       {
@@ -70,7 +71,7 @@ const dict = {
     heroEyebrow: "Jeju National University · Dept. of Computer Engineering",
     heroBodyLine1: "Researching Intelligent Systems, Artificial Life,",
     heroBodyLine2: "Machine Learning, and Optimization Theory.",
-    recentSeminars: "Recent Seminars",
+    newsHeading: "News",
     notice: "Notice",
     researchAreasHeading: "Research Areas",
     membersHeading: "Members",
@@ -80,7 +81,7 @@ const dict = {
     profEmail: "Email",
     profAlt: "Prof. Seungmin Park",
     profName: "Seungmin Park",
-    emptySeminars: "No seminars registered.",
+    emptyNews: "No news yet.",
     emptyNotices: "No notices registered.",
     researchAreas: [
       {
@@ -114,10 +115,28 @@ const dict = {
 const T = dict[lang];
 const site = loadSite();
 
+// 홈 배너 캐러셀 슬라이드 (언어별 문자열로 변환해서 전달)
+const bannerSlides = site.banners
+  .filter((b) => b.enabled)
+  .map((b) => ({
+    label: t(b.label, lang),
+    title: t(b.title, lang),
+    body: t(b.body, lang),
+    button: t(b.button, lang),
+    link: t(b.link, lang),
+  }));
+
 // Fetch content collections
-const seminars = (await getCollection("seminars"))
+const newsItems = (await getCollection("news"))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 3);
+  .slice(0, 3)
+  .map((e) => ({
+    title: e.data.title,
+    date: e.data.date,
+    source: e.data.source,
+    href: e.data.link || `${prefix}/news/${e.id.replace(/\.md$/, "")}`,
+    external: e.data.link !== "",
+  }));
 
 const notices = (await getCollection("notices"))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
@@ -171,81 +190,53 @@ function formatDate(date: Date): string {
     </div>
   </section>
 
-  <!-- Recruit Banner -->
-  {site.recruit.enabled && (
-    <section class="bg-[#FAFAFA] border-y border-[#E4E4E720]">
-      <div
-        class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-5 md:py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-8"
-      >
-        <div class="flex flex-col gap-1.5 md:gap-2">
-          <span
-            class="text-[10px] md:text-xs text-muted-foreground uppercase tracking-[1.5px] font-medium"
-          >
-            {t(site.recruit.label, lang)}
-          </span>
-          <h2 class="text-base md:text-xl font-semibold text-foreground">
-            {t(site.recruit.title, lang)}
-          </h2>
-          <p class="text-sm md:text-base text-muted">
-            {t(site.recruit.body, lang)}
-          </p>
-        </div>
-        <a
-          href={t(site.recruit.link, lang)}
-          class="flex-shrink-0 inline-flex items-center justify-center bg-primary text-primary-foreground text-sm md:text-base font-medium px-4 py-2 rounded-lg hover:opacity-90 transition-opacity"
-        >
-          {t(site.recruit.button, lang)}
-        </a>
-      </div>
-    </section>
-  )}
+  <!-- Banner Carousel (회색 배경, 10초마다 자동 전환) -->
+  {bannerSlides.length > 0 && <HomeBanner slides={bannerSlides} client:load />}
 
   <!-- Content Grid -->
   <section>
     <div class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-section flex flex-col lg:flex-row gap-6">
-      <!-- Left: Recent Seminars -->
+      <!-- Left: News -->
       <div class="flex-1 min-w-0 flex flex-col">
         <div class="border border-border rounded-lg bg-card flex flex-col flex-1">
           <div
             class="flex items-center justify-between px-6 py-4 border-b border-border"
           >
             <h2 class="text-lg font-semibold text-foreground">
-              {T.recentSeminars}
+              {T.newsHeading}
             </h2>
             <a
-              href={`${prefix}/seminar`}
+              href={`${prefix}/news`}
               class="text-base text-muted hover:text-foreground transition-colors"
             >
               {T.allLink}
             </a>
           </div>
           <div class="divide-y divide-border flex-1">
-            {seminars.length > 0 ? (
-              seminars.map((seminar) => (
+            {newsItems.length > 0 ? (
+              newsItems.map((item) => (
                 <a
-                  href={`${prefix}/seminar/${seminar.id.replace(/\.md$/, "")}`}
+                  href={item.href}
+                  target={item.external ? "_blank" : undefined}
+                  rel={item.external ? "noopener noreferrer" : undefined}
                   class="flex items-start gap-4 px-6 py-4 hover:bg-secondary/50 transition-colors overflow-hidden"
                 >
                   <span class="text-sm text-muted-foreground whitespace-nowrap mt-0.5">
-                    {formatDate(seminar.data.date)}
+                    {formatDate(item.date)}
                   </span>
                   <div class="flex-1 min-w-0">
                     <p class="text-md font-medium text-foreground truncate">
-                      {seminar.data.title}
+                      {item.title}
                     </p>
-                    <p class="text-base text-muted mt-0.5">
-                      {seminar.data.presenter}
-                      {seminar.data.affiliation && ` · ${seminar.data.affiliation}`}
-                    </p>
+                    {item.source && (
+                      <p class="text-base text-muted mt-0.5">{item.source}</p>
+                    )}
                   </div>
-                  <span class="flex-shrink-0 inline-flex items-center px-2 py-0.5 bg-secondary text-secondary-foreground text-xs rounded-pill">
-                    {seminar.data.category}
-                  </span>
                 </a>
               ))
             ) : (
               <div class="px-6 py-8 text-center text-base text-muted">
-                {T.emptySeminars}
+                {T.emptyNews}
               </div>
             )}
           </div>

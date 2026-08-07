@@ -224,26 +224,27 @@ const dict = {
 
 ### 5.6 사이트 텍스트 (`src/content/site.yaml`)
 
-홈 채용 배너처럼 시기마다 바뀌는 이중 언어 텍스트를 모아둔 곳입니다. 모든 텍스트 필드는 `{ ko: "...", en: "..." }` 형태입니다.
+홈 상단 배너 캐러셀을 관리합니다. 슬라이드를 여러 개 등록하면 **10초마다 옆으로 자동 전환**됩니다. 모든 텍스트 필드는 `{ ko: "...", en: "..." }` 형태입니다.
 
 ```yaml
-recruit:
-  enabled: true                            # false면 배너 자체 숨김
-  link:
-    ko: "/notice/2026-03-01-recruitment"   # 한국어 페이지에서 클릭 시 이동
-    en: "/en/notice/2026-03-01-recruitment"
-  label:                                   # 작은 라벨 (예: "OPEN POSITION")
-    ko: "OPEN POSITION"
-    en: "OPEN POSITION"
-  title:
-    ko: "..."
-    en: "..."
-  body:
-    ko: "..."
-    en: "..."
-  button:
-    ko: "자세히 보기"
-    en: "Learn More"
+banners:
+  - enabled: true                          # false면 이 슬라이드만 숨김
+    link:
+      ko: "/notice/2026-03-01-recruitment" # 사이트 내 경로 또는 외부 주소
+      en: "/en/notice/2026-03-01-recruitment"
+    label:                                 # 작은 라벨 (예: "OPEN POSITION", "NEWS")
+      ko: "OPEN POSITION"
+      en: "OPEN POSITION"
+    title:
+      ko: "..."
+      en: "..."
+    body:
+      ko: "..."
+      en: "..."
+    button:
+      ko: "자세히 보기"
+      en: "Learn More"
+  # 슬라이드를 추가하려면 위 블록을 복사해서 이어 붙이면 됩니다.
 ```
 
 새 키를 추가하려면 `src/lib/content.ts`의 `SiteSchema`도 같이 업데이트해야 합니다. 한쪽만 바꾸면 빌드가 거부합니다.
@@ -308,11 +309,12 @@ summary: "한 줄 요약"
 2. 완료 처리: 해당 과제의 `status: "ongoing"`을 `"completed"`로 변경.
 3. `npm run build`로 검증.
 
-### 6.7 "채용 배너 문구/링크를 바꿔줘"
+### 6.7 "홈 배너를 바꿔줘 / 배너에 OO 페이지 올려줘"
 
-1. `src/content/site.yaml`의 `recruit` 섹션을 수정. 한국어 + 영어 둘 다 채울 것.
-2. 채용 시즌이 끝나 배너를 숨기려면 `enabled: false`로만 변경.
-3. `npm run build`로 검증.
+1. `src/content/site.yaml`의 `banners` 배열을 수정. 슬라이드 추가는 기존 블록 복사, 한국어 + 영어 둘 다 채울 것.
+2. 특정 슬라이드를 숨기려면 해당 슬라이드의 `enabled: false`로만 변경.
+3. 슬라이드가 2개 이상이면 홈에서 10초마다 자동 전환된다 (자동 처리).
+4. `npm run build`로 검증.
 
 ### 6.8 "한/영 텍스트 표시 문구를 바꿔줘"
 

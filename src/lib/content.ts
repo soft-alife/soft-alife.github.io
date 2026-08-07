@@ -63,15 +63,19 @@ const Bilingual = z.object({
 });
 export type BilingualText = z.infer<typeof Bilingual>;
 
+// 홈 배너 캐러셀 슬라이드 (10초마다 자동 전환). 원하는 페이지를 슬라이드로
+// 올릴 수 있다 — link에 사이트 내 경로나 외부 주소를 넣으면 된다.
+const BannerSchema = z.object({
+  enabled: z.boolean().default(true),
+  link: Bilingual,
+  label: Bilingual, // 작은 라벨 (예: "OPEN POSITION", "NEWS")
+  title: Bilingual,
+  body: Bilingual,
+  button: Bilingual,
+});
+
 export const SiteSchema = z.object({
-  recruit: z.object({
-    enabled: z.boolean().default(true),
-    link: Bilingual,
-    label: Bilingual,
-    title: Bilingual,
-    body: Bilingual,
-    button: Bilingual,
-  }),
+  banners: z.array(BannerSchema).default([]),
 });
 export type Site = z.infer<typeof SiteSchema>;
 

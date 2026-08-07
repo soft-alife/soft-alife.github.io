@@ -1,0 +1,95 @@
+---
+/**
+ * News/Blog 목록 페이지 (shared: /news, /blog, /en/news, /en/blog).
+ *
+ * 외부 기사(link)는 새 탭으로, 직접 작성 글은 사이트 내 상세 페이지
+ * (/news/슬러그, /blog/슬러그)로 이동한다. 목록 UI는 PostList.tsx.
+ */
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/layout/PageHeader.astro";
+import PostList from "@/components/sections/PostList";
+import { getCollection } from "astro:content";
+
+interface Props {
+  lang: "ko" | "en";
+  type: "news" | "blog";
+}
+
+const { lang, type } = Astro.props;
+const prefix = lang === "en" ? "/en" : "";
+
+const dict = {
+  ko: {
+    news: {
+      pageTitle: "News — SAL Lab",
+      metaDescription: "SAL 연구실 소식과 기사",
+      headerTitle: "News",
+      breadcrumb: "SAL > News",
+    },
+    blog: {
+      pageTitle: "Blog — SAL Lab",
+      metaDescription: "SAL 연구실 블로그",
+      headerTitle: "Blog",
+      breadcrumb: "SAL > Blog",
+    },
+    empty: "등록된 글이 없습니다.",
+    searchPlaceholder: "검색",
+  },
+  en: {
+    news: {
+      pageTitle: "News — SAL Lab",
+      metaDescription: "SAL Laboratory News",
+      headerTitle: "News",
+      breadcrumb: "SAL > News",
+    },
+    blog: {
+      pageTitle: "Blog — SAL Lab",
+      metaDescription: "SAL Laboratory Blog",
+      headerTitle: "Blog",
+      breadcrumb: "SAL > Blog",
+    },
+    empty: "No posts yet.",
+    searchPlaceholder: "Search",
+  },
+} as const;
+
+const T = dict[lang];
+const P = T[type];
+
+const formatDate = (date: Date) => {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}.${m}.${d}`;
+};
+
+const entries = await getCollection(type);
+const posts = entries
+  .map((e) => ({
+    title: e.data.title,
+    date: formatDate(e.data.date),
+    source:
+      "source" in e.data ? e.data.source : (e.data as { author?: string }).author ?? "",
+    link: e.data.link,
+    internalHref: e.data.link ? "" : `${prefix}/${type}/${e.id.replace(/\.md$/, "")}`,
+    summary: e.data.summary,
+  }))
+  .sort((a, b) => b.date.localeCompare(a.date));
+---
+
+<BaseLayout
+  title={P.pageTitle}
+  description={P.metaDescription}
+  activeNav={type === "news" ? "News" : "Blog"}
+  lang={lang}
+>
+  <PageHeader title={P.headerTitle} breadcrumb={P.breadcrumb} />
+
+  <div class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-[40px]">
+    <PostList
+      posts={posts}
+      labels={{ empty: T.empty, searchPlaceholder: T.searchPlaceholder }}
+      client:load
+    />
+  </div>
+</BaseLayout>
