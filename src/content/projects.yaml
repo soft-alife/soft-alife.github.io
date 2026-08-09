@@ -7,8 +7,8 @@
 projects:
   - title: "CNMV를 활용한 AI최적화알고리즘 기반 해양탄소배출 예측 시스템"
     titleEn: ""
-    status: "ongoing"
-    period: "2025.09 - 2026.08"
+    status: "completed"
+    period: "2025.09 - 2026.02"
     funding: "한국산업기술진흥원(KIAT)"
     ministry: "한국산업기술진흥원(KIAT)"
     role: "연구책임자"
@@ -18,8 +18,8 @@ projects:
 
   - title: "인간-로봇 상호작용을 위한 월드모델 기반 상황인지를 통한 다중 로봇 제어 시스템 연구"
     titleEn: ""
-    status: "ongoing"
-    period: "2025.08 - 2026.07"
+    status: "completed"
+    period: "2025.08 - 2026.02"
     funding: "교육부"
     ministry: "교육부"
     role: "연구책임자"
@@ -198,8 +198,8 @@ projects:
 
   - title: "멀티 스케일 뇌 운동 메커니즘 규명을 통한 고성능 BCI 시스템 개발"
     titleEn: ""
-    status: "ongoing"
-    period: "2018.03 - 현재"
+    status: "completed"
+    period: "2018.03 - 2019.02"
     funding: "한국연구재단"
     ministry: "과학기술정보통신부"
     role: ""

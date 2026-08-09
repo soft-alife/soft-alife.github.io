@@ -1,0 +1,112 @@
+---
+/**
+ * Lecture page (shared between /lecture and /en/lecture).
+ *
+ * lectures.yaml의 강의를 연도·학기별로 그룹핑해 최신순으로 표시한다.
+ * 학부/대학원 구분은 배지로 표시.
+ */
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/layout/PageHeader.astro";
+import { loadLectures } from "@/lib/content";
+
+interface Props {
+  lang: "ko" | "en";
+}
+
+const { lang } = Astro.props;
+
+const dict = {
+  ko: {
+    pageTitle: "Lecture - SAL Laboratory",
+    metaDescription: "박승민 교수 학기별 강의 목록",
+    headerTitle: "Lecture",
+    breadcrumb: "SAL > Lecture",
+    empty: "등록된 강의가 없습니다.",
+    semesterSuffix: "", // "2026년 1학기"
+    undergrad: "학부",
+    grad: "대학원",
+  },
+  en: {
+    pageTitle: "Lecture - SAL Laboratory",
+    metaDescription: "Courses taught by Prof. Seungmin Park",
+    headerTitle: "Lecture",
+    breadcrumb: "SAL > Lecture",
+    empty: "No lectures registered.",
+    semesterSuffix: "",
+    undergrad: "Undergraduate",
+    grad: "Graduate",
+  },
+} as const;
+
+const T = dict[lang];
+
+const lectures = loadLectures();
+
+// 연도·학기별 그룹 (최신 연도 먼저, 같은 연도는 학기 문자열 역순: 2학기 → 1학기)
+const groupKey = (l: (typeof lectures)[number]) => `${l.year}|${l.semester}`;
+const groups = [...new Set(lectures.map(groupKey))]
+  .sort((a, b) => b.localeCompare(a))
+  .map((key) => {
+    const [year, semester] = key.split("|");
+    return {
+      title:
+        lang === "ko" ? `${year}년 ${semester}` : `${year} ${semester}`,
+      items: lectures.filter((l) => groupKey(l) === key),
+    };
+  });
+
+const levelLabel = (level: "학부" | "대학원") =>
+  level === "학부" ? T.undergrad : T.grad;
+---
+
+<BaseLayout
+  title={T.pageTitle}
+  description={T.metaDescription}
+  activeNav="Lecture"
+  lang={lang}
+>
+  <PageHeader title={T.headerTitle} breadcrumb={T.breadcrumb} />
+
+  <div class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-[40px]">
+    {groups.length === 0 && (
+      <p class="text-[13px] text-[#A1A1AA] py-8 text-center">{T.empty}</p>
+    )}
+
+    {groups.map((group, i) => (
+      <section class={i === 0 ? "" : "mt-[48px]"}>
+        <h2 class="text-2xl font-bold text-foreground mb-4">{group.title}</h2>
+        <div class="border-t border-border mb-6"></div>
+        <div class="space-y-4">
+          {group.items.map((lecture) => (
+            <div class="border border-border rounded-lg p-5">
+              <div class="flex items-center gap-2 mb-2 flex-wrap">
+                <span
+                  class={`inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill text-xs font-medium ${
+                    lecture.level === "학부"
+                      ? "bg-[#EFF6FF] text-[#1D4ED8]"
+                      : "bg-[#FEF3C7] text-[#92400E]"
+                  }`}
+                >
+                  {levelLabel(lecture.level)}
+                </span>
+                {lecture.code && (
+                  <span class="inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill bg-secondary text-secondary-foreground text-xs font-medium">
+                    {lecture.code}
+                  </span>
+                )}
+              </div>
+              <h3 class="text-lg font-semibold text-foreground leading-snug">
+                {lang === "en" ? lecture.titleEn || lecture.title : lecture.title}
+              </h3>
+              {lecture.description && (
+                <p class="text-sm text-muted-foreground mt-1">
+                  {lecture.description}
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+</BaseLayout>

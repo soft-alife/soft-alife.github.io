@@ -96,6 +96,21 @@ export const ProjectSchema = z.object({
 export type Project = z.infer<typeof ProjectSchema>;
 
 // ---------------------------------------------------------------------------
+// Lectures (src/content/lectures.yaml) — 학기별 학부/대학원 강의 목록
+// ---------------------------------------------------------------------------
+
+export const LectureSchema = z.object({
+  year: z.number().int(), // 예: 2026
+  semester: z.string().min(1), // "1학기" | "2학기" | "여름학기" 등
+  level: z.enum(["학부", "대학원"]),
+  title: z.string().min(1), // 과목명
+  titleEn: z.string().default(""), // 영문 과목명 (영어 페이지용, 없으면 원제)
+  code: z.string().default(""), // 과목 코드 (없으면 "")
+  description: z.string().default(""),
+});
+export type Lecture = z.infer<typeof LectureSchema>;
+
+// ---------------------------------------------------------------------------
 // Professor achievements (src/content/professor.yaml)
 //
 // Holds the professor's full publication/patent/award record shown on the
@@ -228,6 +243,11 @@ export function loadPublications(): Publication[] {
 export function loadProjects(): Project[] {
   const file = "src/content/projects.yaml";
   return parseList(ProjectSchema, readYaml(file), "projects", file);
+}
+
+export function loadLectures(): Lecture[] {
+  const file = "src/content/lectures.yaml";
+  return parseList(LectureSchema, readYaml(file), "lectures", file);
 }
 
 export function loadProfessor(): Professor {

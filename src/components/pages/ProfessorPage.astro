@@ -27,7 +27,7 @@ const dict = {
     pageTitle: "지도교수 | SAL Lab",
     metaDescription: "SAL 연구실 지도교수 박승민 교수 소개",
     headerTitle: "Professor",
-    breadcrumb: "SAL > 지도교수",
+    breadcrumb: "SAL > Professor",
     photoAlt: "박승민 교수 프로필 사진",
     name: "박승민",
     rankBadge: "부교수",
@@ -40,8 +40,8 @@ const dict = {
     ],
     educationHeading: "학력",
     education: [
-      "공학박사 — 중앙대학교 제어및시스템공학, 지능시스템 (2019.02)",
-      "공학사 — 중앙대학교 전자전기공학부 (2010.02)",
+      "중앙대학교 제어및시스템공학, 지능시스템전공, 공학박사 (2019.02)",
+      "중앙대학교 전자전기공학부, 공학사 (2010.02)",
     ],
     contactHeading: "연락처",
     emailLabel: "이메일:",
@@ -109,6 +109,11 @@ const dict = {
         title: "최적화 이론 (Optimization Theory)",
         description:
           "진화연산, 메타휴리스틱, 물리정보신경망(PINN) 등 자연 기반 최적화 알고리즘 연구 및 응용",
+      },
+      {
+        title: "뇌-컴퓨터 인터페이스 (Brain-Computer Interface)",
+        description:
+          "뇌파(EEG) 신호 분석과 기계학습을 통해 사용자 의도를 인식하는 뇌-컴퓨터 인터페이스(BCI) 및 휴먼증강 기술 연구",
       },
     ],
   },
@@ -198,6 +203,11 @@ const dict = {
         title: "Optimization Theory",
         description:
           "Researching nature-inspired optimization algorithms such as evolutionary computation, metaheuristics, and physics-informed neural networks (PINN)",
+      },
+      {
+        title: "Brain-Computer Interface",
+        description:
+          "Research on brain-computer interfaces (BCI) and human augmentation technologies that recognize user intention through EEG signal analysis and machine learning",
       },
     ],
   },
@@ -311,10 +321,15 @@ const topItems = conferenceItems("top");
 const intlItems = conferenceItems("international");
 const domesticItems = conferenceItems("domestic");
 
-// Patents: newest application first.
-const patents = [...professor.patents].sort((a, b) =>
-  b.applicationDate.localeCompare(a.applicationDate),
-);
+// Patents: 등록 → 출원 순. 등록건은 등록일, 출원건은 출원일 기준 최신순.
+const patents = [...professor.patents].sort((a, b) => {
+  if (a.status !== b.status) return a.status === "registered" ? -1 : 1;
+  const da =
+    a.status === "registered" ? a.registrationDate || a.applicationDate : a.applicationDate;
+  const db =
+    b.status === "registered" ? b.registrationDate || b.applicationDate : b.applicationDate;
+  return db.localeCompare(da);
+});
 
 function patentStatusLabel(p: (typeof patents)[number]) {
   const base = p.status === "registered" ? T.statusRegistered : T.statusFiled;

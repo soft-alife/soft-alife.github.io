@@ -2,14 +2,15 @@
 /**
  * Publications page (shared between /publications and /en/publications).
  *
- * 논문 목록 전용 페이지. professor.yaml에서 SCI/SCIE·SCOPUS 학술지와
- * 탑티어 컨퍼런스(tier: "top")만 자동으로 가져온다 — 별도 관리 불필요.
- * News/Blog는 독립 메뉴(/news, /blog)로 분리되어 있다.
- * 목록/검색 UI는 PaperList.tsx.
+ * 교수 페이지와 같은 접이식 그룹 스타일. 데이터는 professor.yaml에서
+ * 자동으로 가져오므로(자동 포워딩) professor.yaml만 관리하면 된다.
+ *
+ * 그룹: SCI/SCIE · SCOPUS · KCI · 국제학술대회 · 국내학술대회 · 기술이전 · 특허
+ * 특허는 등록 → 출원 순, 각각 일자 최신순. 검색 UI는 PublicationsBrowser.tsx.
  */
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PageHeader from "@/components/layout/PageHeader.astro";
-import PaperList from "@/components/sections/PaperList";
+import PublicationsBrowser from "@/components/sections/PublicationsBrowser";
 import { loadProfessor } from "@/lib/content";
 
 interface Props {
@@ -23,10 +24,27 @@ const dict = {
     pageTitle: "Publications - SAL Laboratory",
     metaDescription: "SAL 연구실 논문 및 출판물 목록",
     headerTitle: "Publications",
-    breadcrumb: "SAL > 출판물",
+    breadcrumb: "SAL > Publications",
     empty: "검색 결과가 없습니다.",
     searchPlaceholder: "검색",
-    topTier: "탑티어",
+    showAll: "전체 보기",
+    collapse: "접기",
+    groupIntl: "국제학술대회",
+    groupDomestic: "국내학술대회",
+    groupTech: "기술이전",
+    groupPatents: "특허",
+    tierTop: "탑티어",
+    tierIntl: "국제",
+    tierDomestic: "국내",
+    roleFirst: "제1저자",
+    roleCorresponding: "교신저자",
+    roleCo: "공동저자",
+    techBadge: "기술이전",
+    statusRegistered: "등록",
+    statusFiled: "출원",
+    designPrefix: "디자인",
+    appLabel: "출원",
+    regLabel: "등록",
   },
   en: {
     pageTitle: "Publications - SAL Laboratory",
@@ -35,54 +53,232 @@ const dict = {
     breadcrumb: "SAL > Publications",
     empty: "No results found.",
     searchPlaceholder: "Search",
-    topTier: "Top-tier",
+    showAll: "Show All",
+    collapse: "Collapse",
+    groupIntl: "International Conferences",
+    groupDomestic: "Domestic Conferences",
+    groupTech: "Technology Transfer",
+    groupPatents: "Patents",
+    tierTop: "Top-tier",
+    tierIntl: "International",
+    tierDomestic: "Domestic",
+    roleFirst: "First Author",
+    roleCorresponding: "Corresponding Author",
+    roleCo: "Co-author",
+    techBadge: "Tech Transfer",
+    statusRegistered: "Registered",
+    statusFiled: "Filed",
+    designPrefix: "Design",
+    appLabel: "Application",
+    regLabel: "Registration",
   },
 } as const;
 
 const T = dict[lang];
 
+// ---------------------------------------------------------------------------
+// professor.yaml → 접이식 그룹 항목 (교수 페이지와 동일한 배지/카드 규칙)
+// ---------------------------------------------------------------------------
+const professor = loadProfessor();
+
+// 배지 색상 규칙 (교수 페이지와 동일):
+//   노랑 — SCI/SCIE, 탑티어, 국제 특허, 제1저자
+//   파랑 — 국제학술대회, 국내 특허 등록, 교신저자
+//   연푸른색 — SCOPUS
+//   회색 — KCI, 국내학술대회, 국내 특허 출원, 공동저자
+const badgeColors = {
+  yellow: "bg-[#FEF3C7] text-[#92400E]",
+  blue: "bg-[#DBEAFE] text-[#1E40AF]",
+  lightBlue: "bg-[#EFF6FF] text-[#1D4ED8]",
+  gray: "bg-[#F5F5F5] text-[#52525B]",
+} as const;
+
+const indexBadgeColors = {
+  sci: badgeColors.yellow,
+  scopus: badgeColors.lightBlue,
+  kci: badgeColors.gray,
+} as const;
+
+const tierBadgeColors = {
+  top: badgeColors.yellow,
+  international: badgeColors.blue,
+  domestic: badgeColors.gray,
+} as const;
+
+const roleBadgeColors = {
+  first: badgeColors.yellow,
+  corresponding: badgeColors.blue,
+  co: badgeColors.gray,
+} as const;
+
+const badgeStyles = {
+  note: "bg-[#FEF3C7] text-[#92400E]",
+  date: "bg-secondary text-secondary-foreground",
+} as const;
+
+const indexLabels = { sci: "SCI/SCIE", scopus: "SCOPUS", kci: "KCI" } as const;
+const tierLabels = {
+  top: T.tierTop,
+  international: T.tierIntl,
+  domestic: T.tierDomestic,
+} as const;
+const roleLabels = {
+  first: T.roleFirst,
+  corresponding: T.roleCorresponding,
+  co: T.roleCo,
+} as const;
+
 const byDateDesc = (a: { date: string }, b: { date: string }) =>
   b.date.localeCompare(a.date);
 
-// SCI/SCIE·SCOPUS 학술지 + 탑티어 컨퍼런스만 (최신순).
-// 분류별 배지 색상: SCI/SCIE·탑티어 노랑, SCOPUS 연푸른색.
-const badgeClasses = {
-  sci: "bg-[#FEF3C7] text-[#92400E]",
-  scopus: "bg-[#EFF6FF] text-[#1D4ED8]",
-  top: "bg-[#FEF3C7] text-[#92400E]",
-} as const;
+function journalItems(index: "sci" | "scopus" | "kci") {
+  return professor.journals
+    .filter((j) => j.index === index)
+    .sort(byDateDesc)
+    .map((j) => ({
+      badges: [
+        { label: j.date, className: badgeStyles.date },
+        { label: indexLabels[j.index], className: indexBadgeColors[j.index] },
+        ...(j.authorRole
+          ? [{ label: roleLabels[j.authorRole], className: roleBadgeColors[j.authorRole] }]
+          : []),
+        ...(j.note ? [{ label: j.note, className: badgeStyles.note }] : []),
+      ],
+      title: j.title,
+      meta: j.venue + (j.volume ? `, ${j.volume}` : ""),
+      sub: "",
+      subStrong: [j.impactFactor ? `IF ${j.impactFactor}` : "", j.quartile]
+        .filter(Boolean)
+        .join(" · "),
+      link: j.url || (j.doi ? `https://doi.org/${j.doi}` : ""),
+    }));
+}
 
-const professor = loadProfessor();
+function conferenceItems(tiers: ("top" | "international" | "domestic")[]) {
+  return professor.conferences
+    .filter((c) => tiers.includes(c.tier))
+    .sort(byDateDesc)
+    .map((c) => ({
+      badges: [
+        { label: c.date, className: badgeStyles.date },
+        { label: tierLabels[c.tier], className: tierBadgeColors[c.tier] },
+        ...(c.authorRole
+          ? [{ label: roleLabels[c.authorRole], className: roleBadgeColors[c.authorRole] }]
+          : []),
+        ...(c.note ? [{ label: c.note, className: badgeStyles.note }] : []),
+      ],
+      title: c.title,
+      meta: c.venue + (c.volume ? `, ${c.volume}` : ""),
+      sub: "",
+      link: c.url || (c.doi ? `https://doi.org/${c.doi}` : ""),
+    }));
+}
 
-const journalPapers = professor.journals
-  .filter((j) => j.index === "sci" || j.index === "scopus")
-  .map((j) => ({
-    date: j.date,
-    badge: j.index === "sci" ? "SCI/SCIE" : "SCOPUS",
-    badgeClass: j.index === "sci" ? badgeClasses.sci : badgeClasses.scopus,
-    title: j.title,
-    venue: j.venue + (j.volume ? `, ${j.volume}` : ""),
+// 특허: 등록 → 출원 순. 등록건은 등록일, 출원건은 출원일 기준 최신순.
+const patents = [...professor.patents].sort((a, b) => {
+  if (a.status !== b.status) return a.status === "registered" ? -1 : 1;
+  const da =
+    a.status === "registered" ? a.registrationDate || a.applicationDate : a.applicationDate;
+  const db =
+    b.status === "registered" ? b.registrationDate || b.applicationDate : b.applicationDate;
+  return db.localeCompare(da);
+});
+
+function patentStatusLabel(p: (typeof patents)[number]) {
+  const base = p.status === "registered" ? T.statusRegistered : T.statusFiled;
+  return p.kind === "design" ? `${T.designPrefix} ${base}` : base;
+}
+
+function patentNumberLine(p: (typeof patents)[number]) {
+  const parts: string[] = [];
+  if (p.applicationNumber) {
+    parts.push(
+      `${T.appLabel} ${p.applicationNumber}` +
+        (p.applicationDate ? ` (${p.applicationDate})` : ""),
+    );
+  }
+  if (p.registrationNumber) {
+    parts.push(
+      `${T.regLabel} ${p.registrationNumber}` +
+        (p.registrationDate ? ` (${p.registrationDate})` : ""),
+    );
+  }
+  return parts.join(" · ");
+}
+
+// 특허 DOI(10.8080/출원번호) → KIPRIS 상세 페이지 (교수 페이지와 동일)
+function patentLink(p: (typeof patents)[number]) {
+  if (p.url) return p.url;
+  if (p.kind === "patent" && p.applicationNumber) {
+    return `https://doi.org/10.8080/${p.applicationNumber.replace(/-/g, "")}`;
+  }
+  return "";
+}
+
+const patentItems = patents.map((p) => ({
+  badges: [
+    {
+      label: p.registrationDate || p.applicationDate,
+      className: badgeStyles.date,
+    },
+    {
+      label: patentStatusLabel(p),
+      className:
+        p.country === "international"
+          ? badgeColors.yellow
+          : p.status === "registered"
+            ? badgeColors.blue
+            : badgeColors.gray,
+    },
+    ...(p.note ? [{ label: p.note, className: badgeColors.lightBlue }] : []),
+  ],
+  title: p.title,
+  meta: patentNumberLine(p),
+  sub: "",
+  link: patentLink(p),
+}));
+
+// 기술이전 (금액은 표시하지 않음) — 근거 특허 페이지로 연결
+const techTransferItems = professor.techTransfers.map((tt) => {
+  const basePatent = patents.find(
+    (p) => p.registrationNumber === tt.patentNumber,
+  );
+  return {
+    badges: [
+      { label: String(tt.year), className: badgeStyles.date },
+      { label: T.techBadge, className: badgeColors.lightBlue },
+    ],
+    title: tt.title,
+    meta:
+      lang === "ko"
+        ? `특허 제${tt.patentNumber}호`
+        : `Patent No. ${tt.patentNumber}`,
     sub: "",
-    subStrong: [j.impactFactor ? `IF ${j.impactFactor}` : "", j.quartile]
-      .filter(Boolean)
-      .join(" · "),
-    link: j.url || (j.doi ? `https://doi.org/${j.doi}` : ""),
-  }));
+    link: basePatent ? patentLink(basePatent) : "",
+  };
+});
 
-const topConferencePapers = professor.conferences
-  .filter((c) => c.tier === "top")
-  .map((c) => ({
-    date: c.date,
-    badge: T.topTier,
-    badgeClass: badgeClasses.top,
-    title: c.title,
-    venue: c.venue + (c.volume ? `, ${c.volume}` : ""),
-    sub: "",
-    subStrong: "",
-    link: c.url || (c.doi ? `https://doi.org/${c.doi}` : ""),
-  }));
-
-const publications = [...journalPapers, ...topConferencePapers].sort(byDateDesc);
+// 그룹 구성: SCI · SCOPUS · KCI · 국제학술대회(탑티어 포함) · 국내학술대회 ·
+// 기술이전 · 특허. KCI/국내학술대회는 접힌 상태로 시작 (교수 페이지와 동일).
+const groups = [
+  { key: "sci", title: "SCI/SCIE", defaultOpen: true, items: journalItems("sci") },
+  { key: "scopus", title: "SCOPUS", defaultOpen: true, items: journalItems("scopus") },
+  { key: "kci", title: "KCI", defaultOpen: false, items: journalItems("kci") },
+  {
+    key: "intl",
+    title: T.groupIntl,
+    defaultOpen: true,
+    items: conferenceItems(["top", "international"]),
+  },
+  {
+    key: "domestic",
+    title: T.groupDomestic,
+    defaultOpen: false,
+    items: conferenceItems(["domestic"]),
+  },
+  { key: "tech", title: T.groupTech, defaultOpen: true, items: techTransferItems },
+  { key: "patents", title: T.groupPatents, defaultOpen: true, items: patentItems },
+].filter((g) => g.items.length > 0);
 ---
 
 <BaseLayout
@@ -94,9 +290,14 @@ const publications = [...journalPapers, ...topConferencePapers].sort(byDateDesc)
   <PageHeader title={T.headerTitle} breadcrumb={T.breadcrumb} />
 
   <div class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-[40px]">
-    <PaperList
-      publications={publications}
-      labels={{ empty: T.empty, searchPlaceholder: T.searchPlaceholder }}
+    <PublicationsBrowser
+      groups={groups}
+      labels={{
+        searchPlaceholder: T.searchPlaceholder,
+        empty: T.empty,
+        showAll: T.showAll,
+        collapse: T.collapse,
+      }}
       client:load
     />
   </div>

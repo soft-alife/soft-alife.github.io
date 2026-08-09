@@ -130,8 +130,8 @@ export default function NoticeList({ notices, labels, prefix }: Props) {
         )}
       </div>
 
-      {/* Pagination */}
-      {totalPages > 1 && (
+      {/* Pagination (항상 표시) */}
+      {filtered.length > 0 && (
         <div className="flex items-center justify-center gap-1 mt-8">
           <button
             type="button"

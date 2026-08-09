@@ -77,6 +77,24 @@ collections:
       - { label: "한 줄 요약", name: summary, widget: string, required: false, default: "" }
       - { label: "본문 (직접 쓴 글일 때 작성)", name: body, widget: markdown, required: false }
 
+  - name: saluv
+    label: "SALuv (사진 게시판)"
+    label_singular: "사진 게시물"
+    folder: src/content/saluv
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    media_folder: /public/images/saluv
+    public_folder: /images/saluv
+    fields:
+      - { label: "제목", name: title, widget: string }
+      - { label: "날짜", name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - label: "사진 (첫 사진이 목록 썸네일)"
+        name: photos
+        widget: list
+        field: { label: "사진", name: photo, widget: image }
+      - { label: "한 줄 요약", name: summary, widget: string, required: false, default: "" }
+      - { label: "설명 (선택)", name: body, widget: markdown, required: false }
+
   - name: site
     label: "홈 배너"
     files:

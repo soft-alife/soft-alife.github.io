@@ -1,11 +1,10 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * 홈 상단 배너 캐러셀.
  *
  * - site.yaml의 banners 슬라이드를 회색 배경 위에 표시
- * - 하단 진행바(진한 회색)가 10초 동안 차오르고, 다 차면 다음 슬라이드로
- *   자동 전환 (진행바 애니메이션이 타이머 역할이라 전환 시점과 일치)
+ * - 10초마다 옆으로 밀리는 애니메이션으로 자동 전환
  * - 마우스/터치로 좌우로 드래그(스와이프)해서 넘길 수 있음
  * - 하단 점을 눌러 원하는 슬라이드로 바로 이동
  */
@@ -32,6 +31,16 @@ export default function HomeBanner({ slides }: Props) {
   const dragStartX = useRef(0);
   const didDrag = useRef(false);
   const count = slides.length;
+
+  // 10초마다 자동 전환 (수동 전환 시 타이머가 처음부터 다시 시작)
+  useEffect(() => {
+    if (count <= 1) return;
+    const id = window.setTimeout(
+      () => setIndex((i) => (i + 1) % count),
+      INTERVAL_MS,
+    );
+    return () => window.clearTimeout(id);
+  }, [index, count]);
 
   if (count === 0) return null;
 
@@ -107,42 +116,19 @@ export default function HomeBanner({ slides }: Props) {
       </div>
 
       {count > 1 && (
-        <>
-          <div className="flex justify-center gap-1.5 pb-2.5">
-            {slides.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                aria-label={`배너 ${i + 1}`}
-                onClick={() => goTo(i)}
-                className={`w-2 h-2 rounded-full transition-colors ${
-                  i === index ? "bg-[#71717A]" : "bg-[#D4D4D8] hover:bg-[#A1A1AA]"
-                }`}
-              />
-            ))}
-          </div>
-
-          {/* 자동 전환 진행바: 10초 동안 차오르고, 끝나면 다음 슬라이드로 */}
-          <div className="h-[3px] bg-[#E4E4E7]">
-            <div
-              key={index}
-              className="h-full bg-[#52525B] banner-progress"
-              style={{ animationDuration: `${INTERVAL_MS}ms` }}
-              onAnimationEnd={() => goTo(index + 1)}
+        <div className="flex justify-center gap-1.5 pb-3">
+          {slides.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              aria-label={`배너 ${i + 1}`}
+              onClick={() => goTo(i)}
+              className={`w-2 h-2 rounded-full transition-colors ${
+                i === index ? "bg-[#71717A]" : "bg-[#D4D4D8] hover:bg-[#A1A1AA]"
+              }`}
             />
-          </div>
-          <style>{`
-            @keyframes bannerProgress {
-              from { width: 0%; }
-              to { width: 100%; }
-            }
-            .banner-progress {
-              animation-name: bannerProgress;
-              animation-timing-function: linear;
-              animation-fill-mode: forwards;
-            }
-          `}</style>
-        </>
+          ))}
+        </div>
       )}
     </section>
   );

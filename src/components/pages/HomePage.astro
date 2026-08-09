@@ -370,7 +370,7 @@ function formatDate(date: Date): string {
             <p class="text-md font-semibold text-foreground mt-3">
               {memberDisplayName(member)}
             </p>
-            <p class="text-base text-muted mt-0.5">{member.role}</p>
+            <p class="text-base text-muted mt-0.5">{member.role.replace(" Student", " Course")}</p>
             <div class="flex flex-wrap justify-center gap-1.5 mt-2">
               {member.research.map((tag) => (
                 <span class="inline-flex items-center px-2 py-0.5 bg-secondary text-secondary-foreground text-xs rounded-pill">

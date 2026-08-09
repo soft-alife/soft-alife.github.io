@@ -50,4 +50,16 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { seminars, notices, news, blog };
+// SALuv 사진 게시판. photos에 사진 여러 장을 넣으면 목록에서는 첫 사진이
+// 썸네일로, 상세 페이지에서는 전체 사진이 표시된다.
+const saluv = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    photos: z.array(z.string()).default([]),
+    summary: z.string().optional().default(""),
+  }),
+});
+
+export const collections = { seminars, notices, news, blog, saluv };

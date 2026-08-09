@@ -1,0 +1,16 @@
+---
+import SaluvDetailPage from "@/components/pages/SaluvDetailPage.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("saluv");
+  return entries.map((entry) => ({
+    params: { slug: entry.id.replace(/\.md$/, "") },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+---
+
+<SaluvDetailPage lang="ko" entry={entry} />

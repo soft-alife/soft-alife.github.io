@@ -1,0 +1,100 @@
+---
+/**
+ * SALuv 사진 게시판 상세 (shared: /saluv/[slug], /en/saluv/[slug]).
+ *
+ * 게시물의 전체 사진을 세로로 나열하고, 본문(설명)이 있으면 함께 표시.
+ */
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { render, type CollectionEntry } from "astro:content";
+
+interface Props {
+  lang: "ko" | "en";
+  entry: CollectionEntry<"saluv">;
+}
+
+const { lang, entry } = Astro.props;
+const prefix = lang === "en" ? "/en" : "";
+
+const dict = {
+  ko: {
+    breadcrumb: "SAL > SALuv",
+    back: "목록으로 돌아가기",
+  },
+  en: {
+    breadcrumb: "SAL > SALuv",
+    back: "Back to List",
+  },
+} as const;
+
+const T = dict[lang];
+const { Content } = await render(entry);
+
+const formatDate = (date: Date) => {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}.${m}.${d}`;
+};
+---
+
+<BaseLayout
+  title={`${entry.data.title} — SALuv`}
+  description={entry.data.summary || entry.data.title}
+  activeNav="SALuv"
+  lang={lang}
+>
+  <!-- Page Header -->
+  <div class="bg-[#FAFAFA] border-b border-border px-6 lg:px-[60px] pt-7 pb-5">
+    <div class="max-w-[1200px] mx-auto">
+      <p class="text-sm text-muted-foreground mb-2">
+        <a href={`${prefix}/saluv`} class="hover:text-foreground transition-colors">{T.breadcrumb}</a>
+      </p>
+      <h1 class="text-[24px] font-bold text-foreground">{entry.data.title}</h1>
+    </div>
+  </div>
+
+  <div class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-[40px]">
+    <div class="max-w-[800px]">
+      <!-- Meta -->
+      <div class="mb-6 pb-6 border-b border-border">
+        <div class="flex items-center gap-3 text-[13px] text-muted">
+          <span>{formatDate(entry.data.date)}</span>
+        </div>
+      </div>
+
+      <!-- 설명 (본문) -->
+      <article class="max-w-none mb-8
+        [&_p]:text-[14px] [&_p]:text-[#3F3F46] [&_p]:leading-relaxed [&_p]:mb-4
+        [&_strong]:font-semibold [&_strong]:text-foreground
+        [&_a]:text-sal-terracotta [&_a:hover]:underline
+      ">
+        <Content />
+      </article>
+
+      <!-- 사진 -->
+      <div class="space-y-6">
+        {entry.data.photos.map((photo) => (
+          <img
+            src={photo}
+            alt={entry.data.title}
+            loading="lazy"
+            class="w-full rounded-lg"
+          />
+        ))}
+      </div>
+
+      <!-- Back Link -->
+      <div class="mt-10 pt-6 border-t border-border">
+        <a
+          href={`${prefix}/saluv`}
+          class="inline-flex items-center gap-1 text-[13px] text-muted hover:text-foreground transition-colors"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          {T.back}
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

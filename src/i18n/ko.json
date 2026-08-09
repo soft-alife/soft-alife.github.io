@@ -1,14 +1,18 @@
 {
   "nav": {
     "home": "Home",
-    "about": "About",
+    "introduction": "Introduction",
+    "about": "About SAL Lab.",
     "professor": "Professor",
     "members": "Members",
-    "research": "Research",
+    "alumni": "Alumni",
     "publications": "Publications",
-    "news": "News",
-    "blog": "Blog",
+    "projects": "Projects",
     "seminar": "Seminar",
+    "lecture": "Lecture",
+    "board": "Board",
+    "news": "News",
+    "saluv": "SALuv",
     "notice": "Notice",
     "contact": "Contact"
   },

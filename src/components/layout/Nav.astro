@@ -14,19 +14,40 @@ import enTranslations from "../../i18n/en.json";
 const t = lang === "en" ? enTranslations : koTranslations;
 const prefix = lang === "en" ? "/en" : "";
 
+// 하위 메뉴(children)가 있는 항목은 호버 시 드롭다운으로 표시된다.
 const navItems = [
   { key: "home", href: `${prefix}/`, label: t.nav.home },
-  { key: "about", href: `${prefix}/about`, label: t.nav.about },
-  { key: "professor", href: `${prefix}/professor`, label: t.nav.professor },
-  { key: "members", href: `${prefix}/members`, label: t.nav.members },
-  { key: "research", href: `${prefix}/research`, label: t.nav.research },
+  {
+    key: "introduction",
+    label: t.nav.introduction,
+    children: [
+      { key: "about", href: `${prefix}/about`, label: t.nav.about },
+      { key: "professor", href: `${prefix}/professor`, label: t.nav.professor },
+      { key: "members", href: `${prefix}/members`, label: t.nav.members },
+      { key: "alumni", href: `${prefix}/alumni`, label: t.nav.alumni },
+    ],
+  },
   { key: "publications", href: `${prefix}/publications`, label: t.nav.publications },
-  { key: "news", href: `${prefix}/news`, label: t.nav.news },
-  { key: "blog", href: `${prefix}/blog`, label: t.nav.blog },
+  { key: "research", href: `${prefix}/research`, label: t.nav.projects },
   { key: "seminar", href: `${prefix}/seminar`, label: t.nav.seminar },
+  { key: "lecture", href: `${prefix}/lecture`, label: t.nav.lecture },
+  {
+    key: "board",
+    label: t.nav.board,
+    children: [
+      { key: "news", href: `${prefix}/news`, label: t.nav.news },
+      { key: "saluv", href: `${prefix}/saluv`, label: t.nav.saluv },
+    ],
+  },
   { key: "notice", href: `${prefix}/notice`, label: t.nav.notice },
   { key: "contact", href: `${prefix}/contact`, label: t.nav.contact },
 ];
+
+const matches = (key: string) => activeNav.toLowerCase() === key.toLowerCase();
+const isActive = (item: (typeof navItems)[number]) =>
+  "children" in item && item.children
+    ? item.children.some((c) => matches(c.key))
+    : matches(item.key);
 ---
 
 <nav class="bg-white border-b border-border sticky top-0 z-40">
@@ -56,22 +77,61 @@ const navItems = [
     <!-- Right: Desktop nav links -->
     <div class="hidden md:flex items-center gap-lg">
       {
-        navItems.map((item) => {
-          const isActive = activeNav.toLowerCase() === item.key.toLowerCase();
-          return (
+        navItems.map((item) =>
+          "children" in item && item.children ? (
+            <div class="relative group">
+              <button
+                type="button"
+                class:list={[
+                  "text-[13px] font-sans py-[18px] border-b-2 transition-colors inline-flex items-center gap-1 cursor-default",
+                  isActive(item)
+                    ? "text-sal-terracotta font-semibold border-sal-terracotta"
+                    : "text-muted font-semibold border-transparent group-hover:text-foreground",
+                ]}
+              >
+                {item.label}
+                <svg
+                  class="w-3 h-3 transition-transform group-hover:rotate-180"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" />
+                </svg>
+              </button>
+              <div class="absolute left-1/2 -translate-x-1/2 top-full hidden group-hover:block z-50">
+                <div class="bg-white border border-border rounded-lg shadow-lg py-2 min-w-[180px]">
+                  {item.children.map((child) => (
+                    <a
+                      href={child.href}
+                      class:list={[
+                        "block px-4 py-2 text-[13px] font-sans transition-colors whitespace-nowrap",
+                        matches(child.key)
+                          ? "text-sal-terracotta font-semibold bg-[#FFF7F5]"
+                          : "text-muted font-medium hover:text-foreground hover:bg-[#FAFAFA]",
+                      ]}
+                    >
+                      {child.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : (
             <a
               href={item.href}
               class:list={[
                 "text-[13px] font-sans py-[18px] border-b-2 transition-colors",
-                isActive
+                isActive(item)
                   ? "text-sal-terracotta font-semibold border-sal-terracotta"
                   : "text-muted font-semibold border-transparent hover:text-foreground",
               ]}
             >
               {item.label}
             </a>
-          );
-        })
+          ),
+        )
       }
     </div>
 

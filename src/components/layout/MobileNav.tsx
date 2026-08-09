@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 
 interface NavItem {
   key: string;
-  href: string;
+  href?: string;
   label: string;
+  children?: NavItem[];
 }
 
 interface MobileNavProps {
@@ -89,25 +90,48 @@ export default function MobileNav({ navItems, activeNav }: MobileNavProps) {
           </button>
         </div>
 
-        {/* Nav links */}
+        {/* Nav links (하위 메뉴는 라벨 아래 들여쓰기로 표시) */}
         <nav className="py-4">
-          {navItems.map((item) => {
-            const isActive = activeNav === item.key;
-            return (
+          {navItems.map((item) =>
+            item.children ? (
+              <div key={item.key}>
+                <p className="px-6 pt-3 pb-1 text-[11px] font-semibold uppercase tracking-wider text-[#A1A1AA]">
+                  {item.label}
+                </p>
+                {item.children.map((child) => {
+                  const isActive =
+                    activeNav.toLowerCase() === child.key.toLowerCase();
+                  return (
+                    <a
+                      key={child.key}
+                      href={child.href}
+                      onClick={() => setOpen(false)}
+                      className={`block pl-9 pr-6 py-2.5 text-[13px] font-sans transition-colors ${
+                        isActive
+                          ? "text-[#D4735E] font-semibold bg-[#FFF7F5]"
+                          : "text-[#71717A] hover:text-[#0A0A0A] hover:bg-[#FAFAFA]"
+                      }`}
+                    >
+                      {child.label}
+                    </a>
+                  );
+                })}
+              </div>
+            ) : (
               <a
                 key={item.key}
                 href={item.href}
                 onClick={() => setOpen(false)}
                 className={`block px-6 py-3 text-[13px] font-sans transition-colors ${
-                  isActive
+                  activeNav.toLowerCase() === item.key.toLowerCase()
                     ? "text-[#D4735E] font-semibold bg-[#FFF7F5]"
                     : "text-[#71717A] hover:text-[#0A0A0A] hover:bg-[#FAFAFA]"
                 }`}
               >
                 {item.label}
               </a>
-            );
-          })}
+            ),
+          )}
         </nav>
       </div>
     </>

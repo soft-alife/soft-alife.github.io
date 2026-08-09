@@ -1,0 +1,71 @@
+---
+/**
+ * Alumni page (shared between /alumni and /en/alumni).
+ *
+ * members.yaml에서 graduated: true 인 멤버를 표시한다.
+ * 카드 디자인은 Members 페이지와 동일.
+ */
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/layout/PageHeader.astro";
+import MemberCard from "@/components/sections/MemberCard.astro";
+import { loadMembers, type Member } from "@/lib/content";
+
+interface Props {
+  lang: "ko" | "en";
+}
+
+const { lang } = Astro.props;
+
+const dict = {
+  ko: {
+    pageTitle: "Alumni - SAL Laboratory",
+    metaDescription: "SAL 연구실 졸업생",
+    headerTitle: "Alumni",
+    breadcrumb: "SAL > Alumni",
+    empty: "아직 졸업생이 없습니다.",
+  },
+  en: {
+    pageTitle: "Alumni - SAL Laboratory",
+    metaDescription: "SAL Laboratory Alumni",
+    headerTitle: "Alumni",
+    breadcrumb: "SAL > Alumni",
+    empty: "No alumni yet.",
+  },
+} as const;
+
+const T = dict[lang];
+
+const alumni = loadMembers().filter((m) => m.graduated);
+
+const displayName = (m: Member) => (lang === "en" ? (m.nameEn || m.name) : m.name);
+const displayRole = (role: string) => role.replace(" Student", " Course");
+---
+
+<BaseLayout
+  title={T.pageTitle}
+  description={T.metaDescription}
+  activeNav="Alumni"
+  lang={lang}
+>
+  <PageHeader title={T.headerTitle} breadcrumb={T.breadcrumb} />
+
+  <div class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-[40px]">
+    {alumni.length === 0 ? (
+      <p class="text-[13px] text-[#A1A1AA] py-8 text-center">{T.empty}</p>
+    ) : (
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {alumni.map((member) => (
+          <MemberCard
+            name={displayName(member)}
+            role={displayRole(member.role)}
+            photo={member.photo}
+            research={member.research}
+            email={member.email}
+            github={member.github}
+            scholar={member.scholar}
+          />
+        ))}
+      </div>
+    )}
+  </div>
+</BaseLayout>

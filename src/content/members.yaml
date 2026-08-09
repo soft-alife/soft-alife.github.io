@@ -24,7 +24,7 @@ members:
     graduated: false
   - name: 박민건
     nameEn: Mingeon Park
-    role: M.S./Ph.D. Integrated
+    role: M.S. Student
     photo: /images/members/park-mingeon.jpg
     research:
       - LLM Agent

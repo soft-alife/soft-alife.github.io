@@ -1,0 +1,81 @@
+---
+/**
+ * SALuv 사진 게시판 목록 (shared: /saluv, /en/saluv).
+ *
+ * 게시판 형태(행 목록 + 검색 + 10개 단위 페이지네이션)로 표시하고,
+ * 행을 클릭하면 상세에서 전체 사진을 볼 수 있다. 목록 UI는 SaluvList.tsx.
+ */
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/layout/PageHeader.astro";
+import SaluvList from "@/components/sections/SaluvList";
+import { getCollection } from "astro:content";
+
+interface Props {
+  lang: "ko" | "en";
+}
+
+const { lang } = Astro.props;
+const prefix = lang === "en" ? "/en" : "";
+
+const dict = {
+  ko: {
+    pageTitle: "SALuv - SAL Laboratory",
+    metaDescription: "SAL 연구실 사진 게시판",
+    headerTitle: "SALuv",
+    breadcrumb: "SAL > SALuv",
+    empty: "등록된 사진이 없습니다.",
+    searchPlaceholder: "검색",
+    photoCount: "장",
+  },
+  en: {
+    pageTitle: "SALuv - SAL Laboratory",
+    metaDescription: "SAL Laboratory Photo Board",
+    headerTitle: "SALuv",
+    breadcrumb: "SAL > SALuv",
+    empty: "No photos yet.",
+    searchPlaceholder: "Search",
+    photoCount: " photos",
+  },
+} as const;
+
+const T = dict[lang];
+
+const formatDate = (date: Date) => {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}.${m}.${d}`;
+};
+
+const posts = (await getCollection("saluv"))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .map((post) => ({
+    title: post.data.title,
+    date: formatDate(post.data.date),
+    href: `${prefix}/saluv/${post.id.replace(/\.md$/, "")}`,
+    thumbnail: post.data.photos[0] ?? "",
+    count: post.data.photos.length,
+    summary: post.data.summary,
+  }));
+---
+
+<BaseLayout
+  title={T.pageTitle}
+  description={T.metaDescription}
+  activeNav="SALuv"
+  lang={lang}
+>
+  <PageHeader title={T.headerTitle} breadcrumb={T.breadcrumb} />
+
+  <div class="max-w-[1200px] mx-auto px-6 lg:px-[60px] py-[40px]">
+    <SaluvList
+      posts={posts}
+      labels={{
+        empty: T.empty,
+        searchPlaceholder: T.searchPlaceholder,
+        photoCount: T.photoCount,
+      }}
+      client:load
+    />
+  </div>
+</BaseLayout>

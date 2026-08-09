@@ -1,44 +1,41 @@
 import { useState } from "react";
-import { ExternalLink } from "lucide-react";
 
 /**
- * News/Blog 목록 — 게시판 형태 (공지사항 목록과 동일한 행 스타일).
+ * SALuv 사진 게시판 목록 — 썸네일 카드 그리드 + 페이지네이션.
  *
- * - 10개 단위 페이지네이션 (검색하면 1페이지로 리셋)
- * - 행 클릭 시: 외부 기사(link)는 새 탭으로 원문 이동(↗ 아이콘 표시),
- *   직접 작성 글은 사이트 내 상세 페이지로 이동
+ * 각 게시물의 첫 사진을 썸네일로 하는 카드 그리드(3열). 10개 단위
+ * 페이지네이션은 항상 표시. 카드 클릭 시 상세에서 전체 사진을 볼 수 있다.
  */
 
-interface PostItem {
+interface SaluvItem {
   title: string;
   date: string; // "YYYY.MM.DD"
-  source: string; // 언론사(News) 또는 작성자(Blog)
-  link: string; // 외부 원문 URL (있으면 새 탭)
-  internalHref: string; // 직접 작성 글의 상세 페이지 경로
+  href: string; // 상세 페이지 경로
+  thumbnail: string; // 첫 사진 (없으면 "")
+  count: number; // 사진 수
   summary: string;
 }
 
 interface Labels {
   empty: string;
   searchPlaceholder: string;
+  photoCount: string; // "장" | " photos"
 }
 
 interface Props {
-  posts: PostItem[]; // 최신순 정렬 상태로 전달됨
+  posts: SaluvItem[]; // 최신순 정렬 상태로 전달됨
   labels: Labels;
 }
 
 const ITEMS_PER_PAGE = 10;
 
-export default function PostList({ posts, labels }: Props) {
+export default function SaluvList({ posts, labels }: Props) {
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
 
   const q = query.trim().toLowerCase();
   const filtered = posts.filter(
-    (p) =>
-      !q ||
-      [p.title, p.source, p.summary, p.date].join(" ").toLowerCase().includes(q),
+    (p) => !q || [p.title, p.summary, p.date].join(" ").toLowerCase().includes(q),
   );
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
@@ -64,54 +61,42 @@ export default function PostList({ posts, labels }: Props) {
         />
       </div>
 
-      {/* Board List */}
-      <div className="overflow-hidden">
-        {paginated.map((item, index) => {
-          const external = item.link !== "";
-          return (
-            <a
-              key={index}
-              href={external ? item.link : item.internalHref}
-              target={external ? "_blank" : undefined}
-              rel={external ? "noopener noreferrer" : undefined}
-              className="flex items-center gap-4 py-5 border-b border-border hover:bg-[#FAFAFA] px-2 -mx-2 rounded transition-colors group"
-            >
-              <div className="w-[90px] flex-shrink-0 text-[13px] text-muted">
-                {item.date}
-              </div>
-
-              <div className="flex-1 min-w-0">
-                <p className="text-[14px] sm:text-[15px] font-semibold text-foreground group-hover:text-sal-terracotta transition-colors truncate">
-                  {item.title}
-                </p>
-                {item.summary && (
-                  <p className="text-[13px] text-muted mt-0.5 truncate">
-                    {item.summary}
-                  </p>
-                )}
-              </div>
-
-              {item.source && (
-                <span className="flex-shrink-0 px-2.5 py-[3px] text-[11px] rounded-full whitespace-nowrap bg-[#F5F5F5] text-[#52525B]">
-                  {item.source}
-                </span>
-              )}
-              {external && (
-                <ExternalLink
-                  size={14}
-                  className="flex-shrink-0 text-[#A1A1AA]"
+      {/* Photo Card Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {paginated.map((item, index) => (
+          <a
+            key={index}
+            href={item.href}
+            className="border border-border rounded-lg overflow-hidden hover:bg-[#FAFAFA] transition-colors group"
+          >
+            {item.thumbnail && (
+              <div className="aspect-[4/3] overflow-hidden bg-secondary">
+                <img
+                  src={item.thumbnail}
+                  alt={item.title}
+                  loading="lazy"
+                  className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
                 />
-              )}
-            </a>
-          );
-        })}
-
-        {filtered.length === 0 && (
-          <p className="text-[13px] text-[#A1A1AA] py-8 text-center">
-            {labels.empty}
-          </p>
-        )}
+              </div>
+            )}
+            <div className="p-4">
+              <p className="text-[15px] font-semibold text-foreground group-hover:text-sal-terracotta transition-colors leading-snug truncate">
+                {item.title}
+              </p>
+              <p className="text-[13px] text-muted-foreground mt-1">
+                {item.date} · {item.count}
+                {labels.photoCount}
+              </p>
+            </div>
+          </a>
+        ))}
       </div>
+
+      {filtered.length === 0 && (
+        <p className="text-[13px] text-[#A1A1AA] py-8 text-center">
+          {labels.empty}
+        </p>
+      )}
 
       {/* Pagination (항상 표시) */}
       {filtered.length > 0 && (

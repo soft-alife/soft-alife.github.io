@@ -34,6 +34,8 @@
 | 연구 과제 추가/수정 | `src/content/projects.yaml` |
 | 공지 추가 | `src/content/notices/YYYY-MM-DD-slug.md` 새 파일 생성 |
 | 세미나 추가 | `src/content/seminars/YYYY-MM-DD-slug.md` 새 파일 생성 |
+| 강의(Lecture 페이지) 추가/수정 | `src/content/lectures.yaml` (year/semester/level/title 형식은 파일 상단 주석 참고) |
+| SALuv 사진 게시물 추가 | `src/content/saluv/YYYY-MM-DD-slug.md` (photos 배열에 사진 경로, /admin에서도 가능) |
 | 멤버/교수 사진 | `public/images/members/`, `public/images/professor/` |
 | 홈 채용 배너 문구/링크 (이중 언어) | `src/content/site.yaml` |
 | CMS 관리자 페이지 설정 (필드/컬렉션) | `public/admin/config.yml` (로그인 설정은 [`docs/CMS-SETUP.md`](./docs/CMS-SETUP.md)) |
