@@ -46,7 +46,7 @@ const formatDate = (date: Date) => {
 <BaseLayout
   title={`${entry.data.title} — SAL Lab`}
   description={entry.data.summary || entry.data.title}
-  activeNav="Publications"
+  activeNav={type === "news" ? "News" : "Blog"}
   lang={lang}
 >
   <!-- Page Header -->
