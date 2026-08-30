@@ -25,7 +25,7 @@ members:
   - name: 박민건
     nameEn: Mingeon Park
     role: M.S. Student
-    photo: /images/members/park-mingeon.jpg
+    photo: /images/members/박민건 사진.jpg
     research:
       - LLM Agent
       - LLM Memory System
