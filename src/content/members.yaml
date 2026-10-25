@@ -24,7 +24,7 @@ members:
     graduated: false
   - name: 박민건
     nameEn: Mingeon Park
-    role: Research Assistant
+    role: Undergraduate Researcher
     photo: /images/members/박민건 사진.jpg
     research:
       - LLM Agent
@@ -33,7 +33,7 @@ members:
     github: https://github.com/DevMinGeonPark
     scholar: ''
     startYear: 2025
-    graduated: false
+    graduated: true
   - name: 문성균
     nameEn: Sungkyun Moon
     role: M.S./Ph.D. Integrated
