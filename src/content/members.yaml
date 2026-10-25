@@ -24,7 +24,7 @@ members:
     graduated: false
   - name: 박민건
     nameEn: Mingeon Park
-    role: Undergraduate Researcher
+    role: Research Assistant
     photo: /images/members/박민건 사진.jpg
     research:
       - LLM Agent
