@@ -31,8 +31,9 @@ export const MemberSchema = z.object({
     "M.S. Student",
     "Ph.D. Student",
     "M.S./Ph.D. Integrated",
-    "학부연구생",
+    "Undergraduate Researcher",
     "Post-doc",
+    "Research Assistant",
   ]),
   photo: z.string(),
   research: z.array(z.string()).default([]),
@@ -285,17 +286,19 @@ export function t(field: BilingualText, lang: "ko" | "en" = "ko"): string {
 // ---------------------------------------------------------------------------
 
 // Members page grouping:
-//   대학원생 — 박사(Post-doc) / 박사과정생(Ph.D. + 석박통합) / 석사과정생(M.S.)
-//   학부연구생 / 졸업생
+//   연구원(Post-doc + Research Assistant) / 박사과정생(Ph.D. + 석박통합) /
+//   석사과정생(M.S.) / 학부연구생(Undergraduate Researcher) / 졸업생
 export function partitionMembers(members: Member[]) {
   const active = members.filter((m) => !m.graduated);
   return {
-    phds: active.filter((m) => m.role === "Post-doc"),
+    phds: active.filter(
+      (m) => m.role === "Post-doc" || m.role === "Research Assistant",
+    ),
     phdStudents: active.filter(
       (m) => m.role === "Ph.D. Student" || m.role === "M.S./Ph.D. Integrated",
     ),
     msStudents: active.filter((m) => m.role === "M.S. Student"),
-    undergrads: active.filter((m) => m.role === "학부연구생"),
+    undergrads: active.filter((m) => m.role === "Undergraduate Researcher"),
     alumni: members.filter((m) => m.graduated),
   };
 }

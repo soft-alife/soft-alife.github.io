@@ -153,7 +153,7 @@ collections:
             fields:
               - { label: "이름 (한글)", name: name, widget: string }
               - { label: "이름 (영문)", name: nameEn, widget: string }
-              - { label: "구분", name: role, widget: select, options: ["M.S. Student", "Ph.D. Student", "M.S./Ph.D. Integrated", "학부연구생", "Post-doc"] }
+              - { label: "구분", name: role, widget: select, options: ["M.S. Student", "Ph.D. Student", "M.S./Ph.D. Integrated", "Undergraduate Researcher", "Post-doc", "Research Assistant"] }
               - { label: "사진", name: photo, widget: image, required: false, default: "", media_folder: /public/images/members, public_folder: /images/members }
               - { label: "연구 키워드", name: research, widget: list, required: false, default: [] }
               - { label: "이메일", name: email, widget: string, required: false, default: "" }

@@ -79,7 +79,7 @@ members:
     graduated: false                     # 졸업하면 true
 ```
 
-`role` 허용값: `"M.S. Student"`, `"Ph.D. Student"`, `"M.S./Ph.D. Integrated"`, `"학부연구생"`, `"Post-doc"`
+`role` 허용값: `"M.S. Student"`, `"Ph.D. Student"`, `"M.S./Ph.D. Integrated"`, `"Undergraduate Researcher"`, `"Post-doc"`, `"Research Assistant"` (연구원 섹션에는 Post-doc과 Research Assistant가 함께 표시)
 
 ### 5.2 논문 (`src/content/publications.yaml`)
 
