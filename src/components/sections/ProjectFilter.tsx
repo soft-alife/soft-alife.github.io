@@ -13,6 +13,7 @@ interface Project {
   keywords: string[];
   description: string;
   national: boolean; // 국가연구과제 (노란 배지 + NTIS 링크)
+  badge: string; // 추가 노란 배지 문구 (예: "IITP")
   url: string; // 지정 시 NTIS 검색 링크보다 우선
 }
 
@@ -117,6 +118,11 @@ export default function ProjectFilter({ projects }: Props) {
               {project.national && (
                 <span className="inline-block bg-[#FEF3C7] text-[#92400E] text-[11px] font-medium rounded-full px-2.5 py-[2px]">
                   국가연구과제
+                </span>
+              )}
+              {project.badge && (
+                <span className="inline-block bg-[#FEF3C7] text-[#92400E] text-[11px] font-medium rounded-full px-2.5 py-[2px]">
+                  {project.badge}
                 </span>
               )}
               {project.role && (

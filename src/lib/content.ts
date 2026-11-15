@@ -92,6 +92,7 @@ export const ProjectSchema = z.object({
   keywords: z.array(z.string()).default([]),
   description: z.string().default(""),
   national: z.boolean().default(false), // 국가연구과제 여부 (노란 배지 + NTIS 링크)
+  badge: z.string().default(""), // 추가 노란 배지 문구 (예: "IITP"), 없으면 ""
   url: z.string().default(""), // 지정 시 NTIS 검색 링크보다 우선
 });
 export type Project = z.infer<typeof ProjectSchema>;

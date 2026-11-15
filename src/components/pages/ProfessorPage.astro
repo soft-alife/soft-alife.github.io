@@ -432,6 +432,7 @@ const projectItems = loadProjects().map((p) => ({
     ...(p.national
       ? [{ label: T.nationalLabel, className: badgeColors.yellow }]
       : []),
+    ...(p.badge ? [{ label: p.badge, className: badgeColors.yellow }] : []),
     // 연구책임자는 노란색 배지
     ...(p.role ? [{ label: p.role, className: badgeColors.yellow }] : []),
   ],
