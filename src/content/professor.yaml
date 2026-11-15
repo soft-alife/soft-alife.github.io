@@ -610,6 +610,14 @@ journals:
     authorRole: "corresponding"
     doi: "10.13067/JKIECS.2026.21.2.751"
 
+  - title: "Physics-Guided Graph Neural Networks를 이용한 유체-강체 상호작용 시뮬레이션의 안정적 예측에 관한 연구"
+    venue: "한국지능시스템학회 논문지"
+    volume: "Vol.36, No.5, pp.469-474"
+    date: "2026.10"
+    index: "kci"
+    authorRole: "corresponding"
+    doi: "10.5391/JKIIS.2026.36.5.469"
+
 conferences:
   # ----- 국제학술대회 -----
   - title: "A Study on Brain Information Processing Mechanism for Music Genre Distinction"
