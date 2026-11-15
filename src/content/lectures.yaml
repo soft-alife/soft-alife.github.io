@@ -4,13 +4,69 @@
 #
 # lectures:
 #   - year: 2026            # 연도
-#     semester: "1학기"      # "1학기" | "2학기" | "여름학기" 등
+#     semester: "1학기"      # "1학기" | "2학기" | "여름학기" | "겨울학기" (영어 페이지: Spring/Fall/Summer/Winter)
 #     level: "학부"          # "학부" | "대학원"
 #     title: "과목명"
 #     titleEn: ""            # 영문 과목명 (영어 페이지용, 없으면 원제 표시)
-#     code: ""               # 과목 코드 (없으면 "")
+#     code: ""               # 과목 코드 (없으면 "", 화면에는 표시 안 됨)
 #     description: ""        # 한 줄 설명 (없으면 "")
 #
+# 화면 표시: 학기별로 학부/대학원 소제목 아래 "한국어 과목명 [English Title]" (영어 페이지는 영문명만)
 # 연도·학기 기준 최신순으로 자동 그룹핑되어 표시됩니다.
 
-lectures: []
+lectures:
+  - year: 2026
+    semester: "2학기"
+    level: "학부"
+    title: "기초프로그래밍Ⅱ"
+    titleEn: "Basic Programming II"
+    code: "COE20004"
+    description: ""
+
+  - year: 2026
+    semester: "2학기"
+    level: "학부"
+    title: "앱프로그래밍"
+    titleEn: "App Programming"
+    code: "COE20006"
+    description: ""
+
+  - year: 2026
+    semester: "2학기"
+    level: "학부"
+    title: "SW융합캡스톤디자인Ⅱ"
+    titleEn: "Software Convergence Capstone Design II"
+    code: "COE20002"
+    description: ""
+
+  - year: 2026
+    semester: "2학기"
+    level: "학부"
+    title: "데이터베이스"
+    titleEn: "Database"
+    code: "SWE00012"
+    description: ""
+
+  - year: 2026
+    semester: "2학기"
+    level: "학부"
+    title: "SW융합현장실습Ⅱ"
+    titleEn: "Software Convergence Internship II"
+    code: "COE20014"
+    description: ""
+
+  - year: 2026
+    semester: "2학기"
+    level: "학부"
+    title: "기업현장실습Ⅱ"
+    titleEn: "Corporate Field Training II"
+    code: "COE20015"
+    description: ""
+
+  - year: 2026
+    semester: "2학기"
+    level: "대학원"
+    title: "지능형시스템특강"
+    titleEn: "Topics in Intelligent Systems"
+    code: "A0002908"
+    description: ""

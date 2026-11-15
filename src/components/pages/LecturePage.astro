@@ -3,7 +3,8 @@
  * Lecture page (shared between /lecture and /en/lecture).
  *
  * lectures.yaml의 강의를 연도·학기별로 그룹핑해 최신순으로 표시한다.
- * 학부/대학원 구분은 배지로 표시.
+ * 학기 안에서 학부/대학원 소제목으로 나누고, 각 강의는 글머리표 한 줄로 표시.
+ * 한국어 페이지: "한국어 과목명 [English Title]", 영어 페이지: "English Title".
  */
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PageHeader from "@/components/layout/PageHeader.astro";
@@ -22,7 +23,6 @@ const dict = {
     headerTitle: "Lecture",
     breadcrumb: "SAL > Lecture",
     empty: "등록된 강의가 없습니다.",
-    semesterSuffix: "", // "2026년 1학기"
     undergrad: "학부",
     grad: "대학원",
   },
@@ -32,11 +32,18 @@ const dict = {
     headerTitle: "Lecture",
     breadcrumb: "SAL > Lecture",
     empty: "No lectures registered.",
-    semesterSuffix: "",
     undergrad: "Undergraduate",
     grad: "Graduate",
   },
 } as const;
+
+// 영어 페이지 학기 표기 ("2026, Fall"). 목록에 없는 값은 그대로 표시.
+const semesterEn: Record<string, string> = {
+  "1학기": "Spring",
+  "여름학기": "Summer",
+  "2학기": "Fall",
+  "겨울학기": "Winter",
+};
 
 const T = dict[lang];
 
@@ -50,13 +57,27 @@ const groups = [...new Set(lectures.map(groupKey))]
     const [year, semester] = key.split("|");
     return {
       title:
-        lang === "ko" ? `${year}년 ${semester}` : `${year} ${semester}`,
-      items: lectures.filter((l) => groupKey(l) === key),
+        lang === "ko"
+          ? `${year}년 ${semester}`
+          : `${year}, ${semesterEn[semester] ?? semester}`,
+      // 학부 → 대학원 순 소그룹 (강의가 없는 소그룹은 생략)
+      levels: (["학부", "대학원"] as const)
+        .map((level) => ({
+          label: level === "학부" ? T.undergrad : T.grad,
+          items: lectures.filter(
+            (l) => groupKey(l) === key && l.level === level,
+          ),
+        }))
+        .filter((sub) => sub.items.length > 0),
     };
   });
 
-const levelLabel = (level: "학부" | "대학원") =>
-  level === "학부" ? T.undergrad : T.grad;
+const lectureName = (l: (typeof lectures)[number]) =>
+  lang === "en"
+    ? l.titleEn || l.title
+    : l.titleEn
+      ? `${l.title} [${l.titleEn}]`
+      : l.title;
 ---
 
 <BaseLayout
@@ -74,38 +95,22 @@ const levelLabel = (level: "학부" | "대학원") =>
 
     {groups.map((group, i) => (
       <section class={i === 0 ? "" : "mt-[48px]"}>
-        <h2 class="text-2xl font-bold text-foreground mb-4">{group.title}</h2>
-        <div class="border-t border-border mb-6"></div>
-        <div class="space-y-4">
-          {group.items.map((lecture) => (
-            <div class="border border-border rounded-lg p-5">
-              <div class="flex items-center gap-2 mb-2 flex-wrap">
-                <span
-                  class={`inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill text-xs font-medium ${
-                    lecture.level === "학부"
-                      ? "bg-[#EFF6FF] text-[#1D4ED8]"
-                      : "bg-[#FEF3C7] text-[#92400E]"
-                  }`}
-                >
-                  {levelLabel(lecture.level)}
-                </span>
-                {lecture.code && (
-                  <span class="inline-flex items-center shrink-0 px-2 py-0.5 rounded-pill bg-secondary text-secondary-foreground text-xs font-medium">
-                    {lecture.code}
-                  </span>
-                )}
-              </div>
-              <h3 class="text-lg font-semibold text-foreground leading-snug">
-                {lang === "en" ? lecture.titleEn || lecture.title : lecture.title}
-              </h3>
-              {lecture.description && (
-                <p class="text-sm text-muted-foreground mt-1">
-                  {lecture.description}
-                </p>
-              )}
-            </div>
-          ))}
-        </div>
+        <h2 class="text-2xl font-bold text-foreground mb-2">{group.title}</h2>
+        {group.levels.map((sub) => (
+          <div class="mt-4">
+            <h3 class="text-base font-semibold text-muted-foreground mb-2">{sub.label}</h3>
+            <ul class="list-disc pl-6 space-y-2 text-base text-foreground marker:text-muted-foreground">
+              {sub.items.map((lecture) => (
+                <li class="leading-relaxed">
+                  {lectureName(lecture)}
+                  {lecture.description && (
+                    <span class="text-muted-foreground"> — {lecture.description}</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </section>
     ))}
   </div>
